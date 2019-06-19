@@ -1,0 +1,13 @@
+pyrpl:
+  background_color: ''
+  gui: true
+  loglevel: info
+  modules:
+  - NetworkAnalyzer
+  - SpectrumAnalyzer
+  - CurveViewer
+  - PyrplConfig
+  - Lockbox
+  name: lockbox
+redpitaya:
+  sshport: 22

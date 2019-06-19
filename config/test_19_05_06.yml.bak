@@ -1,0 +1,12 @@
+pyrpl:
+  background_color: ''
+  loglevel: info
+  modules:
+  - NetworkAnalyzer
+  - SpectrumAnalyzer
+  - CurveViewer
+  - PyrplConfig
+  - Lockbox
+  name: test_19_05_06
+redpitaya:
+  recompileserver: false

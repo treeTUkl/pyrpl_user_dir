@@ -1,0 +1,13 @@
+pyrpl:
+  background_color: ''
+  gui: true
+  loglevel: info
+  modules:
+  - NetworkAnalyzer
+  - SpectrumAnalyzer
+  - CurveViewer
+  - PyrplConfig
+  - Lockbox
+  name: test19_04_30_07
+redpitaya:
+  hostname: 131.246.145.91

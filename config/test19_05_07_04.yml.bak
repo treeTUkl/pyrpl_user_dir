@@ -1,0 +1,193 @@
+pyrpl:
+  background_color: ''
+  loglevel: info
+  modules:
+  - NetworkAnalyzer
+  - SpectrumAnalyzer
+  - CurveViewer
+  - PyrplConfig
+  - Lockbox
+  name: test19_05_07_04
+  gui: true
+  dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\a\x80\0\0\x03\xD1\
+    \xFC\x01\0\0\0\x03\xFB\0\0\0,\0p\0i\0d\0s\0 \0(\0t\0e\0s\0t\01\09\0_\00\05\0_\0\
+    0\07\0_\00\04\0)\0\0\0\0\0\0\0\0`\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\02\0l\0o\0c\0\
+    k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\0_\00\05\0_\00\07\0_\00\04\0)\x01\0\0\0\0\0\
+    \0\x03\xBE\0\0\0]\0\xFF\xFF\xFF\xFC\0\0\x03\xC2\0\0\x03\xBE\0\0\0]\0\xFF\xFF\xFF\
+    \xFA\0\0\0\t\x01\0\0\0\n\xFB\0\0\0,\0a\0s\0g\0s\0 \0(\0t\0e\0s\0t\01\09\0_\00\0\
+    5\0_\00\07\0_\00\04\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\
+    \0\0*\0i\0q\0s\0 \0(\0t\0e\0s\0t\01\09\0_\00\05\0_\00\07\0_\00\04\0)\0\0\0\0\0\
+    \xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0,\0i\0i\0r\0s\0 \0(\0t\0e\0\
+    s\0t\01\09\0_\00\05\0_\00\07\0_\00\04\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\
+    \xFF\xFF\xFF\xFB\0\0\0.\0t\0r\0i\0g\0s\0 \0(\0t\0e\0s\0t\01\09\0_\00\05\0_\00\0\
+    7\0_\00\04\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0B\0n\0\
+    e\0t\0w\0o\0r\0k\0a\0n\0a\0l\0y\0z\0e\0r\0 \0(\0t\0e\0s\0t\01\09\0_\00\05\0_\0\
+    0\07\0_\00\04\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0D\0\
+    s\0p\0e\0c\0t\0r\0u\0m\0a\0n\0a\0l\0y\0z\0e\0r\0 \0(\0t\0e\0s\0t\01\09\0_\00\0\
+    5\0_\00\07\0_\00\04\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\
+    \0\0:\0c\0u\0r\0v\0e\0v\0i\0e\0w\0e\0r\0 \0(\0t\0e\0s\0t\01\09\0_\00\05\0_\00\0\
+    7\0_\00\04\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0:\0p\0\
+    y\0r\0p\0l\0c\0o\0n\0f\0i\0g\0 \0(\0t\0e\0s\0t\01\09\0_\00\05\0_\00\07\0_\00\0\
+    4\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\02\0l\0o\0c\0k\0\
+    b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\0_\00\05\0_\00\07\0_\00\04\0)\x01\0\0\0\0\xFF\xFF\
+    \xFF\xFF\0\0\0\0\0\0\0\0\xFB\0\0\00\0s\0c\0o\0p\0e\0s\0 \0(\0t\0e\0s\0t\01\09\0\
+    _\00\05\0_\00\07\0_\00\04\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\xFF\0\
+    \0\a\x80\0\0\0\0\0\0\0\x04\0\0\0\x04\0\0\0\b\0\0\0\b\xFC\0\0\0\0"
+  window_position:
+  - 1557
+redpitaya:
+  autostart: true
+  delay: 0.05
+  frequency_correction: 1.0
+  hostname: 131.246.145.91
+  leds_off: true
+  monitor_server_name: monitor_server
+  password: root
+  port: 2222
+  reloadfpga: true
+  reloadserver: false
+  serverbinfilename: fpga.bin
+  serverdirname: //opt//pyrpl//
+  silence_env: false
+  sshport: 22
+  timeout: 1
+  user: root
+scope:
+  average: true
+  curve_name: scope curve
+  duration: 2.147483648
+  input1: in2
+  rolling_mode: true
+  running_state: running_continuous
+  trace_average: 1
+  trigger_source: asg1
+  input2: out2
+networkanalyzer:
+  curve_name: networkanalyzer curve
+spectrumanalyzer:
+  curve_name: spectrumanalyzer curve
+lockbox:
+  classname: Interferometer
+  final_stage:
+    duration: 0.0
+    function_call: ''
+    gain_factor: 1.0
+    input: port2
+    outputs:
+      output1:
+        lock_on: false
+        offset: 0.0
+        reset_offset: false
+      output2:
+        lock_on: false
+        offset: 0.0
+        reset_offset: false
+      piezo:
+        lock_on: true
+        offset: 0.5
+        reset_offset: true
+    setpoint: 0.5
+  inputs:
+    port1:
+      calibration_data:
+        max: 0.7056884765625
+        mean: 0.4107772260904312
+        min: 0.1163330078125
+        rms: 0.20360637688333139
+      input_signal: in2
+    port2:
+      calibration_data:
+        max: -0.022705078125
+        mean: -0.022845856845378876
+        min: -0.02294921875
+        rms: 4.422176549655151e-05
+  is_locked_threshold: 0.5
+  outputs:
+    output1:
+      assisted_design: true
+      i: 100.0
+      p: 0.0
+    output2:
+      assisted_design: true
+      i: 100.0
+      p: 0.0
+    piezo:
+      additional_filter:
+      - 0
+      - 0
+      - 0
+      - 0
+      analog_filter_cutoff: 0
+      assisted_design: false
+      dc_gain: 164580.0
+      desired_unity_gain_frequency: 0.0233
+      i: 0.0233
+      max_voltage: 0.8
+      min_voltage: -0.8
+      output_channel: out2
+      p: -0.00024
+      sweep_amplitude: 0.1
+      sweep_frequency: 0.1
+      tf_type: filter
+      unit: nm/V
+  sequence:
+  - duration: 0.0
+    function_call: ''
+    gain_factor: 100.0
+    input: port2
+    outputs:
+      output1:
+        lock_on: false
+        offset: 0.0
+        reset_offset: false
+      output2:
+        lock_on: false
+        offset: 0.0
+        reset_offset: false
+      piezo:
+        lock_on: true
+        offset: 0.5
+        reset_offset: true
+    setpoint: 0.5
+  wavelength: 6.33e-07
+scope_states:
+  autosweep:
+    average: true
+    ch1_active: true
+    ch2_active: true
+    curve_name: scope curve
+    duration: 8.589934592
+    hysteresis: 0.00244140625
+    input1: in1
+    input2: out2
+    rolling_mode: false
+    running_state: stopped
+    threshold: 0.0
+    trace_average: 1
+    trigger_delay: 0.0
+    trigger_source: asg1
+    xy_mode: false
+pid0:
+  input: in2
+  output_direct: 'off'
+  setpoint: 0.199951171875
+  p: 1.336181640625
+  i: 10.000527898530768
+  inputfilter:
+  - 18.972756741396708
+  - 0
+  - 0
+  - 0
+  max_voltage: 0.5
+  min_voltage: -0.5
+pid1:
+  i: 0.0
+  input: pid0
+  inputfilter:
+  - 0
+  - 0
+  - 0
+  - 0
+  output_direct: 'off'
+  p: 3.82275390625
+  setpoint: 0.4000244140625

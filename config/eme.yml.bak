@@ -1,0 +1,29 @@
+pyrpl:
+  background_color: ''
+  gui: true
+  loglevel: info
+  modules:
+  - NetworkAnalyzer
+  - SpectrumAnalyzer
+  - CurveViewer
+  - PyrplConfig
+  - Lockbox
+  name: eme
+redpitaya:
+  autostart: true
+  delay: 0.05
+  frequency_correction: 1.0
+  hostname: rp-f053d1.local
+  leds_off: true
+  monitor_server_name: monitor_server
+  password: root
+  port: 2222
+  reloadfpga: true
+  reloadserver: false
+  serverbinfilename: fpga.bin
+  serverdirname: //opt//pyrpl//
+  silence_env: false
+  sshport: 22
+  timeout: 1
+  user: root
+scope: {}

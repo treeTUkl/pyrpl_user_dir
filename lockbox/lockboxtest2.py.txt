@@ -1,0 +1,91 @@
+#NOCH IN BEARBEITUNG
+
+# these imports are the standard imports for required for derived lockboxes
+from pyrpl.software_modules.lockbox import *
+from pyrpl.software_modules.loop import *
+from pyrpl.software_modules.lockbox.output import *
+# Any InputSignal must define a class that contains the function "expected_signal(variable)" that returns the expected
+# signal value as a function of the variable value. This function ensures that the correct setpoint and a reasonable
+# gain is chosen (from the derivative of expected_signal) when this signal is used for feedback.
+####  ###########################################################################
+
+#Input Definitionen
+#copiert auf inferometer.py variable "phase" mit "voltage" ersetzt sowie "rad" mit "v"
+class CustomInputClassONE(InputDirect):
+
+
+    def expected_signal(self, voltage):
+        voltage *= self.lockbox._setpoint_unit_in_unit('V')
+        return self.calibration_data.offset + self.calibration_data.amplitude * voltage
+
+
+    def expected_setpoint(self, transmission):
+        sinvalue = (transmission - self.calibration_data.offset) / self.calibration_data.amplitude
+        if sinvalue > 1.0:
+            sinvalue = 1.0
+        elif sinvalue < -1.0:
+            sinvalue = -1.0
+        voltage = np.arcsin(sinvalue)
+        voltage /= self.lockbox._setpoint_unit_in_unit('V')
+        return voltage
+
+###weiß nicht ob das hier notwendig ist###
+class CustomInputClassTWO(CustomInputClassONE):
+    def expected_signal(self, voltage):
+        return super(CustomInputClassTWO, self).expected_signal(-voltage)
+      ###########################################################################
+#Output anpassen über eigene Piezo klasse
+    ###########################################################################
+class MyPiezoOutput(OutputSignal):
+     unit = SelectProperty(default='V/V',
+                    options=lambda inst:
+                    [u+"/V" for u in inst.lockbox._output_units],
+                    call_setup=True,
+                    ignore_errors=True)
+        # # sweep properties
+
+     #   def __init__(self):
+     #       self.sweep_frequency = 2.5
+      
+  ###########################################################################
+#AB hier Lockbox#  
+  #copiert von interferometer#
+    ###########################################################################
+class AGInterferometer(Lockbox):
+    wavelength = FloatProperty(max=1., min=0., default=633e-9, increment=1e-9)
+    _gui_attributes = ['wavelength']
+    _setup_attributes = _gui_attributes
+
+    # management of intput/output units
+    # setpoint_variable = 'phase'
+    setpoint_unit = SelectProperty(options=['V'],
+                                   default='V')
+
+    _output_units = ['V', 'V']
+
+    inputs = LockboxModuleDictProperty(port1=CustomInputClassONE,
+                                       port2=CustomInputClassTWO)
+
+    outputs = LockboxModuleDictProperty(piezo=MyPiezoOutput)
+                                        #piezo2=PiezoOutput)
+
+
+class PdhInterferometerPort1(CustomInputClassONE, InputIq):
+    def expected_signal(self, voltage):
+        # proportional to the derivative of the signal
+        # i.e. sin(phase)+const. -> cos(phase)
+        voltage *= self.lockbox._setpoint_unit_in_unit('V')
+        return self.calibration_data.amplitude * voltage
+
+
+class PdhGInterferometerPort2(CustomInputClassTWO, InputIq):
+    def expected_signal(self, voltage):
+        # proportional to the derivative of the signal
+        # i.e. sin(phase) -> cos(phase) = sin(phase+pi/2)
+        voltage *= self.lockbox._setpoint_unit_in_unit('V')
+        return - self.calibration_data.amplitude * voltage
+
+
+class PdhInterferometer(AGInterferometer):
+    inputs = LockboxModuleDictProperty(port1=CustomInputClassONE,
+                                       pdh1=PdhInterferometerometerPort1)
