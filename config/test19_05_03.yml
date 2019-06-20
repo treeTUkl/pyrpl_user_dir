@@ -3,8 +3,8 @@ pyrpl:
   dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\x05Q\0\0\x02\xDD\
     \xFC\x01\0\0\0\x01\xFC\0\0\0\0\0\0\x05Q\0\0\0]\0\xFF\xFF\xFF\xFA\0\0\0\x04\x01\
     \0\0\0\f\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0\
-    )\x02\0\0\a\xE2\0\0\0\x91\0\0\a\b\0\0\x03\x1D\xFB\0\0\0\"\0a\0s\0g\0s\0 \0(\0\
-    t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\
+    )\x02\0\0\0x\0\0\0\x91\0\0\a\b\0\0\x03\x1D\xFB\0\0\0\"\0a\0s\0g\0s\0 \0(\0t\0\
+    e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\
     \xFB\0\0\0 \0i\0q\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\
     \xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0\"\0p\0i\0d\0s\0 \0(\0t\0e\0s\0t\01\09\0\
     0\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0&\0s\0\
@@ -32,8 +32,8 @@ pyrpl:
   - Lockbox
   name: test190508
   window_position:
-  - 2271
-  - 91
+  - 0
+  - 0
   - 1361
   - 774
 redpitaya:
@@ -146,9 +146,9 @@ lockbox:
     port1:
       calibration_data:
         max: -0.0152587890625
-        mean: -0.01538258045911789
+        mean: -0.015428729355335236
         min: -0.0155029296875
-        rms: 3.5192302246076424e-05
+        rms: 5.9811656834139474e-05
       input_signal: in2
     port2:
       calibration_data:
