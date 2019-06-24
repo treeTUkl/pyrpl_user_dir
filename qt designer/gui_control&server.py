@@ -1,11 +1,11 @@
-from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import QAction, QApplication, QFileDialog, QMessageBox
+from PyQt5 import QtWidgets, uic, QtCore
+from PyQt5.QtWidgets import QAction, QApplication, QFileDialog, QMessageBox, QWidget
 import random
 import numpy
 import sys
 import time
 import socket
-
+from functools import partial
 
 def isfloat(value):
     try:
@@ -21,7 +21,7 @@ class Window(QtWidgets.QMainWindow):
         self.ui = uic.loadUi("standa_pyrpl_gui.ui", self)
         self.ac_messung = False
         self.run_messung = False
-        self.Standa_Connected_checkBox.setChecked(False)
+        self.Standa_Connected=False
         self.standa_live_control = False
         self.home()
 
@@ -57,7 +57,6 @@ class Window(QtWidgets.QMainWindow):
         self.Standa_Connect_Button.clicked.connect(self.Standa_Connect_to_Server)
         self.Standa_Close_Button.clicked.connect(self.Standa_Close_Connection_to_Server)
         self.standaclient = False
-        self.Standa_Connected_checkBox.stateChanged.connect(self.standa_check)
         self.standa_live_control_ButtonBox.accepted.connect(self.standa_live_control_start)
         self.standa_live_control_ButtonBox.rejected.connect(self.standa_live_control_stop)
         self.Go_right_Button.clicked.connect(self.standa_right)
@@ -141,42 +140,51 @@ class Window(QtWidgets.QMainWindow):
         self.ac_messung = self.ac_checkBox.isChecked()
         self.completed = 0
         self.complete = 1 / self.step_list.count() * 100
-        for self.x in range(self.step_list.count()):
-            if self.run_messung:
-                xitem = self.step_list.item(self.x).text()
-                step = 'MOV' + xitem
-                # standa_result=standaclient.send(step)#wie bekomm ich den Standa Client hier rein?
-                # TODO: no standaclient lets just print the items from the list
-                standa_result = xitem
-                self.completed += self.complete
-                self.progressBar.setValue(self.completed)
-                self.print_list.addItem('POS' + standa_result)
-                self.print_list.scrollToBottom()
-                time.sleep(0.5)  # TODO just debugging delete me then done
-                QApplication.processEvents()
-                if self.ac_messung:
-                    # result=diodenmessung(pyrplclient, 'bnc2')#wie bekomm ich den pyrpl Client hier rein?
-                    # TODO: no pyrpl Client lets just print randoms
-                    pyrpl_result = random.random()
-                    text = str(standa_result) + str('\t') + str(pyrpl_result)
-                    text = text + str('\n')
+        if not self.standaclient == False & self.Standa_Connected==True:
+            for self.x in range(self.step_list.count()):
+                if self.run_messung:
+                    xitem = self.step_list.item(self.x).text()
+                    step = 'MOV' + xitem
+                    standa_result=self.standaclient.send(step)#wie bekomm ich den Standa Client hier rein?
+                    # TODO: no standaclient lets just print the items from the list
+                    #standa_result = xitem
+                    self.completed += self.complete
+                    self.progressBar.setValue(self.completed)
+                    self.print_list.addItem('POS' + standa_result)
+                    self.print_list.scrollToBottom()
+                    time.sleep(0.5)  # TODO just debugging delete me then done
+                    QApplication.processEvents()
+                    if self.ac_messung:
+                        # result=diodenmessung(pyrplclient, 'bnc2')#wie bekomm ich den pyrpl Client hier rein?
+                        # TODO: no pyrpl Client lets just print randoms
+                        pyrpl_result = random.random()
+                        text = str(standa_result) + str('\t') + str(pyrpl_result)
+                        text = text + str('\n')
+                        if not name == "":
+                            file.write(text)
+
+                    if self.x == self.step_list.count() - 1:
+                        self.messung_finished()
+                        text = str('\n') + 'Messung finished\n'
+                        self.standa_live_control = False
+                        if not name == "":
+                            file.write(text)
+
+                else:
+                    self.print_list.addItem(str('Canceled'))
+                    self.print_list.scrollToBottom()
+                    self.progressBar.setValue(0)
+                    text = str('\n') + 'Messung Canceled\n'
+                    self.standa_live_control = False
                     if not name == "":
                         file.write(text)
-
-                if self.x == self.step_list.count() - 1:
-                    self.messung_finished()
-                    text = str('\n') + 'Messung finished\n'
-                    if not name == "":
-                        file.write(text)
-
-            else:
-                self.print_list.addItem(str('Canceled'))
-                self.print_list.scrollToBottom()
-                self.progressBar.setValue(0)
-                text = str('\n') + 'Messung Canceled\n'
-                if not name == "":
-                    file.write(text)
-                break
+                    break
+        else:
+            QMessageBox.about(self, "No Standa Server", "Connect to Standa first!")
+            self.progressBar.setValue(0)
+            self.print_list.addItem(str('Connect to Standa first'))
+            self.print_list.addItem('Standa_Connected is ' + str(self.Standa_Connected))
+            self.print_list.scrollToBottom()
 
         if not name == "":
             file.close()
@@ -218,29 +226,52 @@ class Window(QtWidgets.QMainWindow):
     # pyrplclient.close()
     #   standaclient= client('127.127.127.2', 22222)#standa_server über ssh auf redpitaya
     def Standa_Connect_to_Server(self):
-        standa_ip = self.standa_connection_ip.text()
-        standa_port = self.standa_connection_port.text()#TODO str? int? what?
-        if standa_ip == "":
-            QMessageBox.about(self, "Connect where to?", "Standa IP is missing. Trying to connect to localhost")
-        if standa_port == "":
-            QMessageBox.about(self, "Connect where to?", "Standa Port is missing")
-            self.Standa_Connected_checkBox.setChecked(False)
-            return False
-        else:
-            self.print_list.addItem("Connect to Standa_Server via:\n" + str(standa_ip) + ", " + str(standa_port))
-            self.print_list.scrollToBottom()
-            self.standaclient = client(standa_ip, standa_port)
+        if self.standaclient == False:
+            standa_ip = self.standa_connection_ip.text()
+            standa_port = self.standa_connection_port.text()#TODO str!
+            if standa_ip == "":
+                QMessageBox.about(self, "Connect where to?", "Standa IP is missing. Trying to connect to localhost")
+                standa_ip='127.0.0.1'
+                standa_port=54545
+            if standa_port == "":
+                QMessageBox.about(self, "Connect where to?", "Standa Port is missing")
+                self.Standa_Connected_check(False)
+                return False
+            else:
+                self.print_list.addItem("Connect to Standa_Server via:\n" + str(standa_ip) + ", " + str(standa_port))
+                self.print_list.scrollToBottom()
+                self.standaclient = client(standa_ip, standa_port, GUI=self)
+            if self.standaclient.sock._closed==False:
+                self.Standa_Connected_check(True)
             if self.standa_check():
-                self.standa_pos(self)
+                self.standa_pos()
+
+    def Standa_Connected_check(self, bool=None):
+        if bool is None:
+            return self.Standa_Connected
+        elif bool is True:
+            self.Standa_Connected= True
+            self.Standa_Connected_label.setAutoFillBackground(True)
+            self.Standa_Connected_label.setStyleSheet("background-color:#10ff00;")
+        elif bool is False:
+            self.Standa_Connected= False
+            self.Standa_Connected_label.setStyleSheet("background-color:#ff0000;")
+            self.Standa_Connected_label.setAutoFillBackground(False)
+            self.standa_live_control=False
 
     def Standa_Close_Connection_to_Server(self):
         if not self.standaclient == False:
+            self.standa_live_control_stop()
             self.standaclient.close()
             self.standaclient = False
-            self.Standa_Connected_checkBox.setChecked(False)
+            self.standa_live_control=False
+            self.Standa_Connected_check(False)
+
+        else:
+            self.Standa_Connected_check(True)
 
     def standa_check(self):
-        if self.Standa_Connected_checkBox.isChecked():
+        if self.Standa_Connected_check():
             if not self.standaclient == False:
                 return True
             else:
@@ -264,17 +295,17 @@ class Window(QtWidgets.QMainWindow):
         if self.standa_check():
             result = self.standaclient.send("STOPMOVE")
             self.print_list.addItem(str(result))
-            self.standa_live_control = False
             self.Standa_live_control_widget.show()
             self.Pos_Number.display('NaN')
             self.uPos_Number.display('NaN')
+            self.standa_live_control=False
 
     def standa_pos(self):
         if self.standa_check():
             result = self.standaclient.send("POSS")
-            result.split(', ')
-            self.Pos_Number.display(float(result[0]))
-            self.uPos_Number.display(float(result[0]))
+            self.print_list.addItem(str(result))
+            self.print_list.scrollToBottom()
+
         else:
             self.Pos_Number.display('NaN')
             self.uPos_Number.display('NaN')
@@ -283,91 +314,122 @@ class Window(QtWidgets.QMainWindow):
         if self.standa_check() & self.standa_live_control:
             result = self.standaclient.send("RMOVE")
             self.print_list.addItem(str(result))
+            self.print_list.scrollToBottom()
 
     def standa_left(self):
         if self.standa_check() & self.standa_live_control:
             result = self.standaclient.send("LMOVE")
             self.print_list.addItem(str(result))
+            self.print_list.scrollToBottom()
 
     def standa_stop(self):
         if self.standa_check() & self.standa_live_control:
             result = self.standaclient.send("STOPMOVE")
             self.print_list.addItem(str(result))
+            self.print_list.scrollToBottom()
 
     def standa_move_to(self):
-        Window.QMessageBox.about(self, "not working", "yet..")  # TODO: add this
+        if self.standa_check() & self.standa_live_control:
+            result = self.standaclient.send('MOVV' + str(self.Pos_spinBox.value())+ ', ' + str(self.uPos_spinBox.value()))
+            self.print_list.addItem(str(result))
+            self.print_list.scrollToBottom()
 
     def standa_go_home(self):
         if self.standa_check() & self.standa_live_control:
-            result = self.standaclient.send("GOH")
+            #result = self.standaclient.send("GOH")
+            result= self.standaclient.send('MOV00')
             self.print_list.addItem(str(result))
+            self.print_list.scrollToBottom()
 
     def standa_set_home(self):
         if self.standa_check() & self.standa_live_control:
             result = self.standaclient.send("DEH")
             self.print_list.addItem(str(result))
+            self.print_list.scrollToBottom()
 
-
-class client(object):#TODO: how to integreate client into the window-gui to make gui accessable through the client?
-    def __init__(self, host, port):
+class client():#TODO: how to integreate client into the window-gui to make gui accessable through the client?
+    def __init__(self, host, port, GUI):
         self.sock = 0
-        #self.HOST = host
-        #self.PORT = int(port)
-        self.HOST = '127.0.0.1'
-        #self.HOST = 'localhost'#TODO:why wont localhost dont work? got str but int excpected
-        self.PORT = 54545
+        self.HOST = host
+        self.PORT = int(port)
+        #self.HOST = '127.0.0.1'#TODO:why wont localhost dont work? got str but int excpected
+        #self.PORT = 54545
+        self.GUI = GUI
         self.connect()
 
     def connect(self):
-        if self.sock == 0:
+        if self.sock == 0 or self.sock._closed==True:
             # HOST = 'localhost'
             # PORT = 54545
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
                 # self.sock.setblocking(0)
                 self.sock.connect((self.HOST, self.PORT))
-                object.print_list.addItem('connected to server')
-                object.self.Standa_Connected_checkBox.setChecked(True)
+                self.GUI.print_list.addItem('connected to server')
+                self.GUI.Standa_Connected_check(True)
 
             except ConnectionRefusedError:
-                object.print_list.addItem('Connection Refused! Server might not ready')
-                buttonReply = object.QMessageBox.question(self, 'Connection Refused!', "Do you want to try again?",
-                                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-                if buttonReply == QMessageBox.Yes:  # TODO or is it Window.QMessageBox.Yes?
-                    object.print_list.addItem("then, keep runnig.")
+                self.GUI.print_list.addItem('Connection Refused! Server might not ready')
+                msg=QtWidgets.QMessageBox()
+                msg.setWindowTitle('Connection Refused!')
+                msg.setText("Do you want to try again?")
+                msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+                buttonReply= msg.exec_()
+                if buttonReply==QMessageBox.Yes:
+                    self.GUI.print_list.addItem("then, keep runnig.")
+                    self.GUI.print_list.scrollToBottom()
                     self.sock = 0
                     self.connect()
                 else:
-                    object.print_list.addItem("stopping....")
+                    self.GUI.print_list.addItem("stopping....")
+                    self.GUI.print_list.scrollToBottom()
                     self.sock.close()
 
     def send(self, message):
-        if self.sock == 0:
-            object.print_list.addItem('no socked, try connect first..')
-            object.QMessageBox.about(self, "no socked", "try connect first..")
+        if self.sock == 0 or self.sock._closed==True:
+            self.GUI.print_list.addItem('no socked, try connect first..')
         else:
             # Send data
-            object.print_list.addItem('sending:' + message)
-            message = message.encode()
-            self.sock.sendall(message)
-            message = message.decode()
-            # reciveing
-            if not message == "close":
-                data = self.sock.recv(16)
-                data = data.decode()
-                object.print_list.addItem('received: ', data)
+            self.GUI.print_list.addItem('sending:' + message)
+            try:
+                # reciveing
+                if not message == "close":
 
-            elif message == " ":
-                object.print_list.addItem('nothing received.\nseems to be an error on server')
+                    message = message.encode()
+                    self.sock.sendall(message)
+                    message = message.decode()
+                    data = self.sock.recv(16)
+                    data = data.decode()
+                    self.GUI.print_list.addItem('received: ' + data)
+                    if message == "POSS":
+                        result=data.split(', ')
+                        self.GUI.Pos_Number.display(result[0])
+                        self.GUI.uPos_Number.display(result[1])
+
+                    self.GUI.print_list.scrollToBottom()
+                    return data
+
+                elif message == " ":
+                    self.GUI.print_list.addItem('nothing received.\nseems to be an error on server')
+                    self.GUI.print_list.scrollToBottom()
+                    self.sock.close()
+
+                elif message == "close":
+                    self.GUI.print_list.addItem('\nclosing socket')
+                    self.GUI.print_list.scrollToBottom()
+                    message = message.encode()
+                    self.sock.sendall(message)
+                    self.sock.close()
+            except (ConnectionAbortedError, EOFError):
+                self.GUI.print_list.addItem('seems to be an error on server')
+                self.GUI.print_list.addItem('\nclosing socket')
+                self.GUI.print_list.scrollToBottom()
                 self.sock.close()
 
-            elif message == "close":
-                object.print_list.addItem('\nclosing socket')
-                self.sock.close()
-            return data
 
     def close(self):
-        object.print_list.addItem('closing socket')
+        self.GUI.print_list.addItem('closing socket')
+        self.GUI.print_list.scrollToBottom()
         self.send("close")
 
 

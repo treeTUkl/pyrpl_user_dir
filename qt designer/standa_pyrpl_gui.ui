@@ -86,7 +86,7 @@
      <widget class="QPushButton" name="Go_left_Button">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>150</x>
         <y>370</y>
         <width>101</width>
         <height>51</height>
@@ -118,6 +118,12 @@
         <height>22</height>
        </rect>
       </property>
+      <property name="minimum">
+       <number>-99999</number>
+      </property>
+      <property name="maximum">
+       <number>99999</number>
+      </property>
      </widget>
      <widget class="QPushButton" name="move_to_Button">
       <property name="geometry">
@@ -135,7 +141,7 @@
      <widget class="QPushButton" name="Go_right_Button">
       <property name="geometry">
        <rect>
-        <x>100</x>
+        <x>350</x>
         <y>370</y>
         <width>101</width>
         <height>51</height>
@@ -154,11 +160,14 @@
         <height>51</height>
        </rect>
       </property>
+      <property name="digitCount">
+       <number>10</number>
+      </property>
      </widget>
      <widget class="QPushButton" name="Stop_Button">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>250</x>
         <y>370</y>
         <width>101</width>
         <height>51</height>
@@ -203,6 +212,9 @@
         <height>51</height>
        </rect>
       </property>
+      <property name="digitCount">
+       <number>10</number>
+      </property>
      </widget>
      <widget class="QSpinBox" name="uPos_spinBox">
       <property name="geometry">
@@ -212,6 +224,12 @@
         <width>42</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="minimum">
+       <number>-99999</number>
+      </property>
+      <property name="maximum">
+       <number>99999</number>
       </property>
      </widget>
      <widget class="QLabel" name="uPosition">
@@ -248,25 +266,6 @@
       </property>
       <property name="text">
        <string>Connect to Standa</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="Standa_Connected_checkBox">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>10</y>
-        <width>111</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>connected</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <property name="tristate">
-       <bool>false</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="Standa_Close_Button">
@@ -376,11 +375,24 @@
        <string>Standa Live Control</string>
       </property>
      </widget>
+     <widget class="QLabel" name="Standa_Connected_label">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>20</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>connected?</string>
+      </property>
+     </widget>
      <widget class="QWidget" name="Standa_live_control_widget" native="true">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>210</y>
+        <x>70</x>
+        <y>220</y>
         <width>561</width>
         <height>231</height>
        </rect>
@@ -922,7 +934,7 @@
       <x>260</x>
       <y>550</y>
       <width>261</width>
-      <height>71</height>
+      <height>91</height>
      </rect>
     </property>
    </widget>
