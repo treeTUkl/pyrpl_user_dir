@@ -1,11 +1,15 @@
 from PyQt5 import QtWidgets, uic, QtCore
-from PyQt5.QtWidgets import QAction, QApplication, QFileDialog, QMessageBox, QWidget
+from PyQt5.QtWidgets import * #QAction, QApplication, QFileDialog, QMessageBox, QWidget,
+from PyQt5.QtCore import *
 import random
 import numpy
 import sys
 import time
 import socket
-from functools import partial
+from pyrpl import pyrpl
+from pyrpl import sshshell
+import threading
+import paramiko
 
 def isfloat(value):
     try:
@@ -23,7 +27,9 @@ class Window(QtWidgets.QMainWindow):
         self.run_messung = False
         self.Standa_Connected=False
         self.standa_live_control = False
+        self.pyrpl_p=None
         self.home()
+        self.pyrpl_voltage=0
 
     def home(self):
         extractAction = QAction('&Get to the choppah', self)
@@ -65,6 +71,9 @@ class Window(QtWidgets.QMainWindow):
         self.move_to_Button.clicked.connect(self.standa_move_to)
         self.Go_Home_Button.clicked.connect(self.standa_go_home)
         self.SetHome_Button.clicked.connect(self.standa_set_home)
+        self.Pyrpl_Start_Button.clicked.connect(self.pyrpl_start)
+        self.Pyrpl_Get_Voltage.clicked.connect(self.pyrpl_prozess_fn)
+        self.Pyrpl_Close_Button.clicked.connect(self.stop_pyrpl_prozess)
         self.show()
 
     def sort_list(self):
@@ -145,14 +154,12 @@ class Window(QtWidgets.QMainWindow):
                 if self.run_messung:
                     xitem = self.step_list.item(self.x).text()
                     step = 'MOV' + xitem
-                    standa_result=self.standaclient.send(step)#wie bekomm ich den Standa Client hier rein?
-                    # TODO: no standaclient lets just print the items from the list
-                    #standa_result = xitem
+                    standa_result=self.standaclient.send(step)#TODO ist der Rückgabewert in as Korrekt?
+
                     self.completed += self.complete
                     self.progressBar.setValue(self.completed)
                     self.print_list.addItem('POS' + standa_result)
                     self.print_list.scrollToBottom()
-                    time.sleep(0.5)  # TODO just debugging delete me then done
                     QApplication.processEvents()
                     if self.ac_messung:
                         # result=diodenmessung(pyrplclient, 'bnc2')#wie bekomm ich den pyrpl Client hier rein?
@@ -346,8 +353,87 @@ class Window(QtWidgets.QMainWindow):
             result = self.standaclient.send("DEH")
             self.print_list.addItem(str(result))
             self.print_list.scrollToBottom()
+    # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    # aus pyrpl start.py
+    def pyrpl_prozess_fn(self):
+        if self.pyrpl_Connected:
+            self.print_list.addItem('pyrpl Voltage')
+            self.print_list.scrollToBottom()
+            self.pyrpl_voltage = self.pyrpl_p.rp.scope.voltage_in1
+            self.print_list.addItem('pyrpl Voltage1: ' + str(self.pyrpl_voltage))
+            self.Volt1.display(self.pyrpl_voltage)
+            self.pyrpl_voltage = self.pyrpl_p.rp.scope.voltage_in2
+            self.print_list.addItem('pyrpl Voltage2: ' + str(self.pyrpl_voltage))
+            self.Volt2.display(self.pyrpl_voltage)
+            if not self.pyrpl_p is None:
+                self.pyrpl_Connected = True
+            else:
+                self.pyrpl_Connected = False
 
-class client():#TODO: how to integreate client into the window-gui to make gui accessable through the client?
+    def pyrpl_Connected_check(self, bool=None):
+        if bool is None:
+            return self.pyrpl_Connected
+        elif bool is True:
+            self.pyrpl_Connected = True
+            self.Pyrpl_Started_label.setAutoFillBackground(True)
+            self.Pyrpl_Started_label.setStyleSheet("background-color:#10ff00;")
+        elif bool is False:
+            self.pyrpl_Connected = False
+            self.Pyrpl_Started_label.setStyleSheet("background-color:#ff0000;")
+            self.Pyrpl_Started_label.setAutoFillBackground(False)
+            self.standa_live_control=False
+    def clean_pyrpl(self):
+        if self.pyrpl_Connected:
+            self.print_list.addItem('clean Pyrpl')
+            self.stop_pyrpl_prozess()
+            # threading.enumerate()
+            # myname = threading.currentThread().getName()
+            # threading.enumerate()
+            self.pyrpl_p = None
+            self.pyrpl_Connected_check(False)
+            self.print_list.scrollToBottom()
+
+
+    def stop_pyrpl_prozess(self):
+        if self.pyrpl_Connected:
+            self.print_list.addItem('Stoping Pyrpl')
+            # threading.enumerate()
+            # myname = threading.currentThread().getName()
+            # killthread = threading.Thread(myname)
+            #self.pyrpl_p.__exit__
+
+            threadLocal = threading.local()
+            name = getattr(threadLocal, 'name', None)
+            threadLocal=threading.current_thread()
+            #self.pyrpl_p._clear()
+            # killthread.join()
+
+
+
+
+    def pyrpl_start(self):#TODO: Info aus Console in Textbox übertragen
+        self.print_list.addItem('Starting Pyrpl')
+        self.print_list.addItem('This might take a while (up to 1min)')
+        self.print_list.scrollToBottom()
+        QApplication.processEvents()
+        try:
+            if self.pyrpl_p is None:
+                self.pyrpl_p = pyrpl.Pyrpl(config='test19_05_03')
+                self.pyrpl_p.lockbox.classname = "AG_Lockbox"
+            else:
+                self.print_list.addItem('Pyrpl already started')
+
+        except (RuntimeError, TypeError, NameError):
+            self.print_list.addItem('Something went wrong with pyrpl')
+        finally:
+            if not self.pyrpl_p is None:
+                self.pyrpl_Connected_check(True)
+            else:
+                self.pyrpl_Connected_check(False)
+            self.print_list.scrollToBottom()
+
+
+class client():
     def __init__(self, host, port, GUI):
         self.sock = 0
         self.HOST = host
@@ -433,30 +519,12 @@ class client():#TODO: how to integreate client into the window-gui to make gui a
         self.send("close")
 
 
-def diodenmessung(pyrplclient, bnc1o2):
-    volt = False
-    if bnc1o2 == "bnc1":
-        volt = "voltage1"
-    elif bnc1o2 == "bnc2":
-        volt = "voltage2"
-    else:
-        print("\nKein gültiger Anschluß am redpitaya gewählt! Wählen Sie bnc1 oder bnc1")
-        return False
-    if not volt:
-        print('\nSpannungsmessung an: ' + bnc1o2)
-        diodendata = 0.0
-        for i in range(10):
-            diodendata = diodendata + pyrplclient.send(volt)
-            time.sleep(.5)
-        return diodendata / 10
-
-
 def run():
+    #sshshell.paramiko.util.log_to_file("paramikologsall.log")
     app = QApplication(sys.argv)
     GUI = Window()
     GUI._init_()
     sys.exit(app.exec_())
-    #infoBox.exec_()
 
 
 if __name__ == "__main__":
