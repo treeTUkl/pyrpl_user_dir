@@ -43,7 +43,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;test&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Nullpunkt_controltab">
      <property name="autoFillBackground">
@@ -542,10 +542,10 @@
        </font>
       </property>
       <property name="minimum">
-       <double>-1000.000000000000000</double>
+       <double>-100000.000000000000000</double>
       </property>
       <property name="maximum">
-       <double>1000.000000000000000</double>
+       <double>100000.000000000000000</double>
       </property>
       <property name="value">
        <double>0.000000000000000</double>
@@ -566,10 +566,10 @@
        </font>
       </property>
       <property name="minimum">
-       <double>-1000.000000000000000</double>
+       <double>-100000.000000000000000</double>
       </property>
       <property name="maximum">
-       <double>1000.000000000000000</double>
+       <double>100000.000000000000000</double>
       </property>
       <property name="value">
        <double>10.000000000000000</double>
@@ -590,10 +590,10 @@
        </font>
       </property>
       <property name="minimum">
-       <double>-1000.000000000000000</double>
+       <double>-100000.000000000000000</double>
       </property>
       <property name="maximum">
-       <double>1000.000000000000000</double>
+       <double>100000.000000000000000</double>
       </property>
       <property name="value">
        <double>1.000000000000000</double>
@@ -873,6 +873,60 @@
       </property>
       <property name="text">
        <string>Sort List</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="pyrpl_input1">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>430</y>
+        <width>41</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>In1</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="pyrpl_input2">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>430</y>
+        <width>41</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>In2</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>410</y>
+        <width>231</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Welcher BNC Kanal soll geloggt werden?</string>
       </property>
      </widget>
     </widget>

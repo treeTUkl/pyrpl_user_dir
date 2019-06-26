@@ -57,7 +57,7 @@ redpitaya:
 scope:
   curve_name: scope curve
   duration: 1.073741824
-  input1: out2
+  input1: in1
   input2: in2
   rolling_mode: true
   running_state: running_continuous

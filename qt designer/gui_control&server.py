@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, uic, QtCore
-from PyQt5.QtWidgets import * #QAction, QApplication, QFileDialog, QMessageBox, QWidget,
+from PyQt5.QtWidgets import *  # QAction, QApplication, QFileDialog, QMessageBox, QWidget,
 from PyQt5.QtCore import *
 import random
 import numpy
@@ -10,6 +10,7 @@ from pyrpl import pyrpl
 from pyrpl import sshshell
 import threading
 import paramiko
+
 
 def isfloat(value):
     try:
@@ -25,11 +26,11 @@ class Window(QtWidgets.QMainWindow):
         self.ui = uic.loadUi("standa_pyrpl_gui.ui", self)
         self.ac_messung = False
         self.run_messung = False
-        self.Standa_Connected=False
+        self.Standa_Connected = False
         self.standa_live_control = False
-        self.pyrpl_p=None
+        self.pyrpl_p = None
         self.home()
-        self.pyrpl_voltage=0
+        self.pyrpl_voltage = 0
 
     def home(self):
         extractAction = QAction('&Get to the choppah', self)
@@ -73,7 +74,7 @@ class Window(QtWidgets.QMainWindow):
         self.SetHome_Button.clicked.connect(self.standa_set_home)
         self.Pyrpl_Start_Button.clicked.connect(self.pyrpl_start)
         self.Pyrpl_Get_Voltage.clicked.connect(self.pyrpl_prozess_fn)
-        self.Pyrpl_Close_Button.clicked.connect(self.stop_pyrpl_prozess)
+        self.Pyrpl_Close_Button.clicked.connect(self.clean_pyrpl)
         self.show()
 
     def sort_list(self):
@@ -143,49 +144,64 @@ class Window(QtWidgets.QMainWindow):
             pass
         else:
             file = open(name, 'a')
-            text = 'Postition in as' + str('\t') + 'Voltage' + str('\n')
+            text = 'Postition in as' + str('\t') + str('\t') + 'Voltage' + str('\n')
             file.write(text)
 
         self.ac_messung = self.ac_checkBox.isChecked()
         self.completed = 0
         self.complete = 1 / self.step_list.count() * 100
-        if not self.standaclient == False & self.Standa_Connected==True:
-            for self.x in range(self.step_list.count()):
-                if self.run_messung:
-                    xitem = self.step_list.item(self.x).text()
-                    step = 'MOV' + xitem
-                    standa_result=self.standaclient.send(step)#TODO ist der Rückgabewert in as Korrekt?
+        input = self.pyrpl_input_choice()
+        if not self.standaclient == False & self.Standa_Connected == True:
+            if self.pyrpl_p is not None:
+                if self.pyrpl_Connected_check():
+                    for self.x in range(self.step_list.count()):
+                        if self.run_messung:
+                            xitem = self.step_list.item(self.x).text()
+                            step = 'MOV' + xitem
+                            standa_result = self.standaclient.send(step)  # TODO ist der Rückgabewert in as Korrekt?
+                            self.completed += self.complete
+                            self.progressBar.setValue(self.completed)
+                            self.print_list.addItem('POS' + standa_result)
+                            self.print_list.scrollToBottom()
+                            QApplication.processEvents()
+                            if self.ac_messung:
+                                if input == 1:
+                                    self.pyrpl_voltage = self.pyrpl_p.rp.scope.voltage_in1
+                                elif input==2:
+                                    self.pyrpl_voltage = self.pyrpl_p.rp.scope.voltage_in2
+                                else:
+                                    pyrpl_result = random.random()
+                                    self.print_list.addItem(str('No pyrpl input generating randoms'))
+                                pyrpl_result=self.pyrpl_voltage
+                                text = str(standa_result) + str('\t') + str('\t') + str(pyrpl_result)
+                                text = text + str('\n')
+                                if not name == "":
+                                    file.write(text)
 
-                    self.completed += self.complete
-                    self.progressBar.setValue(self.completed)
-                    self.print_list.addItem('POS' + standa_result)
-                    self.print_list.scrollToBottom()
-                    QApplication.processEvents()
-                    if self.ac_messung:
-                        # result=diodenmessung(pyrplclient, 'bnc2')#wie bekomm ich den pyrpl Client hier rein?
-                        # TODO: no pyrpl Client lets just print randoms
-                        pyrpl_result = random.random()
-                        text = str(standa_result) + str('\t') + str(pyrpl_result)
-                        text = text + str('\n')
-                        if not name == "":
-                            file.write(text)
+                            if self.x == self.step_list.count() - 1:
+                                if not self.messung_finished():
+                                    self.progressBar.setValue(100)
+                                    text = str('\n') + 'Messung finished\n'
+                                    self.standa_live_control = False
+                                    if not name == "":
+                                        file.write(text)
 
-                    if self.x == self.step_list.count() - 1:
-                        self.messung_finished()
-                        text = str('\n') + 'Messung finished\n'
-                        self.standa_live_control = False
-                        if not name == "":
-                            file.write(text)
+                        else:
+                            self.print_list.addItem(str('Canceled'))
+                            self.print_list.scrollToBottom()
+                            self.progressBar.setValue(0)
+                            text = str('\n') + 'Messung Canceled\n'
+                            self.standa_live_control = False
+                            if not name == "":
+                                file.write(text)
+                            break
+            else:
+                QMessageBox.about(self, "No active Pyrpl", "Connect to Pyrpl first!")
+                self.progressBar.setValue(0)
+                self.print_list.addItem(str('Connect to Pyrpl first!'))
+                self.print_list.addItem('pyrpl_Connected is ' + str(self.pyrpl_Connected))
+                self.print_list.scrollToBottom()
 
-                else:
-                    self.print_list.addItem(str('Canceled'))
-                    self.print_list.scrollToBottom()
-                    self.progressBar.setValue(0)
-                    text = str('\n') + 'Messung Canceled\n'
-                    self.standa_live_control = False
-                    if not name == "":
-                        file.write(text)
-                    break
         else:
             QMessageBox.about(self, "No Standa Server", "Connect to Standa first!")
             self.progressBar.setValue(0)
@@ -198,9 +214,11 @@ class Window(QtWidgets.QMainWindow):
 
     def messung_finished(self):
         self.print_list.addItem(str('Messung Done'))
+        self.print_list.scrollToBottom()
 
     def stop_messung(self):
         self.run_messung = False
+        return False
 
     def add_to_list(self):
         start = self.Start_SpinBox.value()
@@ -235,11 +253,11 @@ class Window(QtWidgets.QMainWindow):
     def Standa_Connect_to_Server(self):
         if self.standaclient == False:
             standa_ip = self.standa_connection_ip.text()
-            standa_port = self.standa_connection_port.text()#TODO str!
+            standa_port = self.standa_connection_port.text()  # TODO str!
             if standa_ip == "":
                 QMessageBox.about(self, "Connect where to?", "Standa IP is missing. Trying to connect to localhost")
-                standa_ip='127.0.0.1'
-                standa_port=54545
+                standa_ip = '127.0.0.1'
+                standa_port = 54545
             if standa_port == "":
                 QMessageBox.about(self, "Connect where to?", "Standa Port is missing")
                 self.Standa_Connected_check(False)
@@ -248,7 +266,7 @@ class Window(QtWidgets.QMainWindow):
                 self.print_list.addItem("Connect to Standa_Server via:\n" + str(standa_ip) + ", " + str(standa_port))
                 self.print_list.scrollToBottom()
                 self.standaclient = client(standa_ip, standa_port, GUI=self)
-            if self.standaclient.sock._closed==False:
+            if self.standaclient.sock._closed == False:
                 self.Standa_Connected_check(True)
             if self.standa_check():
                 self.standa_pos()
@@ -257,21 +275,21 @@ class Window(QtWidgets.QMainWindow):
         if bool is None:
             return self.Standa_Connected
         elif bool is True:
-            self.Standa_Connected= True
+            self.Standa_Connected = True
             self.Standa_Connected_label.setAutoFillBackground(True)
             self.Standa_Connected_label.setStyleSheet("background-color:#10ff00;")
         elif bool is False:
-            self.Standa_Connected= False
+            self.Standa_Connected = False
             self.Standa_Connected_label.setStyleSheet("background-color:#ff0000;")
             self.Standa_Connected_label.setAutoFillBackground(False)
-            self.standa_live_control=False
+            self.standa_live_control = False
 
     def Standa_Close_Connection_to_Server(self):
         if not self.standaclient == False:
             self.standa_live_control_stop()
             self.standaclient.close()
             self.standaclient = False
-            self.standa_live_control=False
+            self.standa_live_control = False
             self.Standa_Connected_check(False)
 
         else:
@@ -305,7 +323,7 @@ class Window(QtWidgets.QMainWindow):
             self.Standa_live_control_widget.show()
             self.Pos_Number.display('NaN')
             self.uPos_Number.display('NaN')
-            self.standa_live_control=False
+            self.standa_live_control = False
 
     def standa_pos(self):
         if self.standa_check():
@@ -337,14 +355,15 @@ class Window(QtWidgets.QMainWindow):
 
     def standa_move_to(self):
         if self.standa_check() & self.standa_live_control:
-            result = self.standaclient.send('MOVV' + str(self.Pos_spinBox.value())+ ', ' + str(self.uPos_spinBox.value()))
+            result = self.standaclient.send(
+                'MOVV' + str(self.Pos_spinBox.value()) + ', ' + str(self.uPos_spinBox.value()))
             self.print_list.addItem(str(result))
             self.print_list.scrollToBottom()
 
     def standa_go_home(self):
         if self.standa_check() & self.standa_live_control:
-            #result = self.standaclient.send("GOH")
-            result= self.standaclient.send('MOV00')
+            # result = self.standaclient.send("GOH")
+            result = self.standaclient.send('MOV00')
             self.print_list.addItem(str(result))
             self.print_list.scrollToBottom()
 
@@ -353,6 +372,7 @@ class Window(QtWidgets.QMainWindow):
             result = self.standaclient.send("DEH")
             self.print_list.addItem(str(result))
             self.print_list.scrollToBottom()
+
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     # aus pyrpl start.py
     def pyrpl_prozess_fn(self):
@@ -381,37 +401,33 @@ class Window(QtWidgets.QMainWindow):
             self.pyrpl_Connected = False
             self.Pyrpl_Started_label.setStyleSheet("background-color:#ff0000;")
             self.Pyrpl_Started_label.setAutoFillBackground(False)
-            self.standa_live_control=False
-    def clean_pyrpl(self):
+            self.standa_live_control = False
+
+    def clean_pyrpl(self):#TODO debug me
         if self.pyrpl_Connected:
             self.print_list.addItem('clean Pyrpl')
-            self.stop_pyrpl_prozess()
-            # threading.enumerate()
-            # myname = threading.currentThread().getName()
-            # threading.enumerate()
+            self.stop_pyrpl_prozess()#TODO debug me
             self.pyrpl_p = None
             self.pyrpl_Connected_check(False)
             self.print_list.scrollToBottom()
 
-
-    def stop_pyrpl_prozess(self):
+    def stop_pyrpl_prozess(self):#TODO debug me
+        #TODO OSError: Socket is closed dont know how to handle
         if self.pyrpl_Connected:
             self.print_list.addItem('Stoping Pyrpl')
-            # threading.enumerate()
-            # myname = threading.currentThread().getName()
-            # killthread = threading.Thread(myname)
-            #self.pyrpl_p.__exit__
+            try:
+                self.pyrpl_p._clear()
+            except OSError as error:
+               self.print_list.addItem(str(error))
+               QMessageBox.about(self, "closing error", "expected error. please close the pyrpl window via ""x""")
 
-            threadLocal = threading.local()
-            name = getattr(threadLocal, 'name', None)
-            threadLocal=threading.current_thread()
-            #self.pyrpl_p._clear()
-            # killthread.join()
+    def pyrpl_input_choice(self):
+        if self.pyrpl_input1.isChecked():
+            return 1
+        if self.pyrpl_input2.isChecked():
+            return 2
 
-
-
-
-    def pyrpl_start(self):#TODO: Info aus Console in Textbox übertragen
+    def pyrpl_start(self):  # TODO: Info aus Console in Textbox übertragen
         self.print_list.addItem('Starting Pyrpl')
         self.print_list.addItem('This might take a while (up to 1min)')
         self.print_list.scrollToBottom()
@@ -438,13 +454,11 @@ class client():
         self.sock = 0
         self.HOST = host
         self.PORT = int(port)
-        #self.HOST = '127.0.0.1'#TODO:why wont localhost dont work? got str but int excpected
-        #self.PORT = 54545
         self.GUI = GUI
         self.connect()
 
     def connect(self):
-        if self.sock == 0 or self.sock._closed==True:
+        if self.sock == 0 or self.sock._closed == True:
             # HOST = 'localhost'
             # PORT = 54545
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -456,12 +470,12 @@ class client():
 
             except ConnectionRefusedError:
                 self.GUI.print_list.addItem('Connection Refused! Server might not ready')
-                msg=QtWidgets.QMessageBox()
+                msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Connection Refused!')
                 msg.setText("Do you want to try again?")
                 msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-                buttonReply= msg.exec_()
-                if buttonReply==QMessageBox.Yes:
+                buttonReply = msg.exec_()
+                if buttonReply == QMessageBox.Yes:
                     self.GUI.print_list.addItem("then, keep runnig.")
                     self.GUI.print_list.scrollToBottom()
                     self.sock = 0
@@ -472,7 +486,7 @@ class client():
                     self.sock.close()
 
     def send(self, message):
-        if self.sock == 0 or self.sock._closed==True:
+        if self.sock == 0 or self.sock._closed == True:
             self.GUI.print_list.addItem('no socked, try connect first..')
         else:
             # Send data
@@ -488,7 +502,7 @@ class client():
                     data = data.decode()
                     self.GUI.print_list.addItem('received: ' + data)
                     if message == "POSS":
-                        result=data.split(', ')
+                        result = data.split(', ')
                         self.GUI.Pos_Number.display(result[0])
                         self.GUI.uPos_Number.display(result[1])
 
@@ -512,7 +526,6 @@ class client():
                 self.GUI.print_list.scrollToBottom()
                 self.sock.close()
 
-
     def close(self):
         self.GUI.print_list.addItem('closing socket')
         self.GUI.print_list.scrollToBottom()
@@ -520,7 +533,7 @@ class client():
 
 
 def run():
-    #sshshell.paramiko.util.log_to_file("paramikologsall.log")
+    # sshshell.paramiko.util.log_to_file("paramikologsall.log")
     app = QApplication(sys.argv)
     GUI = Window()
     GUI._init_()
