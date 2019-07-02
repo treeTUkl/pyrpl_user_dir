@@ -43,7 +43,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;test&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Nullpunkt_controltab">
      <property name="autoFillBackground">
@@ -295,8 +295,13 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string/>
+       <string>131.246.145.66</string>
       </property>
       <property name="placeholderText">
        <string>131.246.145.xx</string>
@@ -337,8 +342,19 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="inputMask">
+       <string>54545</string>
+      </property>
+      <property name="text">
+       <string>54545</string>
+      </property>
       <property name="placeholderText">
-       <string>22222</string>
+       <string>54545</string>
       </property>
      </widget>
      <widget class="QDialogButtonBox" name="standa_live_control_ButtonBox">

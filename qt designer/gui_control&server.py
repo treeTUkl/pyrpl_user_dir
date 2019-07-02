@@ -291,8 +291,7 @@ class Window(QtWidgets.QMainWindow):
             self.standaclient = False
             self.standa_live_control = False
             self.Standa_Connected_check(False)
-
-        else:
+        elif self.Standa_Connected == True:
             self.Standa_Connected_check(True)
 
     def standa_check(self):
@@ -500,13 +499,14 @@ class client():
                     message = message.decode()
                     data = self.sock.recv(16)
                     data = data.decode()
-                    self.GUI.print_list.addItem('received: ' + data)
                     if message == "POSS":
                         result = data.split(', ')
                         self.GUI.Pos_Number.display(result[0])
                         self.GUI.uPos_Number.display(result[1])
 
-                    self.GUI.print_list.scrollToBottom()
+                    else:
+                        self.GUI.print_list.addItem('received: ' + data)
+                        self.GUI.print_list.scrollToBottom()
                     return data
 
                 elif message == " ":
