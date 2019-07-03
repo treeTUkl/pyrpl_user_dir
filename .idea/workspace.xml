@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a57e9ed-faa2-45df-8ae7-5bf8446a8869" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml.bak" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui_control&amp;server.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_control&amp;server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/standa_pyrpl_gui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/standa_pyrpl_gui.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ximc/ximcServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/ximc/ximcServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ximc/ximcStage.py" beforeDir="false" afterPath="$PROJECT_DIR$/ximc/ximcStage.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,12 +17,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4597">
-              <caret line="186" column="56" selection-start-line="186" selection-start-column="56" selection-end-line="186" selection-end-column="56" />
+            <state relative-caret-position="158">
+              <caret line="401" selection-start-line="401" selection-end-line="401" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -24,14 +30,79 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ximc/pyximc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="448">
+              <caret line="400" column="10" selection-start-line="400" selection-start-column="10" selection-end-line="400" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="532" column="12" selection-start-line="532" selection-start-column="12" selection-end-line="532" selection-end-column="53" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ximc/ximcServer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="134">
+              <caret line="183" column="35" lean-forward="true" selection-start-line="183" selection-start-column="35" selection-end-line="183" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>set_motor_settings</find>
+      <find>valueChanged</find>
+      <find>step_list</find>
+      <find>spinBox</find>
+      <find>eEdit</find>
+      <find>text</find>
+      <find>micr</find>
+      <find>engine_settings</find>
+      <find>set_engine_settings</find>
+      <find>standa_connection_ip</find>
+      <find>Standa_get_motor_settings</find>
+      <find>engine_settings_t()</find>
+      <find>Standa_get_engine_settings</find>
+      <find>POSS</find>
+      <find>standa_pos</find>
+      <find>standa_handling</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/ximc/ximcStage.py" />
+        <option value="$PROJECT_DIR$/gui_control&amp;server.py" />
+        <option value="$PROJECT_DIR$/ximc/ximcServer.py" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1491" />
-    <option name="y" value="26" />
+    <option name="x" value="133" />
+    <option name="y" value="5" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -40,8 +111,40 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
+            </path>
+            <path>
+              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="pyrpl_user_dir" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="pyrpl_user_dir" type="462c0819:PsiDirectoryNode" />
+              <item name="lockbox" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="pyrpl_user_dir" type="462c0819:PsiDirectoryNode" />
+              <item name="ximc" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -118,35 +221,219 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2497332" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2524013" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3997833" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="JGlo" order="3" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2524013" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="JGlo" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
+      <window_info anchor="right" id="JGlo" order="3" />
+    </layout-to-restore>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
+          <line>187</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
+          <line>203</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
+          <line>214</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
+          <line>213</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
+          <line>208</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
+          <line>401</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="self.Control_tab.isEnabled()" />
+        <watch expression="self.Control_tab.isActiveWindow()" language="Python" />
+        <watch expression="self.Settings_tab.isEnabled()" language="Python" />
+        <watch expression="self.Settings_tab.isActiveWindow()" language="Python" />
+        <watch expression="self.StandaWidget.currentIndex()" language="Python" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>self.StandaWidget.currentIndex()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.Settings_tab.isActiveWindow()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>True</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.Control_tab.isActiveWindow()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.Settings_tab.isEnabled()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="setValue">
+      <expression>
+        <expression-string>'9'</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>'MicroStepMode-&gt; 9'</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>message.decode().split(', ')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>message.decode()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>message.decode</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>message</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>message.split(', ')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.Control_tab.isEnabled()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.Microstep_mode_choos_spinBox.value()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.Microstep_mode_choos_spinBox.value</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>MicrosetpValue</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/ximc/pyximc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="400" column="10" selection-start-line="400" selection-start-column="10" selection-end-line="400" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="532" column="12" selection-start-line="532" selection-start-column="12" selection-end-line="532" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4597">
-          <caret line="186" column="56" selection-start-line="186" selection-start-column="56" selection-end-line="186" selection-end-column="56" />
+        <state relative-caret-position="158">
+          <caret line="401" selection-start-line="401" selection-end-line="401" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ximc/ximcServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="134">
+          <caret line="183" column="35" lean-forward="true" selection-start-line="183" selection-start-column="35" selection-end-line="183" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>

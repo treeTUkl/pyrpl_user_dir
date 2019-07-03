@@ -40,14 +40,13 @@ class StandaStage(Stage.Stage):
         self.load_configurution()
         self.position_zero = 0
         self.TerraFaktor = 1
-        self.MicrostepMode = 1
+        self.MicrostepMode = 9
         self.StepsPerRev = 1
         self.Laser = 633 * 10 ** -9  # should be 633*10^-9
         self.LichtinLuft = 299705518
         self.velocity = 10
         self.device_id = None
         self.lib = lib
-
 
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     """Aus Instrument"""
@@ -121,13 +120,15 @@ class StandaStage(Stage.Stage):
         else:
             print('Move Ab in as something went wrong!')
 
-    def move_absolute_in_steps(self, new_position_fullSteps, new_position_uSteps):#TODO: falls uSteps größer als 256, dann wird fahrergebnis negativ gewertet....
+    def move_absolute_in_steps(self, new_position_fullSteps,
+                               new_position_uSteps):  # TODO: falls uSteps größer als 256, dann wird fahrergebnis negativ gewertet....
         print('\nMove Ab in steps aufgerufen!')
         self.position["position_new_Steps"] = new_position_fullSteps
         self.position["position_new_uSteps"] = new_position_uSteps
         print('neue Position in steps: ' + repr(self.position["position_new_Steps"]) + ', uSteps: ' + repr(
             self.position["position_new_uSteps"]))
-        result=self.lib.command_move(self.device_id, self.position["position_new_Steps"], self.position["position_new_uSteps"])
+        result = self.lib.command_move(self.device_id, self.position["position_new_Steps"],
+                                       self.position["position_new_uSteps"])
         if result == Result.Ok:
             print('Move Ab in steps result ok!')
         else:
@@ -178,13 +179,11 @@ class StandaStage(Stage.Stage):
             print('go_home something went wrong!')
             print('this usually never works so lets')
             print('set home by move to zero position!')
-            step = -1*self.position["position_current_Steps"]
-            ustep = -1*self.position["position_current_uSteps"]
+            step = -1 * self.position["position_current_Steps"]
+            ustep = -1 * self.position["position_current_uSteps"]
             self.move_relative_in_steps(step, ustep)
             print('go_home has arrived!')
             return True
-
-
 
     def get_home(self):
         print('\nget_home aufgerufen!')
@@ -199,7 +198,6 @@ class StandaStage(Stage.Stage):
                 else:
                     print(key, '->', getattr(x_home, key))
         return x_home
-
 
     def set_zero_position(self):
         print('\nset_zero_position aufgerufen!')
@@ -233,6 +231,7 @@ class StandaStage(Stage.Stage):
         self.lib.command_stop(self.device_id)
         time.sleep(.500)
         return string
+
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     """Stuff notwendig für Stage Befehle"""
 
@@ -261,7 +260,11 @@ class StandaStage(Stage.Stage):
             print(key, "=>", val)
 
     def MicrostepValue(self):  # works
-        return 2 ** self.MicrostepMode / 2
+        if self.MicrostepMode > 256:
+            self.MicrostepMode = 256
+        elif self.MicrostepMode < 1:
+            self.MicrostepMode = 1
+        return (2 ** self.MicrostepMode) / 2
 
     def statusHandler(self):
         gohomeflag = False
@@ -283,8 +286,9 @@ class StandaStage(Stage.Stage):
         if not gohomeflag:
             if self.position["position_current_uSteps"] < 0:
                 print('uSteps negativ. Corrigiere')
-                self.position["position_current_Steps"] = self.position["position_current_Steps"]-1
-                self.position["position_current_uSteps"] = float(self.position["position_current_uSteps"])+self.MicrostepValue()
+                self.position["position_current_Steps"] = self.position["position_current_Steps"] - 1
+                self.position["position_current_uSteps"] = float(
+                    self.position["position_current_uSteps"]) + self.MicrostepValue()
 
             if self.position["position_current_uSteps"] >= self.MicrostepValue():
                 print('uSteps zu groß. Corrigiere')
@@ -396,7 +400,7 @@ class StandaStage(Stage.Stage):
                 print('StepsPerRev entsprechen nicht 200!\n Betrieb nicht konform!\nUmrechnungen Fehlerhaft!')
                 self.disconnect()
                 sys.exit()
-            return result
+            return engine_settings
         else:
             print('something went wrong!')
 
@@ -457,6 +461,7 @@ class StandaStage(Stage.Stage):
 		("AntiplaySpeed", c_uint),
 		("uAntiplaySpeed", c_uint),
 	]"""
+
         print("\nStanda_get_motor_settings")
         y_status = move_settings_t()
         result = self.lib.get_move_settings(self.device_id, byref(y_status))
@@ -466,6 +471,7 @@ class StandaStage(Stage.Stage):
                     pass
                     # do nothing
                 else:
+
                     print(key, '->', getattr(y_status, key))
         else:
             print('something went wrong!')
@@ -509,6 +515,31 @@ class StandaStage(Stage.Stage):
                 else:
                     print('something went wrong!')
                     return y_status
+
+    # gui sends Motionspeed acceleration deceleration für set motor settings + microstep mode für engine settings#TODO
+    def Standa_set_settings(self, Speed, Accel, Decel, MicroMode):
+        move_settings = move_settings_t()
+        result_move = self.lib.get_move_settings(self.device_id, byref(move_settings))
+
+        engine_settings = engine_settings_t()
+        result_engine = self.lib.get_engine_settings(self.device_id, byref((self.device_id, byref(engine_settings))))
+
+        if result_move == Result.Ok & result_engine == Result.Ok:
+            move_settings.Speed = Speed
+            move_settings.Accel = Accel
+            move_settings.Decel = Decel
+            result_move = self.lib.set_move_settings(self.device_id, byref(move_settings))
+
+            engine_settings.MicrostepMode = MicroMode
+            result_engine = self.lib.set_engine_settings(self.device_id, byref(engine_settings))
+
+            if result_move == Result.Ok & result_engine == Result.Ok:
+                return True
+            else:
+                return False
+        else:
+            return False
+
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     # control gui stuff
 
@@ -520,7 +551,8 @@ if __name__ == "__main__":
     stage.position_get()
     stage.Standa_get_position()
     stage.set_zero_position()
-    stage.move_absolute_in_as(153600)#TODO: Umrechnungen alle Richtig? vonwegen Terra und Gui to server_tcp to ximcStage
+    stage.move_absolute_in_as(
+        153600)  # TODO: Umrechnungen alle Richtig? vonwegen Terra und Gui to server_tcp to ximcStage
     # stage.Umrechnungsfaktor()
     # stage.set_zero_position()
     # stage.Standa_get_position()
@@ -553,7 +585,6 @@ if __name__ == "__main__":
     # stage.go_home()
 
     # TODO debuggen~~~~~~~~
-    #^^^^^^^debuggen^^^^^^^^^^^^^^
+    # ^^^^^^^debuggen^^^^^^^^^^^^^^
 
     stage.disconnect()
-

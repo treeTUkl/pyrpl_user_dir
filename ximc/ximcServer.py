@@ -1,19 +1,19 @@
 import socket
 import ximcStage
 import time
+
 # import sys
 
 # from  xxxxx import PIStage.py
 LOCALHOST = ""
-#PORT = 2161
+# PORT = 2161
 
 PORT = 54545
-#LOCALHOST = 'localhost'
+# LOCALHOST = 'localhost'
 
 # Initialize stage:
 stage = ximcStage.StandaStage()
 stage.connect()
-
 
 """This sample program, based on the one in the standard library documentation, receives incoming messages and echos them back to the sender. It starts by creating a TCP/IP socket."""
 # Create a TCP/IP socket
@@ -40,15 +40,14 @@ connection, client_address = sock.accept()  # TODO: verbindet sich nur einmal...
  The connection is actually a different socket on another port (assigned by the kernel).
   Data is read from the connection with recv() and transmitted with sendall()."""
 print('connection from', client_address)
-counter=0
+counter = 0
 while connection:
 
     try:
 
-
         # Receive the data in small chunks and retransmit it
 
-        data = connection.recv(24)  # we might need more than 4? but labview sagt 4
+        data = connection.recv(100)  # TODO 44 to much?
 
         data = data.decode('utf-8')  # might not needed if data ist already in string format
         print('\nreceived "%s"' % data)
@@ -56,7 +55,8 @@ while connection:
         if data[:3] == "POS":
             if data[:] == "POSS":
                 stage.position_get()
-                POS = str(stage.position["position_current_Steps"]) + ", " + str(stage.position["position_current_uSteps"])
+                POS = str(stage.position["position_current_Steps"]) + ", " + str(
+                    stage.position["position_current_uSteps"])
                 POS = POS.encode()
                 print('sending data back to the client')
                 connection.sendall(POS)
@@ -71,7 +71,7 @@ while connection:
 
         elif data[:3] == "MOV":
             if data[:4] == "MOVV":
-                result=data[4:].split(', ')
+                result = data[4:].split(', ')
                 print('MOVV ' + str(result[0]) + ', ' + str(result[1]))
                 stage.move_absolute_in_steps(int(result[0]), int(result[1]))
                 POS = stage.POS
@@ -174,8 +174,8 @@ while connection:
             POS = POS.encode()
             print('sending data back to the client')
             connection.sendall(POS)
-#########################################################
-        #gui control stuff
+        #########################################################
+        # gui control stuff
         elif data[:] == "POSS":
             stage.position_get()
             POS = str(stage.position["position_current_Steps"]) + ", " + str(stage.position["position_current_uSteps"])
@@ -183,6 +183,39 @@ while connection:
             print('sending data back to the client')
             connection.sendall(POS)
 
+        elif data[:4] == "MSET":
+            MSET = data[4:].split(', ')
+            result = stage.Standa_set_settings(int(MSET[1]), int(MSET[2]), int(MSET[3]), int(MSET[4]))#TODO Debug live
+            POS = result
+            POS = POS.encode()
+            print('sending data back to the client')
+            connection.sendall(POS)
+
+        elif data[:4] == "MGET":
+
+            """' 
+            move_settings.Speed = Speed
+            move_settings.Accel = Accel
+            move_settings.Decel = Decel
+            engine_settings.MicrostepMode = MicroMode
+            '"""
+
+            POS = ""
+            y_status = stage.Standa_get_motor_settings()
+            POS = POS + "Speed" + "-> " + str(y_status.Speed) + ", "
+            POS = POS + "Accel" + "-> " + str(y_status.Accel) + ", "
+            POS = POS + "Decel" + "-> " + str(y_status.Decel) + ", "
+
+            #for key in dir(y_status):
+            #    if key[:1] == "_":
+            #        pass  # do nothing
+            #    else:
+            #        POS = POS + key + "-> " + str(getattr(y_status, key)) + ", "
+            result = stage.Standa_get_engine_settings()
+            POS = POS + "MicroStepMode" + "-> " + str(result.MicrostepMode)
+            POS = POS.encode()
+            print('sending data back to the client')
+            connection.sendall(POS)
 
         else:
             print('got strange data: ' + data + ' do nothing with it')

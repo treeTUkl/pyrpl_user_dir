@@ -55,6 +55,7 @@ class Window(QtWidgets.QMainWindow):
         self.select_file_Button.clicked.connect(self.Ac_File_Picker)
         self.Sort_list_Button.clicked.connect(self.sort_list)
 
+
         mainMenu = self.menuBar()
         fileMenu = mainMenu.addMenu('&Test')
         fileMenu.addAction(extractAction)
@@ -75,6 +76,10 @@ class Window(QtWidgets.QMainWindow):
         self.Pyrpl_Start_Button.clicked.connect(self.pyrpl_start)
         self.Pyrpl_Get_Voltage.clicked.connect(self.pyrpl_prozess_fn)
         self.Pyrpl_Close_Button.clicked.connect(self.clean_pyrpl)
+        self.get_standa_settings_Button.clicked.connect(self.standa_get_settings)
+        self.Set_Motor_Settings_Button.clicked.connect(self.standa_set_settings)
+        self.Microstep_mode_choos_spinBox.valueChanged.connect(self.Microstep_changed)
+        self.StandaWidget.currentChanged.connect(self.standa_handling)
         self.show()
 
     def sort_list(self):
@@ -307,13 +312,20 @@ class Window(QtWidgets.QMainWindow):
         if self.standa_check():
             self.standa_live_control = True
             self.Standa_live_control_widget.hide()
-            while self.standa_live_control:
-                QApplication.processEvents()
-                self.standa_pos()
-                QApplication.processEvents()
-                if self.standa_live_control == False:
-                    self.standa_live_control_stop()
-                    break
+        if self.StandaWidget.currentIndex()==0:
+            self.standa_handling()
+
+    def standa_handling(self):
+        while self.standa_live_control & self.StandaWidget.currentIndex()==0:
+            QApplication.processEvents()
+            self.standa_pos()
+            QApplication.processEvents()
+            if self.standa_live_control == False:
+                self.standa_live_control_stop()
+                break
+            if self.StandaWidget.currentIndex() == 1:
+                self.standaclient.send("STOPMOVE")
+                break
 
     def standa_live_control_stop(self):
         if self.standa_check():
@@ -372,8 +384,42 @@ class Window(QtWidgets.QMainWindow):
             self.print_list.addItem(str(result))
             self.print_list.scrollToBottom()
 
+    def standa_get_settings(self):
+        if self.standa_check() & self.standa_live_control:
+            self.standa_stop()
+            result = self.standaclient.send("MGET")
+            result = result.split(", ")
+            self.get_standa_settings_listWidget.clear()
+            for each in result:
+                self.get_standa_settings_listWidget.addItem(str(each) + "\n")
+            MicrosetpValue= result[3]
+            MicrosetpValue=MicrosetpValue[len(MicrosetpValue)-1:len(MicrosetpValue)]
+            self.Microstep_mode_choos_spinBox.setValue(int(MicrosetpValue))
+
+    def standa_set_settings(self):
+        if self.standa_check() & self.standa_live_control:
+            self.standa_stop()
+            send = "MSET"
+            send = send + ", " + str(self.Motor_Speed_spinBox.value())
+            send = send + ", " + str(self.Acceleration_spinBox.value())
+            send = send + ", " + str(self.Deceleration_spinBox.value())
+            send = send + ", " + self.Microstep_mode_choos_LineEdit.text()
+
+            result = self.standaclient.send(send)
+            if result:
+                self.standa_get_settings()
+            else:
+                self.get_standa_settings_listWidget.clear()
+                self.get_standa_settings_listWidget.addItem("Set Settings went wrong!")
+
+    def Microstep_changed(self):
+        MicrosetpValue= (2**self.Microstep_mode_choos_spinBox.value())/2
+        self.Microstep_mode_choos_LineEdit.setText(str(int(MicrosetpValue)))
+
+
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     # aus pyrpl start.py
+
     def pyrpl_prozess_fn(self):
         if self.pyrpl_Connected:
             self.print_list.addItem('pyrpl Voltage')
@@ -402,15 +448,15 @@ class Window(QtWidgets.QMainWindow):
             self.Pyrpl_Started_label.setAutoFillBackground(False)
             self.standa_live_control = False
 
-    def clean_pyrpl(self):#TODO debug me
+    def clean_pyrpl(self):
         if self.pyrpl_Connected:
             self.print_list.addItem('clean Pyrpl')
-            self.stop_pyrpl_prozess()#TODO debug me
+            self.stop_pyrpl_prozess()
             self.pyrpl_p = None
             self.pyrpl_Connected_check(False)
             self.print_list.scrollToBottom()
 
-    def stop_pyrpl_prozess(self):#TODO debug me
+    def stop_pyrpl_prozess(self):
         #TODO OSError: Socket is closed dont know how to handle
         if self.pyrpl_Connected:
             self.print_list.addItem('Stoping Pyrpl')
@@ -491,25 +537,8 @@ class client():
             # Send data
             self.GUI.print_list.addItem('sending:' + message)
             try:
-                # reciveing
-                if not message == "close":
-
-                    message = message.encode()
-                    self.sock.sendall(message)
-                    message = message.decode()
-                    data = self.sock.recv(16)
-                    data = data.decode()
-                    if message == "POSS":
-                        result = data.split(', ')
-                        self.GUI.Pos_Number.display(result[0])
-                        self.GUI.uPos_Number.display(result[1])
-
-                    else:
-                        self.GUI.print_list.addItem('received: ' + data)
-                        self.GUI.print_list.scrollToBottom()
-                    return data
-
-                elif message == " ":
+                #
+                if message == " ":
                     self.GUI.print_list.addItem('nothing received.\nseems to be an error on server')
                     self.GUI.print_list.scrollToBottom()
                     self.sock.close()
@@ -520,6 +549,26 @@ class client():
                     message = message.encode()
                     self.sock.sendall(message)
                     self.sock.close()
+
+                else:  # message == "close":
+                    message = message.encode()
+                    self.sock.sendall(message)
+                    message = message.decode()
+                    data = self.sock.recv(100)#TODO 44 to much?
+                    data = data.decode()
+                    if message == "POSS":
+                        result = data.split(', ')
+                        self.GUI.Pos_Number.display(result[0])
+                        self.GUI.uPos_Number.display(result[1])
+                    elif message == "MGET":
+                        return data
+                    elif message[:4] == "MSET":
+                        return data
+                    else:
+                        self.GUI.print_list.addItem('received: ' + data)
+                        self.GUI.print_list.scrollToBottom()
+                    return data
+
             except (ConnectionAbortedError, EOFError):
                 self.GUI.print_list.addItem('seems to be an error on server')
                 self.GUI.print_list.addItem('\nclosing socket')
