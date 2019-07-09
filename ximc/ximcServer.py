@@ -185,7 +185,7 @@ while connection:
 
         elif data[:4] == "MSET":
             MSET = data[4:].split(', ')
-            result = stage.Standa_set_settings(int(MSET[1]), int(MSET[2]), int(MSET[3]), int(MSET[4]))#TODO Debug live
+            result = stage.Standa_set_settings(int(MSET[1]), int(MSET[2]), int(MSET[3]), int(MSET[4]))
             POS = result
             POS = POS.encode()
             print('sending data back to the client')
@@ -206,11 +206,6 @@ while connection:
             POS = POS + "Accel" + "-> " + str(y_status.Accel) + ", "
             POS = POS + "Decel" + "-> " + str(y_status.Decel) + ", "
 
-            #for key in dir(y_status):
-            #    if key[:1] == "_":
-            #        pass  # do nothing
-            #    else:
-            #        POS = POS + key + "-> " + str(getattr(y_status, key)) + ", "
             result = stage.Standa_get_engine_settings()
             POS = POS + "MicroStepMode" + "-> " + str(result.MicrostepMode)
             POS = POS.encode()

@@ -522,7 +522,7 @@ class StandaStage(Stage.Stage):
         result_move = self.lib.get_move_settings(self.device_id, byref(move_settings))
 
         engine_settings = engine_settings_t()
-        result_engine = self.lib.get_engine_settings(self.device_id, byref((self.device_id, byref(engine_settings))))
+        result_engine = self.lib.get_engine_settings(self.device_id, byref(engine_settings))
 
         if result_move == Result.Ok & result_engine == Result.Ok:
             move_settings.Speed = Speed
@@ -534,11 +534,11 @@ class StandaStage(Stage.Stage):
             result_engine = self.lib.set_engine_settings(self.device_id, byref(engine_settings))
 
             if result_move == Result.Ok & result_engine == Result.Ok:
-                return True
+                return "Standa_set_settings worked"
             else:
-                return False
+                return "Standa_set_settings failed"
         else:
-            return False
+            return "Standa_set_settings failed"
 
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     # control gui stuff

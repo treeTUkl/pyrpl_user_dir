@@ -395,6 +395,7 @@ class Window(QtWidgets.QMainWindow):
             MicrosetpValue= result[3]
             MicrosetpValue=MicrosetpValue[len(MicrosetpValue)-1:len(MicrosetpValue)]
             self.Microstep_mode_choos_spinBox.setValue(int(MicrosetpValue))
+            self.print_list.scrollToBottom()
 
     def standa_set_settings(self):
         if self.standa_check() & self.standa_live_control:
@@ -403,14 +404,18 @@ class Window(QtWidgets.QMainWindow):
             send = send + ", " + str(self.Motor_Speed_spinBox.value())
             send = send + ", " + str(self.Acceleration_spinBox.value())
             send = send + ", " + str(self.Deceleration_spinBox.value())
-            send = send + ", " + self.Microstep_mode_choos_LineEdit.text()
+            send = send + ", " + str(self.Microstep_mode_choos_spinBox.value())
 
             result = self.standaclient.send(send)
-            if result:
+
+            if result =="Standa_set_settings worked":
+                self.print_list.addItem(str(result))
+                self.print_list.scrollToBottom()
                 self.standa_get_settings()
             else:
                 self.get_standa_settings_listWidget.clear()
                 self.get_standa_settings_listWidget.addItem("Set Settings went wrong!")
+            self.print_list.scrollToBottom()
 
     def Microstep_changed(self):
         MicrosetpValue= (2**self.Microstep_mode_choos_spinBox.value())/2
@@ -529,13 +534,23 @@ class client():
                     self.GUI.print_list.addItem("stopping....")
                     self.GUI.print_list.scrollToBottom()
                     self.sock.close()
+            except OSError:
+                self.GUI.print_list.addItem('Connection Refused! Server might not ready')
+                QMessageBox.about(self, "Connect where to?", "Standa IP is seems invalid!")
+                self.GUI.print_list.addItem("stopping....")
+                self.GUI.print_list.scrollToBottom()
+                self.sock.close()
+
 
     def send(self, message):
         if self.sock == 0 or self.sock._closed == True:
             self.GUI.print_list.addItem('no socked, try connect first..')
         else:
             # Send data
-            self.GUI.print_list.addItem('sending:' + message)
+            if message == "STOPMOVE":
+                pass
+            else:
+                self.GUI.print_list.addItem('sending:' + message)
             try:
                 #
                 if message == " ":
@@ -550,11 +565,11 @@ class client():
                     self.sock.sendall(message)
                     self.sock.close()
 
-                else:  # message == "close":
+                else:
                     message = message.encode()
-                    self.sock.sendall(message)
+                    self.sock.sendall(message)#TODO  add case for timeout from server??
                     message = message.decode()
-                    data = self.sock.recv(100)#TODO 44 to much?
+                    data = self.sock.recv(100)#
                     data = data.decode()
                     if message == "POSS":
                         result = data.split(', ')
@@ -564,6 +579,8 @@ class client():
                         return data
                     elif message[:4] == "MSET":
                         return data
+                    elif message == "STOPMOVE":
+                        pass
                     else:
                         self.GUI.print_list.addItem('received: ' + data)
                         self.GUI.print_list.scrollToBottom()
