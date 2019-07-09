@@ -273,6 +273,9 @@ class Window(QtWidgets.QMainWindow):
                 self.standaclient = client(standa_ip, standa_port, GUI=self)
             if self.standaclient.sock._closed == False:
                 self.Standa_Connected_check(True)
+            elif self.standaclient.sock._closed == True:
+                self.Standa_Close_Connection_to_Server()
+
             if self.standa_check():
                 self.standa_pos()
 
@@ -534,7 +537,9 @@ class client():
                     self.GUI.print_list.addItem("stopping....")
                     self.GUI.print_list.scrollToBottom()
                     self.sock.close()
-                    self.GUI.Standa_Connected_check(False)
+                    self.GUI.standaclient = False
+                    self.GUI.Standa_Close_Connection_to_Server()
+
             except OSError:
                 self.GUI.print_list.addItem('Connection Refused! Server might not ready')
                 QMessageBox.about(self, "Connect where to?", "Standa IP is seems invalid!")
@@ -569,6 +574,7 @@ class client():
                 else:
                     message = message.encode()
                     self.sock.sendall(message)#TODO  add case for timeout from server??
+                    QApplication.processEvents()
                     message = message.decode()
                     data = self.sock.recv(100)#
                     data = data.decode()

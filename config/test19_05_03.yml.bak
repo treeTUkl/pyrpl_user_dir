@@ -1,27 +1,27 @@
 pyrpl:
   background_color: ''
-  dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\x05Q\0\0\x02\xDD\
-    \xFC\x01\0\0\0\x01\xFC\0\0\0\0\0\0\x05Q\0\0\0y\0\xFF\xFF\xFF\xFA\0\0\0\x04\x01\
-    \0\0\0\f\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0\
-    )\x03\0\0\0\x19\0\0\0)\0\0\a\b\0\0\x03\x1D\xFB\0\0\0\"\0a\0s\0g\0s\0 \0(\0t\0\
-    e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\xFF\xFB\
-    \0\0\0 \0i\0q\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\
-    \xFF\0\0\0]\0\xFF\xFF\xFF\xFB\0\0\0\"\0p\0i\0d\0s\0 \0(\0t\0e\0s\0t\01\09\00\0\
-    5\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\xFF\xFB\0\0\0&\0s\0c\0\
-    o\0p\0e\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\
-    \0\0]\0\xFF\xFF\xFF\xFB\0\0\0\"\0i\0i\0r\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\0\
-    8\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0$\0t\0r\0i\0g\0\
-    s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\
-    \xFF\xFF\xFB\0\0\08\0n\0e\0t\0w\0o\0r\0k\0a\0n\0a\0l\0y\0z\0e\0r\0 \0(\0t\0e\0\
-    s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\
-    \0\0\0:\0s\0p\0e\0c\0t\0r\0u\0m\0a\0n\0a\0l\0y\0z\0e\0r\0 \0(\0t\0e\0s\0t\01\0\
-    9\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\00\0\
-    c\0u\0r\0v\0e\0v\0i\0e\0w\0e\0r\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\
-    \0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\xFF\xFB\0\0\00\0p\0y\0r\0p\0l\0c\0o\0n\0f\0\
-    i\0g\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\
-    \0\xFF\xFF\xFF\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\00\05\0\
-    0\08\0)\x02\0\0\a\xE5\0\0\0\\\0\0\x06-\0\0\x03f\0\0\x05Q\0\0\0\0\0\0\0\x04\0\0\
-    \0\x04\0\0\0\b\0\0\0\b\xFC\0\0\0\0"
+  dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\x05\xB9\0\0\x03\xAE\
+    \xFC\x01\0\0\0\x01\xFC\0\0\0\0\0\0\x05\xB9\0\0\0y\0\xFF\xFF\xFF\xFA\0\0\0\x01\x01\
+    \0\0\0\f\xFB\0\0\0&\0s\0c\0o\0p\0e\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x03\
+    \0\0\0\xF0\0\0\0?\0\0\x05\xB9\0\0\x03\x99\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0\
+    (\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\
+    \xFF\xFB\0\0\0\"\0a\0s\0g\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\
+    \xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0 \0i\0q\0s\0 \0(\0t\0e\0s\0t\01\0\
+    9\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0\"\
+    \0p\0i\0d\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\
+    \0\0\0]\0\xFF\xFF\xFF\xFB\0\0\0\"\0i\0i\0r\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\0\
+    0\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0$\0t\0r\0i\0\
+    g\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\
+    \0\xFF\xFF\xFF\xFB\0\0\08\0n\0e\0t\0w\0o\0r\0k\0a\0n\0a\0l\0y\0z\0e\0r\0 \0(\0\
+    t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\
+    \xFB\0\0\0:\0s\0p\0e\0c\0t\0r\0u\0m\0a\0n\0a\0l\0y\0z\0e\0r\0 \0(\0t\0e\0s\0t\0\
+    1\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0\
+    0\0c\0u\0r\0v\0e\0v\0i\0e\0w\0e\0r\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\
+    \0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\00\0p\0y\0r\0p\0l\0c\0o\0\
+    n\0f\0i\0g\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\
+    \0\0]\0\xFF\xFF\xFF\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\0\
+    0\05\00\08\0)\x02\0\0\a\xE5\0\0\0\\\0\0\x06-\0\0\x03f\0\0\x05\xB9\0\0\0\0\0\0\0\
+    \x04\0\0\0\x04\0\0\0\b\0\0\0\b\xFC\0\0\0\0"
   gui: true
   loglevel: info
   modules:
@@ -32,10 +32,10 @@ pyrpl:
   - Lockbox
   name: test190508
   window_position:
-  - -1520
-  - 0
-  - 1361
-  - 774
+  - -1911
+  - 15
+  - 1465
+  - 983
 redpitaya:
   autostart: true
   defaultport: 2222
@@ -57,13 +57,17 @@ redpitaya:
 scope:
   curve_name: scope curve
   duration: 1.073741824
-  input1: out2
+  input1: in1
   input2: in2
   rolling_mode: true
   running_state: running_continuous
-  trigger_source: 'off'
+  trigger_source: immediately
   average: false
   ch2_active: true
+  trace_average: 10
+  xy_mode: false
+  trigger_delay: 0.0
+  hysteresis: 0.0
 networkanalyzer:
   curve_name: networkanalyzer curve
 spectrumanalyzer:
@@ -103,12 +107,12 @@ lockbox:
       p: 0.0
     piezo:
       additional_filter:
-      - 18.972756741396708
+      - 4.743187489051999
       - 0
       - 0
       - 0
-      analog_filter_cutoff: 1832300.0
-      assisted_design: true
+      analog_filter_cutoff: 0.05
+      assisted_design: false
       calibration_data:
         _analog_offset: 0.0
         _asg_phase: 0.0
@@ -116,15 +120,16 @@ lockbox:
         mean: 0.0
         min: 0.0
         rms: 0.0
+      d: -5.0
       dc_gain: 873.0
-      desired_unity_gain_frequency: 0.002
+      desired_unity_gain_frequency: 0
       extra_module: None
       extra_module_state: None
-      i: 0.002
+      i: -0.0001
       max_voltage: 0.8
       min_voltage: -0.8
       output_channel: out2
-      p: 1.0915243137040878e-09
+      p: -0.002
       sweep_amplitude: 0.1
       sweep_frequency: 0.06660120010375976
       sweep_offset: 0.0
@@ -147,17 +152,17 @@ lockbox:
       quadrature_factor: 0.0
     port1:
       calibration_data:
-        max: 0.872802734375
-        mean: 0.509409487247467
-        min: 0.1434326171875
-        rms: 0.2523444192752553
+        max: 0.8963623046875
+        mean: 0.522096797823906
+        min: 0.1524658203125
+        rms: 0.2528700139085707
       input_signal: in2
     port2:
       calibration_data:
-        max: 0.8734130859375
-        mean: 0.7068093046545982
-        min: 0.1444091796875
-        rms: 0.22364411163280462
+        max: 0.896728515625
+        mean: 0.5229537859559059
+        min: 0.152099609375
+        rms: 0.25203298047551786
       input_signal: in2
   final_stage:
     duration: 0.0
@@ -196,3 +201,5 @@ pid2: {}
 pid2_states: {}
 asg0:
   waveform: dc
+pyrplconfig: {}
+scopes: {}

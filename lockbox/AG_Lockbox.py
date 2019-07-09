@@ -85,6 +85,7 @@ class MyPiezoOutput(OutputSignal):
     analog_filter_cutoff = FrequencyProperty(default=16.108, min=0, max=1e10, increment=0.1, call_setup=True)
     p = FloatProperty(min=-1e10, max=1e10, call_setup=True)
     i = FloatProperty(min=-1e10, max=1e10, call_setup=True)
+    d = FloatProperty(min=-1e10, max=1e10, call_setup=True)
 
 
 # "" Crashed bei ausführung""""""
