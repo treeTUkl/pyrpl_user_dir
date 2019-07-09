@@ -783,6 +783,19 @@
        </widget>
       </widget>
      </widget>
+     <widget class="QWidget" name="Standa_live_control_widget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>170</y>
+        <width>591</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="pyrpltab">
      <attribute name="title">
@@ -1339,19 +1352,6 @@
       <width>261</width>
       <height>91</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="Standa_live_control_widget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>610</y>
-      <width>591</width>
-      <height>261</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
     </property>
    </widget>
   </widget>

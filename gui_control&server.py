@@ -534,6 +534,7 @@ class client():
                     self.GUI.print_list.addItem("stopping....")
                     self.GUI.print_list.scrollToBottom()
                     self.sock.close()
+                    self.GUI.Standa_Connected_check(False)
             except OSError:
                 self.GUI.print_list.addItem('Connection Refused! Server might not ready')
                 QMessageBox.about(self, "Connect where to?", "Standa IP is seems invalid!")
