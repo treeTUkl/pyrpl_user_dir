@@ -315,7 +315,7 @@ class Window(QtWidgets.QMainWindow):
         else:
             return False
 
-    def standa_live_control_start(self):
+    def standa_live_control_start(self):#TODO the live control should be running in an thread
         if self.standa_check():
             self.standa_live_control = True
             self.Standa_live_control_widget.hide()
