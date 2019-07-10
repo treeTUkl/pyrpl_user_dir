@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a57e9ed-faa2-45df-8ae7-5bf8446a8869" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml.bak" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui_control&amp;server.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_control&amp;server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lockbox/AG_Lockbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/lockbox/AG_Lockbox.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/standa_pyrpl_gui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/standa_pyrpl_gui.ui" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5">
-              <caret line="276" column="56" lean-forward="true" selection-start-line="276" selection-start-column="56" selection-end-line="276" selection-end-column="56" />
+            <state relative-caret-position="272">
+              <caret line="84" column="19" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -28,20 +26,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/spinbox.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/standa_pyrpl_gui.ui">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="355" selection-start-line="355" selection-end-line="355" />
+            <state relative-caret-position="275">
+              <caret line="18" column="10" lean-forward="true" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/paramiko/channel.py">
+        <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/pid_widget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="1186" selection-start-line="1186" selection-end-line="1186" />
+            <state relative-caret-position="374">
+              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
             </state>
           </provider>
         </entry>
@@ -49,8 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lockbox/AG_Lockbox.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="43" lean-forward="true" selection-start-line="22" selection-start-column="43" selection-end-line="22" selection-end-column="43" />
+            <state relative-caret-position="-901">
+              <caret line="22" column="43" selection-start-line="22" selection-start-column="43" selection-end-line="22" selection-end-column="43" />
               <folding>
                 <element signature="e#98#142#0" expanded="true" />
               </folding>
@@ -61,19 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/lockbox_widget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-11028">
-              <caret line="196" column="34" lean-forward="true" selection-start-line="196" selection-start-column="34" selection-end-line="196" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/models/fabryperot.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2091">
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-1921">
+              <caret line="196" column="34" selection-start-line="196" selection-start-column="34" selection-end-line="196" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -81,8 +68,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/output.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="367" selection-start-line="367" selection-end-line="367" />
+            <state relative-caret-position="654">
+              <caret line="307" column="45" selection-start-line="307" selection-start-column="45" selection-end-line="307" selection-end-column="45" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -91,9 +78,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/hardware_modules/pid.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="739">
+              <caret line="235" column="59" lean-forward="true" selection-start-line="235" selection-start-column="59" selection-end-line="235" selection-end-column="59" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/attributes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
+            <state relative-caret-position="9996">
               <caret line="612" column="63" selection-start-line="612" selection-start-column="33" selection-end-line="612" selection-end-column="63" />
             </state>
           </provider>
@@ -102,7 +101,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/pyrpl_widget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1813">
+            <state>
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -113,7 +112,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/modules.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1105">
+            <state relative-caret-position="7905">
               <caret line="474" column="85" selection-start-line="474" selection-start-column="85" selection-end-line="474" selection-end-column="85" />
             </state>
           </provider>
@@ -149,6 +148,9 @@
       <find>Standa_Connect_to_Server</find>
       <find>QApplication.processEvents()</find>
       <find>analog_filter_cutoff</find>
+      <find>self.pyrpl_Connected</find>
+      <find>pyrpl_Connected</find>
+      <find>che</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -190,18 +192,6 @@
               <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
               <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
               <item name="pyrpl_user_dir" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="pyrpl_user_dir" type="462c0819:PsiDirectoryNode" />
-              <item name="lockbox" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="pyrpl_user_dir" type="462c0819:PsiDirectoryNode" />
-              <item name="ximc" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
@@ -397,12 +387,12 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2588047" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2620064" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.31527627" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.31527627" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -446,7 +436,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>273</line>
+          <line>277</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -605,45 +595,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/pid_widget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-157">
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/hardware_modules/pid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/models/fabryperot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2091">
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/lockbox_widget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-11028">
-          <caret line="196" column="34" lean-forward="true" selection-start-line="196" selection-start-column="34" selection-end-line="196" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -661,9 +618,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/spinbox.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5967">
+          <caret line="355" selection-start-line="355" selection-end-line="355" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/attributes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9996">
+          <caret line="612" column="63" selection-start-line="612" selection-start-column="33" selection-end-line="612" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/pyrpl_widget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1813">
+        <state>
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
@@ -672,59 +643,85 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/modules.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
+        <state relative-caret-position="7905">
           <caret line="474" column="85" selection-start-line="474" selection-start-column="85" selection-end-line="474" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/paramiko/channel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="831">
+          <caret line="1186" selection-start-line="1186" selection-end-line="1186" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/pid_widget.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lockbox/AG_Lockbox.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="43" lean-forward="true" selection-start-line="22" selection-start-column="43" selection-end-line="22" selection-end-column="43" />
+        <state relative-caret-position="-901">
+          <caret line="22" column="43" selection-start-line="22" selection-start-column="43" selection-end-line="22" selection-end-column="43" />
           <folding>
             <element signature="e#98#142#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/attributes.py">
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/models/fabryperot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="612" column="63" selection-start-line="612" selection-start-column="33" selection-end-line="612" selection-end-column="63" />
+        <state>
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/spinbox.py">
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/lockbox_widget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="355" selection-start-line="355" selection-end-line="355" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/paramiko/channel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="1186" selection-start-line="1186" selection-end-line="1186" />
+        <state relative-caret-position="-1921">
+          <caret line="196" column="34" selection-start-line="196" selection-start-column="34" selection-end-line="196" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/output.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="367" selection-start-line="367" selection-end-line="367" />
+        <state relative-caret-position="654">
+          <caret line="307" column="45" selection-start-line="307" selection-start-column="45" selection-end-line="307" selection-end-column="45" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/hardware_modules/pid.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="739">
+          <caret line="235" column="59" lean-forward="true" selection-start-line="235" selection-start-column="59" selection-end-line="235" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5">
-          <caret line="276" column="56" lean-forward="true" selection-start-line="276" selection-start-column="56" selection-end-line="276" selection-end-column="56" />
+        <state relative-caret-position="272">
+          <caret line="84" column="19" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/standa_pyrpl_gui.ui">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="18" column="10" lean-forward="true" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
         </state>
       </provider>
     </entry>

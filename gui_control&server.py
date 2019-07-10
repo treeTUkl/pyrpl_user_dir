@@ -28,6 +28,7 @@ class Window(QtWidgets.QMainWindow):
         self.run_messung = False
         self.Standa_Connected = False
         self.standa_live_control = False
+        self.pyrpl_Connected =False
         self.pyrpl_p = None
         self.home()
         self.pyrpl_voltage = 0
@@ -80,16 +81,19 @@ class Window(QtWidgets.QMainWindow):
         self.Set_Motor_Settings_Button.clicked.connect(self.standa_set_settings)
         self.Microstep_mode_choos_spinBox.valueChanged.connect(self.Microstep_changed)
         self.StandaWidget.currentChanged.connect(self.standa_handling)
+        self.reverse_List_checkBox.stateChanged.connect(self.sort_list)
         self.show()
 
     def sort_list(self):
+        state = self.reverse_List_checkBox.isChecked()
         numbers = []
         for x in range(self.step_list.count()):
             numbers.append(float(self.step_list.item(x).text()))
-        numbers.sort()
+        numbers.sort(reverse=state)
         self.step_list.clear()
         for x in numbers:
             self.step_list.addItem(str(x))
+
 
     def ListFilePicker(self):
         name, _ = QFileDialog.getOpenFileName(self, 'Open File', options=QFileDialog.DontUseNativeDialog)

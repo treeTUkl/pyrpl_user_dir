@@ -43,7 +43,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;test&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Nullpunkt_controltab">
      <property name="autoFillBackground">
@@ -1325,6 +1325,24 @@
       </property>
       <property name="text">
        <string>Welcher BNC Kanal soll geloggt werden?</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="reverse_List_checkBox">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>40</y>
+        <width>81</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>reverse List</string>
       </property>
      </widget>
     </widget>
