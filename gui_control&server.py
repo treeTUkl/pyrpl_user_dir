@@ -9,7 +9,7 @@ import socket
 from pyrpl import pyrpl
 from pyrpl import sshshell
 import threading
-import paramiko
+import queue
 
 
 def isfloat(value):
@@ -252,6 +252,13 @@ class Window(QtWidgets.QMainWindow):
         self.Standa_Close_Connection_to_Server()
         sys.exit()
 
+    def readQueue(self):
+        clientprintqueue= queue.Queue()
+        if Window.clientprintqueue.empty() == False:
+            clientstatus = Window.clientprintqueue.get()
+            Window.clientprintqueue.task_done()
+            #TODo
+
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     # aus standa&pyrpl_client.py
     #    pyrplclient = client('localhost', 54545)  # pyrpl_server läuft local auf dem selben rechner.
@@ -274,7 +281,9 @@ class Window(QtWidgets.QMainWindow):
             else:
                 self.print_list.addItem("Connect to Standa_Server via:\n" + str(standa_ip) + ", " + str(standa_port))
                 self.print_list.scrollToBottom()
+
                 self.standaclient = client(standa_ip, standa_port, GUI=self)
+                self.standaclient.start()#TODO
             if self.standaclient.sock._closed == False:
                 self.Standa_Connected_check(True)
             elif self.standaclient.sock._closed == True:
@@ -506,8 +515,11 @@ class Window(QtWidgets.QMainWindow):
             self.print_list.scrollToBottom()
 
 
-class client():
+class client(threading.Thread):
+    clientsendqueue=queue.Queue()
+    clientprintqueue= queue.Queue()
     def __init__(self, host, port, GUI):
+        threading.Thread.__init__(self)
         self.sock = 0
         self.HOST = host
         self.PORT = int(port)
@@ -520,92 +532,84 @@ class client():
             # PORT = 54545
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
-                # self.sock.setblocking(0)
                 self.sock.connect((self.HOST, self.PORT))
-                self.GUI.print_list.addItem('connected to server')
-                self.GUI.Standa_Connected_check(True)
+                client.clientprintqueue.put(('printme','connected to server'))
+                client.clientprintqueue.put(('Standa_Connected_check', True))
+                threading.Thread(target=self.recv).start()
 
             except ConnectionRefusedError:
-                self.GUI.print_list.addItem('Connection Refused! Server might not ready')
+                client.clientprintqueue.put(('printme', 'Connection Refused! Server might not ready'))
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Connection Refused!')
                 msg.setText("Do you want to try again?")
                 msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
                 buttonReply = msg.exec_()
                 if buttonReply == QMessageBox.Yes:
-                    self.GUI.print_list.addItem("then, keep runnig.")
-                    self.GUI.print_list.scrollToBottom()
+                    client.clientprintqueue.put(('printme', 'then, keep runnig.'))
                     self.sock = 0
                     self.connect()
                 else:
-                    self.GUI.print_list.addItem("stopping....")
-                    self.GUI.print_list.scrollToBottom()
+                    client.clientprintqueue.put(('printme', 'stopping....'))
                     self.sock.close()
                     self.GUI.standaclient = False
                     self.GUI.Standa_Close_Connection_to_Server()
 
             except OSError:
-                self.GUI.print_list.addItem('Connection Refused! Server might not ready')
+                client.clientprintqueue.put(('printme', 'Connection Refused! Server might not ready'))
                 QMessageBox.about(self, "Connect where to?", "Standa IP is seems invalid!")
-                self.GUI.print_list.addItem("stopping....")
-                self.GUI.print_list.scrollToBottom()
+                client.clientprintqueue.put(('printme', 'stopping....'))
+                self.sock.close()
+
+    def recv(self):
+        while True:
+            try:
+                data = self.conn.recv(100)
+                data = data.decode()
+                if not data:
+                    client.clientprintqueue.put(('printme', 'nothing received.\nseems to be an error on server\nnothing '
+                                                       'received.\nseems to be an error on server\nmight need to call'
+                                                       ' close socket here?')) #TODO might need to call close socket here
+                if data[:4] == "POSS":
+                    client.clientprintqueue.put(('POSS', data))
+                elif data[:4] == "MGET":
+                    client.clientprintqueue.put(('MGET', data))
+                elif data[:4] == "MSET":
+                    client.clientprintqueue.put(('MSET', data))
+                elif data == "STOPMOVE":
+                    client.clientprintqueue.put(('printme','STOPMOVE'))
+                elif data == "close":
+                    client.clientprintqueue.put(('printme', 'server client called close!'))
+                    self.sock.close()
+                else:
+                    client.clientprintqueue.put(('printme', data))
+
+            except socket.error:
+                client.clientprintqueue.put(('printme', 'Error Occured.->closing socket'))
                 self.sock.close()
 
 
     def send(self, message):
         if self.sock == 0 or self.sock._closed == True:
-            self.GUI.print_list.addItem('no socked, try connect first..')
+            client.clientprintqueue.put(('printme', 'no socked, try connect first..'))
         else:
             # Send data
-            if message == "STOPMOVE":
-                pass
-            else:
-                self.GUI.print_list.addItem('sending:' + message)
+            client.clientprintqueue.put(('printme', 'sending:' + message))
             try:
-                #
-                if message == " ":
-                    self.GUI.print_list.addItem('nothing received.\nseems to be an error on server')
-                    self.GUI.print_list.scrollToBottom()
-                    self.sock.close()
-
-                elif message == "close":
-                    self.GUI.print_list.addItem('\nclosing socket')
-                    self.GUI.print_list.scrollToBottom()
+                if message == "close":
+                    client.clientprintqueue.put(('printme', 'closing socket'))
                     message = message.encode()
                     self.sock.sendall(message)
                     self.sock.close()
-
                 else:
                     message = message.encode()
                     self.sock.sendall(message)#TODO  add case for timeout from server??
-                    QApplication.processEvents()
-                    message = message.decode()
-                    data = self.sock.recv(100)#
-                    data = data.decode()
-                    if message == "POSS":
-                        result = data.split(', ')
-                        self.GUI.Pos_Number.display(result[0])
-                        self.GUI.uPos_Number.display(result[1])
-                    elif message == "MGET":
-                        return data
-                    elif message[:4] == "MSET":
-                        return data
-                    elif message == "STOPMOVE":
-                        pass
-                    else:
-                        self.GUI.print_list.addItem('received: ' + data)
-                        self.GUI.print_list.scrollToBottom()
-                    return data
 
             except (ConnectionAbortedError, EOFError):
-                self.GUI.print_list.addItem('seems to be an error on server')
-                self.GUI.print_list.addItem('\nclosing socket')
-                self.GUI.print_list.scrollToBottom()
+                client.clientprintqueue.put(('printme', 'Sending Error: seems to be an error on server->closing socket'))
                 self.sock.close()
 
     def close(self):
-        self.GUI.print_list.addItem('closing socket')
-        self.GUI.print_list.scrollToBottom()
+        client.clientprintqueue.put(('printme', 'closing socket'))
         self.send("close")
 
 
