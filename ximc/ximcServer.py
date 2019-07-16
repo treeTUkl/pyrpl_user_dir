@@ -58,10 +58,10 @@ while connection:
                 POS = POS + str(stage.position["position_current_Steps"]) + ", " + str(
                     stage.position["position_current_uSteps"])
                 POS = POS.encode()
-                print('got ' + data[:4] + 'send data back to the client')
+                print('got ' + data[:4] + ' send data back to the client')
                 connection.sendall(POS)
             else:
-                print('got ' + data[:3] + 'send data back to the client')
+                print('got ' + data[:3] + ' send data back to the client')
                 POS = stage.POS
                 print('pos in as: ' + str(POS))
                 print('sending data back to the client')
@@ -89,7 +89,7 @@ while connection:
             ("GPIOFlags", c_uint),
             ("CmdBufFreeSpace", c_uint),
             """
-            print('got ' + data[:] + 'send data back to the client')
+            print('got ' + data[:] + ' send data back to the client')
             result = stage.Standa_Status()
             POS = str(data[:]) + ", "
             POS = POS + "MoveSts" + "-> " + str(result.MoveSts) + ", "
@@ -103,7 +103,7 @@ while connection:
                 result = data[4:].split(', ')
                 print('MOVV ' + str(result[0]) + ', ' + str(result[1]))
                 stage.move_absolute_in_steps(int(result[0]), int(result[1]))
-                print('got ' + data[:4] + 'send data back to the client')
+                print('got ' + data[:4] + ' send data back to the client')
                 POS = data[:4]
                 POS = POS.encode()
                 connection.sendall(POS)
@@ -111,7 +111,7 @@ while connection:
                 new_position_in_as = float(data[3:])
                 print('MOV' + str(new_position_in_as))
                 stage.move_absolute_in_as(new_position_in_as)
-                print('got ' + data[:3] + 'send data back to the client')
+                print('got ' + data[:3] + ' send data back to the client')
                 POS = data[:3]
                 POS = POS.encode()
                 connection.sendall(POS)
@@ -121,7 +121,7 @@ while connection:
                 result = data[4:].split(', ')
                 print(data[:4] + ' ' + str(result[0]) + ', ' + str(result[1]))
                 stage.move_relative_in_steps(int(result[0]), int(result[1]))
-                print('got ' + data[:4] + 'send data back to the client')
+                print('got ' + data[:4] + ' send data back to the client')
                 POS = data[:4]
                 POS = POS.encode()
                 connection.sendall(POS)
@@ -129,7 +129,7 @@ while connection:
                 new_position_in_as = float(data[3:])
                 print('MVR: ' + str(new_position_in_as))
                 stage.move_relative_in_as(new_position_in_as)
-                print('got ' + data[:3] + 'send data back to the client')
+                print('got ' + data[:3] + ' send data back to the client')
                 POS = data[:3]
                 POS = POS.encode()
                 connection.sendall(POS)
@@ -137,7 +137,7 @@ while connection:
         elif data[:3] == "GOH":
             print('GOH')
             stage.go_home()
-            print('got ' + data[:3] + 'send data back to the client')
+            print('got ' + data[:3] + ' send data back to the client')
             POS = data[:3]
             POS = POS.encode()
             connection.sendall(POS)
@@ -145,7 +145,7 @@ while connection:
         elif data[:3] == "DEH":
             print('DEH')
             stage.set_zero_position()
-            print('got ' + data[:3] + 'send data back to the client')
+            print('got ' + data[:3] + ' send data back to the client')
             POS = data[:3]
             POS = POS.encode()
             connection.sendall(POS)
@@ -154,7 +154,7 @@ while connection:
             print('SDN')
             stage.in_case_terra_sends_SDN()
             POS = stage.POS
-            print('got ' + data[:3] + 'send data back to the client')
+            print('got ' + data[:3] + ' send data back to the client')
             POS = data[:3]
             POS = POS.encode()
             connection.sendall(POS)
@@ -169,26 +169,26 @@ while connection:
         elif data[:] == "LMOVE":
             stage.move_left()
             POS = "LMOVE"
-            print('got ' + data[:] + 'send data back to the client')
+            print('got ' + data[:] + ' send data back to the client')
             POS = POS.encode()
             connection.sendall(POS)
 
         elif data[:] == "RMOVE":
             stage.move_right()
             POS = "RMOVE"
-            print('got ' + data[:] + 'send data back to the client')
+            print('got ' + data[:] + ' send data back to the client')
             POS = POS.encode()
             connection.sendall(POS)
 
         elif data[:] == "STOPMOVE":
             stage.stop_move()
             POS = "STOPMOVE"
-            print('got ' + data[:] + 'send data back to the client')
+            print('got ' + data[:] + ' send data back to the client')
             POS = POS.encode()
             connection.sendall(POS)
         elif data[:] == "STOPFAST":
             POS = stage.fast_stop()
-            print('got ' + data[:] + 'send data back to the client')
+            print('got ' + data[:] + ' send data back to the client')
             POS = data[:] + POS
             POS = POS.encode()
             connection.sendall(POS)
@@ -199,7 +199,7 @@ while connection:
         #     stage.position_get()
         #     POS = POS + str(stage.position["position_current_Steps"]) + ", " + str(stage.position["position_current_uSteps"])
         #     POS = POS.encode()
-        #     print('sending data back to the client')
+        #     print(' sending data back to the client')
         #     connection.sendall(POS)
 
         elif data[:4] == "MSET":
@@ -208,8 +208,7 @@ while connection:
             result = stage.Standa_set_settings(int(MSET[1]), int(MSET[2]), int(MSET[3]), int(MSET[4]))
             POS ="MSET" + ", " + result
             POS = POS.encode()
-            print('got ' + str(data[:]) + 'send data back to the client')
-            print('sending data back to the client')
+            print('got ' + str(data[:]) + ' send data back to the client')
             connection.sendall(POS)
 
         elif data[:4] == "MGET":
@@ -230,7 +229,7 @@ while connection:
             result = stage.Standa_get_engine_settings()
             POS = POS + "MicroStepMode" + "-> " + str(result.MicrostepMode)
             POS = POS.encode()
-            print('sending data back to the client')
+            print(' sending data back to the client')
             connection.sendall(POS)
 
         else:
