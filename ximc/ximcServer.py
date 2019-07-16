@@ -51,7 +51,6 @@ while connection:
 
         data = data.decode('utf-8')  # might not needed if data ist already in string format
         print('\nreceived "%s"' % data)
-        # data=data[2:]
         if data[:3] == "POS":
             if data[:] == "POSS":
                 POS = "POSS" + ", "
@@ -59,67 +58,95 @@ while connection:
                 POS = POS + str(stage.position["position_current_Steps"]) + ", " + str(
                     stage.position["position_current_uSteps"])
                 POS = POS.encode()
-                print('sending data back to the client')
+                print('got ' + data[:4] + 'send data back to the client')
                 connection.sendall(POS)
             else:
-                print('POS')
+                print('got ' + data[:3] + 'send data back to the client')
                 POS = stage.POS
                 print('pos in as: ' + str(POS))
                 print('sending data back to the client')
-                POS = "POSS" + ", " + str(POS)
+                POS = "POS" + ", " + str(POS)
                 POS = POS.encode()
                 connection.sendall(POS)
+        if data[:] == "STATE":
+            """
+            ("MoveSts", c_uint),
+            ("MvCmdSts", c_uint),
+            ("PWRSts", c_uint),
+            ("EncSts", c_uint),
+            ("WindSts", c_uint),
+            ("CurPosition", c_int),
+            ("uCurPosition", c_int),
+            ("EncPosition", c_longlong),
+            ("CurSpeed", c_int),
+            ("uCurSpeed", c_int),
+            ("Ipwr", c_int),
+            ("Upwr", c_int),
+            ("Iusb", c_int),
+            ("Uusb", c_int),
+            ("CurT", c_int),
+            ("Flags", c_uint),
+            ("GPIOFlags", c_uint),
+            ("CmdBufFreeSpace", c_uint),
+            """
+            print('got ' + data[:] + 'send data back to the client')
+            result = stage.Standa_Status()
+            POS = str(data[:]) + ", "
+            POS = POS + "MoveSts" + "-> " + str(result.MoveSts) + ", "
+            POS = POS + "CurSpeed" + "-> " + str(result.CurSpeed) + ", "
+            POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed)
+            POS = POS.encode()
+            connection.sendall(POS)
 
         elif data[:3] == "MOV":
             if data[:4] == "MOVV":
                 result = data[4:].split(', ')
                 print('MOVV ' + str(result[0]) + ', ' + str(result[1]))
                 stage.move_absolute_in_steps(int(result[0]), int(result[1]))
-                POS = stage.POS
-                print('pos in as: ' + str(POS))
-                print('sending data back to the client')
-                POS = "POSS" + ", " + str(POS)
+                print('got ' + data[:4] + 'send data back to the client')
+                POS = data[:4]
                 POS = POS.encode()
                 connection.sendall(POS)
             else:
                 new_position_in_as = float(data[3:])
                 print('MOV' + str(new_position_in_as))
                 stage.move_absolute_in_as(new_position_in_as)
-                POS = stage.POS
-                print('pos in as: ' + str(POS))
-                print('sending data back to the client')
-                POS = "POSS" + ", " + str(POS)
+                print('got ' + data[:3] + 'send data back to the client')
+                POS = data[:3]
                 POS = POS.encode()
                 connection.sendall(POS)
 
         elif data[:3] == "MVR":
-            new_position_in_as = float(data[3:])
-            print('MVR: ' + str(new_position_in_as))
-            stage.move_relative_in_as(new_position_in_as)
-            POS = stage.POS
-            print('pos in as: ' + str(POS))
-            print('sending data back to the client')
-            POS = "POSS" + ", " + str(POS)
-            POS = POS.encode()
-            connection.sendall(POS)
+            if data[:4] == "MVRR":
+                result = data[4:].split(', ')
+                print(data[:4] + ' ' + str(result[0]) + ', ' + str(result[1]))
+                stage.move_relative_in_steps(int(result[0]), int(result[1]))
+                print('got ' + data[:4] + 'send data back to the client')
+                POS = data[:4]
+                POS = POS.encode()
+                connection.sendall(POS)
+            else:
+                new_position_in_as = float(data[3:])
+                print('MVR: ' + str(new_position_in_as))
+                stage.move_relative_in_as(new_position_in_as)
+                print('got ' + data[:3] + 'send data back to the client')
+                POS = data[:3]
+                POS = POS.encode()
+                connection.sendall(POS)
 
         elif data[:3] == "GOH":
             print('GOH')
             stage.go_home()
-            POS = stage.POS
-            print('pos in as: ' + str(POS))
-            print('sending data back to the client')
-            POS = "POSS" + ", " + str(POS)
+            print('got ' + data[:3] + 'send data back to the client')
+            POS = data[:3]
             POS = POS.encode()
             connection.sendall(POS)
 
         elif data[:3] == "DEH":
             print('DEH')
             stage.set_zero_position()
-            POS = stage.POS
-            print('pos in as: ' + str(POS))
-            print('sending data back to the client')
-            POS = "POSS" + ", " + str(POS)
+            print('got ' + data[:3] + 'send data back to the client')
+            POS = data[:3]
             POS = POS.encode()
             connection.sendall(POS)
 
@@ -127,9 +154,8 @@ while connection:
             print('SDN')
             stage.in_case_terra_sends_SDN()
             POS = stage.POS
-            print('pos in as: ' + str(POS))
-            print('sending data back to the client')
-            POS = "POSS" + ", " + str(POS)
+            print('got ' + data[:3] + 'send data back to the client')
+            POS = data[:3]
             POS = POS.encode()
             connection.sendall(POS)
 
@@ -143,28 +169,28 @@ while connection:
         elif data[:] == "LMOVE":
             stage.move_left()
             POS = "LMOVE"
+            print('got ' + data[:] + 'send data back to the client')
             POS = POS.encode()
-            print('sending data back to the client')
             connection.sendall(POS)
 
         elif data[:] == "RMOVE":
             stage.move_right()
             POS = "RMOVE"
+            print('got ' + data[:] + 'send data back to the client')
             POS = POS.encode()
-            print('sending data back to the client')
             connection.sendall(POS)
 
         elif data[:] == "STOPMOVE":
             stage.stop_move()
             POS = "STOPMOVE"
+            print('got ' + data[:] + 'send data back to the client')
             POS = POS.encode()
-            print('sending data back to the client')
             connection.sendall(POS)
         elif data[:] == "STOPFAST":
-            POS = "POSS" + ", "
             POS = stage.fast_stop()
+            print('got ' + data[:] + 'send data back to the client')
+            POS = data[:] + POS
             POS = POS.encode()
-            print('sending data back to the client')
             connection.sendall(POS)
         #########################################################
         # gui control stuff
@@ -177,11 +203,12 @@ while connection:
         #     connection.sendall(POS)
 
         elif data[:4] == "MSET":
-            POS = "MSET" + ", "
+
             MSET = data[4:].split(', ')
             result = stage.Standa_set_settings(int(MSET[1]), int(MSET[2]), int(MSET[3]), int(MSET[4]))
-            POS = result
+            POS ="MSET" + ", " + result
             POS = POS.encode()
+            print('got ' + str(data[:]) + 'send data back to the client')
             print('sending data back to the client')
             connection.sendall(POS)
 

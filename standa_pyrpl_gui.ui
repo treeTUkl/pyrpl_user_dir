@@ -533,6 +533,24 @@
          <string>Position</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="move_relative_Button_2">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>50</y>
+          <width>81</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>MS Shell Dlg 2</family>
+         </font>
+        </property>
+        <property name="text">
+         <string>move relative</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="Settings_tab">
        <attribute name="title">
@@ -789,9 +807,9 @@
      <widget class="QWidget" name="Standa_live_control_widget" native="true">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>50</x>
         <y>170</y>
-        <width>531</width>
+        <width>571</width>
         <height>281</height>
        </rect>
       </property>
@@ -1373,6 +1391,44 @@
       <width>261</width>
       <height>91</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>560</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {}
+
+QRadioButton::indicator {
+    width:                 20px;
+    height:                 20px;
+    border-radius:         12px;
+}
+
+QRadioButton::indicator:checked {
+    background-color:       green;
+    border:                 2px solid white;
+}
+
+QRadioButton::indicator:unchecked {
+    background-color:      white;
+    border:                 2px solid white;
+}</string>
+    </property>
+    <property name="text">
+     <string>Standa moving</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>

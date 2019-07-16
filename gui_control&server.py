@@ -28,10 +28,13 @@ class Window(QtWidgets.QMainWindow):
         self.run_messung = False
         self.Standa_Connected = False
         self.standa_live_control = False
-        self.pyrpl_Connected =False
+        self.pyrpl_Connected = False
         self.pyrpl_p = None
-        self.home()
         self.pyrpl_voltage = 0
+        self.windowprintqueue = queue.Queue()
+        self.messung_pos=0
+        self.standa_moving = False
+        self.home()
 
     def home(self):
         extractAction = QAction('&Get to the choppah', self)
@@ -55,7 +58,6 @@ class Window(QtWidgets.QMainWindow):
         self.Save_list_Button.clicked.connect(self.ListFileSaver)
         self.select_file_Button.clicked.connect(self.Ac_File_Picker)
         self.Sort_list_Button.clicked.connect(self.sort_list)
-
 
         mainMenu = self.menuBar()
         fileMenu = mainMenu.addMenu('&Test')
@@ -82,6 +84,7 @@ class Window(QtWidgets.QMainWindow):
         self.Microstep_mode_choos_spinBox.valueChanged.connect(self.Microstep_changed)
         self.StandaWidget.currentChanged.connect(self.standa_handling)
         self.reverse_List_checkBox.stateChanged.connect(self.sort_list)
+        self.move_relative_Button_2.clicked.connect(self.standa_move_relative)  # TODO
         self.show()
 
     def sort_list(self):
@@ -93,7 +96,6 @@ class Window(QtWidgets.QMainWindow):
         self.step_list.clear()
         for x in numbers:
             self.step_list.addItem(str(x))
-
 
     def ListFilePicker(self):
         name, _ = QFileDialog.getOpenFileName(self, 'Open File', options=QFileDialog.DontUseNativeDialog)
@@ -147,6 +149,15 @@ class Window(QtWidgets.QMainWindow):
         self.run_messung = True
         self.messung()
 
+    def standa_moving_Check(self, bool=None):
+        if bool is None:
+            return self.standa_moving
+        elif bool is True:
+            self.standa_moving_Check_radioButton.animateClick()
+            self.standa_moving = True
+        elif bool is False:
+            self.standa_moving = False
+
     def messung(self):
         name = self.filePath_Edit.text()
         if name == "":
@@ -167,21 +178,40 @@ class Window(QtWidgets.QMainWindow):
                         if self.run_messung:
                             xitem = self.step_list.item(self.x).text()
                             step = 'MOV' + xitem
-                            standa_result = self.standaclient.send(step)  # TODO ist der Rückgabewert in as Korrekt?
+                            client.clientsendqueue.put(('send', str(step)))  # TODO  bisher gibts kein send queue
+                            self.standa_moving = True
+                            counter = 0
+                            while self.standa_moving:
+                                if counter == 500:
+                                    client.clientsendqueue.put(('send', 'STATE'))
+                                    counter = 0
+                                    QApplication.processEvents()
+                                elif counter == 250:
+                                    client.clientsendqueue.put(('send', 'POS'))
+                                    QApplication.processEvents()
+
+                                counter = counter + 1
+
+                                if self.standa_moving_Check() == False:
+                                    client.clientsendqueue.put(('send', 'POS'))
+                                    break
+
+                            standa_result = self.messung_pos  # TODO ist der Rückgabewert in as Korrekt?
+
+                            self.standa_moving = False
                             self.completed += self.complete
                             self.progressBar.setValue(self.completed)
-                            self.print_list.addItem('POS' + standa_result)
-                            self.print_list.scrollToBottom()
+                            Window.windowprintqueue.put(('printme', 'POS' + standa_result))
                             QApplication.processEvents()
                             if self.ac_messung:
                                 if input == 1:
                                     self.pyrpl_voltage = self.pyrpl_p.rp.scope.voltage_in1
-                                elif input==2:
+                                elif input == 2:
                                     self.pyrpl_voltage = self.pyrpl_p.rp.scope.voltage_in2
                                 else:
-                                    pyrpl_result = random.random()
-                                    self.print_list.addItem(str('No pyrpl input generating randoms'))
-                                pyrpl_result=self.pyrpl_voltage
+                                    self.pyrpl_result = random.random()
+                                    Window.windowprintqueue.put(('printme', 'No pyrpl input generating randoms'))
+                                pyrpl_result = self.pyrpl_voltage
                                 text = str(standa_result) + str('\t') + str('\t') + str(pyrpl_result)
                                 text = text + str('\n')
                                 if not name == "":
@@ -196,8 +226,7 @@ class Window(QtWidgets.QMainWindow):
                                         file.write(text)
 
                         else:
-                            self.print_list.addItem(str('Canceled'))
-                            self.print_list.scrollToBottom()
+                            Window.windowprintqueue.put(('printme', 'Messung Canceled'))
                             self.progressBar.setValue(0)
                             text = str('\n') + 'Messung Canceled\n'
                             self.standa_live_control = False
@@ -207,16 +236,14 @@ class Window(QtWidgets.QMainWindow):
             else:
                 QMessageBox.about(self, "No active Pyrpl", "Connect to Pyrpl first!")
                 self.progressBar.setValue(0)
-                self.print_list.addItem(str('Connect to Pyrpl first!'))
-                self.print_list.addItem('pyrpl_Connected is ' + str(self.pyrpl_Connected))
-                self.print_list.scrollToBottom()
+                Window.windowprintqueue.put(
+                    ('printme', 'Connect to Standa first\nStanda_Connected is ' + str(self.Standa_Connected)))
 
         else:
             QMessageBox.about(self, "No Standa Server", "Connect to Standa first!")
             self.progressBar.setValue(0)
-            self.print_list.addItem(str('Connect to Standa first'))
-            self.print_list.addItem('Standa_Connected is ' + str(self.Standa_Connected))
-            self.print_list.scrollToBottom()
+            Window.windowprintqueue.put(
+                ('printme', 'Connect to Standa first\nStanda_Connected is ' + str(self.Standa_Connected)))
 
         if not name == "":
             file.close()
@@ -253,11 +280,172 @@ class Window(QtWidgets.QMainWindow):
         sys.exit()
 
     def readQueue(self):
-        clientprintqueue= queue.Queue()
-        if Window.clientprintqueue.empty() == False:
-            clientstatus = Window.clientprintqueue.get()
-            Window.clientprintqueue.task_done()
-            #TODo
+        if client.clientprintqueue.empty() == False:
+            clientstatus = client.clientprintqueue.get()
+            client.clientprintqueue.task_done()
+            if clientstatus[0] == "printme":
+                string = str(clientstatus[1])
+                self.print_list.addItem(string)
+                self.print_list.scrollToBottom()
+            elif clientstatus[0] == "Standa_Connected_check":
+                mybool = bool(clientstatus[1])
+                self.Standa_Connected_check(mybool)
+            elif clientstatus[0] == "MOV":
+                self.print_list.addItem('Moving via MOV')
+                self.print_list.scrollToBottom()
+                self.standa_moving_Check(True)
+                counter = 0
+                while self.standa_moving_Check():
+                    if counter == 500:
+                        client.clientsendqueue.put(('send', 'STATE'))
+                        counter = 0
+                        QApplication.processEvents()
+                    elif counter == 250:
+                        client.clientsendqueue.put(('send', 'POSS'))
+                        QApplication.processEvents()
+
+                    counter = counter + 1
+
+                    if self.standa_moving_Check() == False:
+                        client.clientsendqueue.put(('send', 'POSS'))
+                        break
+            elif clientstatus[0] == "MOVV":
+                self.print_list.addItem('Moving via MOVV')
+                self.print_list.scrollToBottom()
+                self.standa_moving = True
+                counter = 0
+                while self.standa_moving:
+                    if counter == 500:
+                        client.clientsendqueue.put(('send', 'STATE'))
+                        counter = 0
+                        QApplication.processEvents()
+                    elif counter == 250:
+                        client.clientsendqueue.put(('send', 'POSS'))
+                        QApplication.processEvents()
+
+                    counter = counter + 1
+
+                    if self.standa_moving_Check() == False:
+                        client.clientsendqueue.put(('send', 'POSS'))
+                        break
+
+            elif clientstatus[0] == "LMOVE":
+                self.print_list.addItem('Moving via LMOVE')
+                self.print_list.scrollToBottom()
+                self.standa_moving_Check(True)
+            elif clientstatus[0] == "RMOVE":
+                self.print_list.addItem('Moving via RMOVE')
+                self.print_list.scrollToBottom()
+                self.standa_moving_Check(True)
+            elif clientstatus[0] == "SDN":
+                self.print_list.addItem('Got SDN')
+                self.print_list.scrollToBottom()
+            elif clientstatus[0] == "DEH":
+                self.print_list.addItem('Got DEH')
+                self.print_list.scrollToBottom()
+                client.clientsendqueue.put(('send', 'POSS'))
+            elif clientstatus[0] == "MVR":
+                self.print_list.addItem('Moving via MVR')
+                self.print_list.scrollToBottom()
+                self.standa_moving = True
+                counter = 0
+                while self.standa_moving:
+                    if counter == 500:
+                        client.clientsendqueue.put(('send', 'STATE'))
+                        counter = 0
+                        QApplication.processEvents()
+                    elif counter == 250:
+                        client.clientsendqueue.put(('send', 'POSS'))
+                        QApplication.processEvents()
+
+                    counter = counter + 1
+
+                    if self.standa_moving_Check() == False:
+                        client.clientsendqueue.put(('send', 'POSS'))
+                        break
+
+            elif clientstatus[0] == "MVRR":
+                self.print_list.addItem('Moving via MVRR')
+                self.print_list.scrollToBottom()
+                self.standa_moving_Check(True)
+                counter = 0
+                while self.standa_moving_Check():
+                    if counter == 500:
+                        client.clientsendqueue.put(('send', 'STATE'))
+                        counter = 0
+                        QApplication.processEvents()
+                    elif counter == 250:
+                        client.clientsendqueue.put(('send', 'POSS'))
+                        QApplication.processEvents()
+
+                    counter = counter + 1
+
+                    if self.standa_moving_Check() == False:
+                        client.clientsendqueue.put(('send', 'POSS'))
+                        break
+
+            elif clientstatus[0] == "STOPMOVE":
+                while self.standa_moving_Check():
+                    client.clientsendqueue.put(('send', 'STATE'))
+                    if self.standa_moving_Check() == False:
+                        break
+                self.print_list.addItem('STATE: ' + clientstatus[1])
+                self.print_list.scrollToBottom()
+
+
+            elif clientstatus[0] == "STATE":
+                states = clientstatus[1].split(", ")
+                MoveSts = states[1].split("-> ")
+                MoveSts = MoveSts[1]
+                CurSpeed = states[2].split("-> ")
+                CurSpeed = CurSpeed[1]
+                uCurSpeed = states[3].split("-> ")
+                uCurSpeed = uCurSpeed[3]
+                if CurSpeed != "0" or uCurSpeed != "0" or MoveSts != "0":
+                    self.standa_moving_Check(False)
+                else:
+                    self.standa_moving_Check(True)
+                self.print_list.addItem('STATE: ' + clientstatus[1])
+                self.print_list.scrollToBottom()
+            elif clientstatus[0] == "POS":
+                result = clientstatus[1]
+                self.messung_pos = result
+            elif clientstatus[0] == "POSS":
+                result = clientstatus[1].split(', ')
+                self.Pos_Number.display(result[0])
+                self.uPos_Number.display(result[1])
+            elif clientstatus[0] == "close":
+                self.print_list.addItem('this is odd\nserver sended "close"\nso... closing socket')
+                self.print_list.scrollToBottom()
+            elif clientstatus[0] == "received":
+                self.print_list.addItem('received: ' + clientstatus[1])
+                self.print_list.scrollToBottom()
+            elif clientstatus[0] == "MGET":
+                result = clientstatus[1].split(", ")
+                self.get_standa_settings_listWidget.clear()
+                for each in result:
+                    self.get_standa_settings_listWidget.addItem(str(each) + "\n")
+                MicrosetpValue = result[3]
+                MicrosetpValue = MicrosetpValue[len(MicrosetpValue) - 1:len(MicrosetpValue)]
+                self.Microstep_mode_choos_spinBox.setValue(int(MicrosetpValue))
+                self.print_list.scrollToBottom()
+            elif clientstatus[0] == "MSET":
+                if clientstatus[1] == "Standa_set_settings worked":
+                    self.print_list.addItem(str(clientstatus[1]))
+                    self.print_list.scrollToBottom()
+                    self.standa_get_settings()
+                else:
+                    self.get_standa_settings_listWidget.clear()
+                    self.get_standa_settings_listWidget.addItem("Set Settings went wrong!")
+
+        if Window.windowprintqueue.empty() == False:
+            windowstatus = Window.windowprintqueue.empty()
+            Window.windowprintqueue.empty().task_done()
+            if windowstatus[0] == "printme":
+                string = str(clientstatus[1])
+                self.print_list.addItem(string)
+                self.print_list.scrollToBottom()
+
 
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     # aus standa&pyrpl_client.py
@@ -279,11 +467,11 @@ class Window(QtWidgets.QMainWindow):
                 self.Standa_Connected_check(False)
                 return False
             else:
-                self.print_list.addItem("Connect to Standa_Server via:\n" + str(standa_ip) + ", " + str(standa_port))
-                self.print_list.scrollToBottom()
+                self.windowprintqueue.put(
+                    ('printme', "Connect to Standa_Server via:\n" + str(standa_ip) + ", " + str(standa_port)))
 
                 self.standaclient = client(standa_ip, standa_port, GUI=self)
-                self.standaclient.start()#TODO
+                self.standaclient.start()  # TODO
             if self.standaclient.sock._closed == False:
                 self.Standa_Connected_check(True)
             elif self.standaclient.sock._closed == True:
@@ -291,6 +479,7 @@ class Window(QtWidgets.QMainWindow):
 
             if self.standa_check():
                 self.standa_pos()
+
 
     def Standa_Connected_check(self, bool=None):
         if bool is None:
@@ -305,6 +494,7 @@ class Window(QtWidgets.QMainWindow):
             self.Standa_Connected_label.setAutoFillBackground(False)
             self.standa_live_control = False
 
+
     def Standa_Close_Connection_to_Server(self):
         if not self.standaclient == False:
             self.standa_live_control_stop()
@@ -315,6 +505,7 @@ class Window(QtWidgets.QMainWindow):
         elif self.Standa_Connected == True:
             self.Standa_Connected_check(True)
 
+
     def standa_check(self):
         if self.Standa_Connected_check():
             if not self.standaclient == False:
@@ -324,15 +515,17 @@ class Window(QtWidgets.QMainWindow):
         else:
             return False
 
-    def standa_live_control_start(self):#TODO the live control should be running in an thread
+
+    def standa_live_control_start(self):  # TODO the live control should be running in an thread
         if self.standa_check():
             self.standa_live_control = True
             self.Standa_live_control_widget.hide()
-        if self.StandaWidget.currentIndex()==0:
+        if self.StandaWidget.currentIndex() == 0:
             self.standa_handling()
 
+
     def standa_handling(self):
-        while self.standa_live_control & self.StandaWidget.currentIndex()==0:
+        while self.standa_live_control & self.StandaWidget.currentIndex() == 0:
             QApplication.processEvents()
             self.standa_pos()
             QApplication.processEvents()
@@ -340,78 +533,67 @@ class Window(QtWidgets.QMainWindow):
                 self.standa_live_control_stop()
                 break
             if self.StandaWidget.currentIndex() == 1:
-                self.standaclient.send("STOPMOVE")
+                client.clientsendqueue.put(('STOPMOVE', ''))
                 break
+
+
+    def standa_move_relative(self):
+        if self.standa_check():
+            client.clientsendqueue.put(('MVRR', str(self.Pos_spinBox.value()) + ', ' + str(self.uPos_spinBox.value())))
+
 
     def standa_live_control_stop(self):
         if self.standa_check():
-            result = self.standaclient.send("STOPMOVE")
-            self.print_list.addItem(str(result))
+            client.clientsendqueue.put(('STOPMOVE', ''))
             self.Standa_live_control_widget.show()
             self.Pos_Number.display('NaN')
             self.uPos_Number.display('NaN')
             self.standa_live_control = False
 
+
     def standa_pos(self):
         if self.standa_check():
-            result = self.standaclient.send("POSS")
-            self.print_list.addItem(str(result))
-            self.print_list.scrollToBottom()
-
+            client.clientsendqueue.put(('POSS', ''))
         else:
             self.Pos_Number.display('NaN')
             self.uPos_Number.display('NaN')
 
+
     def standa_right(self):
         if self.standa_check() & self.standa_live_control:
-            result = self.standaclient.send("RMOVE")
-            self.print_list.addItem(str(result))
-            self.print_list.scrollToBottom()
+            client.clientsendqueue.put(('RMOVE', ''))
+
 
     def standa_left(self):
         if self.standa_check() & self.standa_live_control:
-            result = self.standaclient.send("LMOVE")
-            self.print_list.addItem(str(result))
-            self.print_list.scrollToBottom()
+            client.clientsendqueue.put(('LMOVE', ''))
+
 
     def standa_stop(self):
         if self.standa_check() & self.standa_live_control:
-            result = self.standaclient.send("STOPMOVE")
-            self.print_list.addItem(str(result))
-            self.print_list.scrollToBottom()
+            client.clientsendqueue.put(('STOPMOVE', ''))
+
 
     def standa_move_to(self):
         if self.standa_check() & self.standa_live_control:
-            result = self.standaclient.send(
-                'MOVV' + str(self.Pos_spinBox.value()) + ', ' + str(self.uPos_spinBox.value()))
-            self.print_list.addItem(str(result))
-            self.print_list.scrollToBottom()
+            client.clientsendqueue.put(('MOV', str(self.Pos_spinBox.value()) + ', ' + str(self.uPos_spinBox.value())))
+
 
     def standa_go_home(self):
         if self.standa_check() & self.standa_live_control:
-            # result = self.standaclient.send("GOH")
-            result = self.standaclient.send('MOV00')
-            self.print_list.addItem(str(result))
-            self.print_list.scrollToBottom()
+            client.clientsendqueue.put(('MOV', "0" + ', ' + "0"))
+
 
     def standa_set_home(self):
         if self.standa_check() & self.standa_live_control:
-            result = self.standaclient.send("DEH")
-            self.print_list.addItem(str(result))
-            self.print_list.scrollToBottom()
+            client.clientsendqueue.put(('DEH', ''))
+
 
     def standa_get_settings(self):
         if self.standa_check() & self.standa_live_control:
             self.standa_stop()
-            result = self.standaclient.send("MGET")
-            result = result.split(", ")
-            self.get_standa_settings_listWidget.clear()
-            for each in result:
-                self.get_standa_settings_listWidget.addItem(str(each) + "\n")
-            MicrosetpValue= result[3]
-            MicrosetpValue=MicrosetpValue[len(MicrosetpValue)-1:len(MicrosetpValue)]
-            self.Microstep_mode_choos_spinBox.setValue(int(MicrosetpValue))
-            self.print_list.scrollToBottom()
+            client.clientsendqueue.put(('MGET', ''))
+
 
     def standa_set_settings(self):
         if self.standa_check() & self.standa_live_control:
@@ -421,20 +603,12 @@ class Window(QtWidgets.QMainWindow):
             send = send + ", " + str(self.Acceleration_spinBox.value())
             send = send + ", " + str(self.Deceleration_spinBox.value())
             send = send + ", " + str(self.Microstep_mode_choos_spinBox.value())
+            client.clientsendqueue.put(('MSET', send))
+            self.standa_get_settings()
 
-            result = self.standaclient.send(send)
-
-            if result =="Standa_set_settings worked":
-                self.print_list.addItem(str(result))
-                self.print_list.scrollToBottom()
-                self.standa_get_settings()
-            else:
-                self.get_standa_settings_listWidget.clear()
-                self.get_standa_settings_listWidget.addItem("Set Settings went wrong!")
-            self.print_list.scrollToBottom()
 
     def Microstep_changed(self):
-        MicrosetpValue= (2**self.Microstep_mode_choos_spinBox.value())/2
+        MicrosetpValue = (2 ** self.Microstep_mode_choos_spinBox.value()) / 2
         self.Microstep_mode_choos_LineEdit.setText(str(int(MicrosetpValue)))
 
 
@@ -443,18 +617,18 @@ class Window(QtWidgets.QMainWindow):
 
     def pyrpl_prozess_fn(self):
         if self.pyrpl_Connected:
-            self.print_list.addItem('pyrpl Voltage')
-            self.print_list.scrollToBottom()
+            Window.windowprintqueue.put(('printme', 'pyrpl Voltage'))
             self.pyrpl_voltage = self.pyrpl_p.rp.scope.voltage_in1
-            self.print_list.addItem('pyrpl Voltage1: ' + str(self.pyrpl_voltage))
+            Window.windowprintqueue.put(('printme', 'pyrpl Voltage1: ' + str(self.pyrpl_voltage)))
             self.Volt1.display(self.pyrpl_voltage)
             self.pyrpl_voltage = self.pyrpl_p.rp.scope.voltage_in2
-            self.print_list.addItem('pyrpl Voltage2: ' + str(self.pyrpl_voltage))
+            Window.windowprintqueue.put(('printme', 'pyrpl Voltage2: ' + str(self.pyrpl_voltage)))
             self.Volt2.display(self.pyrpl_voltage)
             if not self.pyrpl_p is None:
                 self.pyrpl_Connected = True
             else:
                 self.pyrpl_Connected = False
+
 
     def pyrpl_Connected_check(self, bool=None):
         if bool is None:
@@ -469,23 +643,27 @@ class Window(QtWidgets.QMainWindow):
             self.Pyrpl_Started_label.setAutoFillBackground(False)
             self.standa_live_control = False
 
+
     def clean_pyrpl(self):
         if self.pyrpl_Connected:
-            self.print_list.addItem('clean Pyrpl')
+            Window.windowprintqueue.put(('printme', 'clean Pyrpl'))
             self.stop_pyrpl_prozess()
             self.pyrpl_p = None
             self.pyrpl_Connected_check(False)
             self.print_list.scrollToBottom()
 
+
     def stop_pyrpl_prozess(self):
-        #TODO OSError: Socket is closed dont know how to handle
+        # TODO OSError: Socket is closed dont know how to handle
         if self.pyrpl_Connected:
-            self.print_list.addItem('Stoping Pyrpl')
+            Window.windowprintqueue.put(('printme', 'Stoping Pyrpl'))
             try:
                 self.pyrpl_p._clear()
             except OSError as error:
-               self.print_list.addItem(str(error))
-               QMessageBox.about(self, "closing error", "expected error. please close the pyrpl window via ""x""")
+                self.print_list.addItem(str(error))
+                QMessageBox.about(self, "closing error",
+                                  "This is an expected error. Please close the pyrpl window via ""x""")
+
 
     def pyrpl_input_choice(self):
         if self.pyrpl_input1.isChecked():
@@ -493,20 +671,19 @@ class Window(QtWidgets.QMainWindow):
         if self.pyrpl_input2.isChecked():
             return 2
 
+
     def pyrpl_start(self):  # TODO: Info aus Console in Textbox übertragen
-        self.print_list.addItem('Starting Pyrpl')
-        self.print_list.addItem('This might take a while (up to 1min)')
-        self.print_list.scrollToBottom()
+        Window.windowprintqueue.put(('printme', 'Starting Pyrpl\nThis might take a while (up to 1min)'))
         QApplication.processEvents()
         try:
             if self.pyrpl_p is None:
                 self.pyrpl_p = pyrpl.Pyrpl(config='test19_05_03')
                 self.pyrpl_p.lockbox.classname = "AG_Lockbox"
             else:
-                self.print_list.addItem('Pyrpl already started')
+                Window.windowprintqueue.put(('printme', 'Pyrpl already started'))
 
         except (RuntimeError, TypeError, NameError):
-            self.print_list.addItem('Something went wrong with pyrpl')
+            Window.windowprintqueue.put(('printme', 'Something went wrong with pyrpl'))
         finally:
             if not self.pyrpl_p is None:
                 self.pyrpl_Connected_check(True)
@@ -516,8 +693,9 @@ class Window(QtWidgets.QMainWindow):
 
 
 class client(threading.Thread):
-    clientsendqueue=queue.Queue()
-    clientprintqueue= queue.Queue()
+    clientsendqueue = queue.Queue()
+    clientprintqueue = queue.Queue()
+
     def __init__(self, host, port, GUI):
         threading.Thread.__init__(self)
         self.sock = 0
@@ -533,7 +711,7 @@ class client(threading.Thread):
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
                 self.sock.connect((self.HOST, self.PORT))
-                client.clientprintqueue.put(('printme','connected to server'))
+                client.clientprintqueue.put(('printme', 'connected to server'))
                 client.clientprintqueue.put(('Standa_Connected_check', True))
                 threading.Thread(target=self.recv).start()
 
@@ -559,6 +737,14 @@ class client(threading.Thread):
                 QMessageBox.about(self, "Connect where to?", "Standa IP is seems invalid!")
                 client.clientprintqueue.put(('printme', 'stopping....'))
                 self.sock.close()
+    def handleClientQueue(self):
+        if client.clientsendqueue.empty() == False:
+            clientsend = client.clientsendqueue.get()
+            client.clientsendqueue.task_done()
+            string=str(clientsend[0]+clientsend[1])
+            self.send(string)
+
+
 
     def recv(self):
         while True:
@@ -566,27 +752,46 @@ class client(threading.Thread):
                 data = self.conn.recv(100)
                 data = data.decode()
                 if not data:
-                    client.clientprintqueue.put(('printme', 'nothing received.\nseems to be an error on server\nnothing '
-                                                       'received.\nseems to be an error on server\nmight need to call'
-                                                       ' close socket here?')) #TODO might need to call close socket here
+                    client.clientprintqueue.put(
+                        ('printme', 'nothing received.\nseems to be an error on server\nnothing '
+                                    'received.\nseems to be an error on server\nmight need to call'
+                                    ' close socket here?'))  # TODO might need to call close socket here
                 if data[:4] == "POSS":
-                    client.clientprintqueue.put(('POSS', data))
-                elif data[:4] == "MGET":
-                    client.clientprintqueue.put(('MGET', data))
-                elif data[:4] == "MSET":
-                    client.clientprintqueue.put(('MSET', data))
-                elif data == "STOPMOVE":
-                    client.clientprintqueue.put(('printme','STOPMOVE'))
-                elif data == "close":
-                    client.clientprintqueue.put(('printme', 'server client called close!'))
+                    client.clientprintqueue.put(('POSS', data[6:]))
+                elif data[:3] == "POS":
+                    client.clientprintqueue.put(('POS', data[5:]))
+                elif data[:4] == "MOVV":
+                    client.clientprintqueue.put(('MOVV', ''))
+                elif data[:3] == "MOV":
+                    client.clientprintqueue.put(('MOV', ''))
+                elif data[:5] == "STATE":
+                    client.clientprintqueue.put(('STATE', data[7:]))
+                elif data[:4] == "MVRR":
+                    client.clientprintqueue.put(('MVRR', ''))
+                elif data[:3] == "MVR":
+                    client.clientprintqueue.put(('MVR', ''))
+                elif data[:3] == "DEH":
+                    client.clientprintqueue.put(('DEH', ''))
+                elif data[:3] == "SDN":
+                    client.clientprintqueue.put(('SDN', ''))
+                elif data[:] == "close":
+                    client.clientprintqueue.put(('close', 'server client called close!'))
                     self.sock.close()
+                elif data[:] == "LMOVE":
+                    client.clientprintqueue.put(('LMOVE', ''))
+                elif data[:] == "RMOVE":
+                    client.clientprintqueue.put(('RMOVE', ''))
+                elif data == "STOPMOVE":
+                    client.clientprintqueue.put(('STOPMOVE', ''))
+                elif data[:4] == "MGET":
+                    client.clientprintqueue.put(('MGET', data[6:]))
+                elif data[:4] == "MSET":
+                    client.clientprintqueue.put(('MSET', data[6:]))
                 else:
                     client.clientprintqueue.put(('printme', data))
-
             except socket.error:
                 client.clientprintqueue.put(('printme', 'Error Occured.->closing socket'))
                 self.sock.close()
-
 
     def send(self, message):
         if self.sock == 0 or self.sock._closed == True:
@@ -602,10 +807,11 @@ class client(threading.Thread):
                     self.sock.close()
                 else:
                     message = message.encode()
-                    self.sock.sendall(message)#TODO  add case for timeout from server??
+                    self.sock.sendall(message)  # TODO  add case for timeout from server??
 
             except (ConnectionAbortedError, EOFError):
-                client.clientprintqueue.put(('printme', 'Sending Error: seems to be an error on server->closing socket'))
+                client.clientprintqueue.put(
+                    ('printme', 'Sending Error: seems to be an error on server->closing socket'))
                 self.sock.close()
 
     def close(self):

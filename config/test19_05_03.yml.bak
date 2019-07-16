@@ -32,8 +32,8 @@ pyrpl:
   - Lockbox
   name: test190508
   window_position:
-  - -1911
-  - 15
+  - 316
+  - 2
   - 1465
   - 983
 redpitaya:
