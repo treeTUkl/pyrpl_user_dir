@@ -68,7 +68,7 @@ while connection:
                 POS = "POS" + ", " + str(POS)
                 POS = POS.encode()
                 connection.sendall(POS)
-        if data[:] == "STATE":
+        elif data[:] == "STATE":
             """
             ("MoveSts", c_uint),
             ("MvCmdSts", c_uint),
@@ -160,6 +160,8 @@ while connection:
             connection.sendall(POS)
 
         elif data[:] == "close":
+            POS = "close"
+            POS = POS.encode()
             connection.close()
             result = stage.disconnect()
             if not result:
@@ -234,11 +236,12 @@ while connection:
 
         else:
             print('got strange data: ' + data + ' do nothing with it')
-            counter = counter + 1
-            if counter >= 20:
-                connection.close()
-                stage.disconnect()
-                break
+
+            #counter = counter + 1
+            #if counter >= 20:
+            #    connection.close()
+            #    stage.disconnect()
+            #    break
             data = 0
 
     except socket.error:

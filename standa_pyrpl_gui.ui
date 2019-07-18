@@ -233,7 +233,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="usesScrollButtons">
        <bool>true</bool>
@@ -808,9 +808,9 @@
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>170</y>
+        <y>180</y>
         <width>571</width>
-        <height>281</height>
+        <height>271</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -1393,14 +1393,17 @@
      </rect>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="standa_moving_Check_radioButton">
     <property name="geometry">
      <rect>
       <x>570</x>
       <y>560</y>
-      <width>111</width>
+      <width>131</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">QRadioButton {}
@@ -1425,7 +1428,7 @@ QRadioButton::indicator:unchecked {
      <string>Standa moving</string>
     </property>
     <property name="checkable">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="checked">
      <bool>false</bool>
