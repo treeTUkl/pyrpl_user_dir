@@ -35,7 +35,7 @@ print("Waiting for client request..")
 
 # Wait for a connection
 print('waiting for a connection')
-connection, client_address = sock.accept()  # TODO: verbindet sich nur einmal...
+connection, client_address = sock.accept()
 """accept() returns an open connection between the server and client, along with the address of the client.
  The connection is actually a different socket on another port (assigned by the kernel).
   Data is read from the connection with recv() and transmitted with sendall()."""
@@ -47,7 +47,7 @@ while connection:
 
         # Receive the data in small chunks and retransmit it
 
-        data = connection.recv(100)  # TODO 44 to much?
+        data = connection.recv(100)  #
 
         data = data.decode('utf-8')  # might not needed if data ist already in string format
         print('\nreceived "%s"' % data)
@@ -94,7 +94,37 @@ while connection:
             POS = str(data[:]) + ", "
             POS = POS + "MoveSts" + "-> " + str(result.MoveSts) + ", "
             POS = POS + "CurSpeed" + "-> " + str(result.CurSpeed) + ", "
-            POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed)
+            POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed)+ ", "
+            POS = POS + "CurPosition" + "-> " + str(result.CurPosition) + ", "
+            POS = POS + "uCurPosition" + "-> " + str(result.uCurPosition)
+            POS = POS.encode()
+            connection.sendall(POS)
+        elif data[:]=="Mess":#TODO make some thread becouse movv 50000 will run very long
+            new_position_in_as = float(data[3:])
+            print('Mess' + str(new_position_in_as))
+            stage.move_absolute_in_as(new_position_in_as)
+            while True:
+                result = stage.Standa_Status()
+                time.sleep(0.1)
+                if result.MoveSts ==0:
+                    break
+                POS = "STATE" + ", "
+                POS = POS + "MoveSts" + "-> " + str(result.MoveSts) + ", "
+                POS = POS + "CurSpeed" + "-> " + str(result.CurSpeed) + ", "
+                POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed)
+                POS = POS.encode()
+                connection.sendall(POS)
+                time.sleep (0.1)
+                POS = stage.POS
+                print('pos in as: ' + str(POS))
+                print('sending data back to the client')
+                POS = "POS" + ", " + str(POS)
+                POS = POS.encode()
+                connection.sendall(POS)
+            POS = stage.POS
+            print('pos in as: ' + str(POS))
+            print('sending data back to the client')
+            POS = "Mess" + ", " + str(POS)
             POS = POS.encode()
             connection.sendall(POS)
 
@@ -102,7 +132,7 @@ while connection:
             if data[:4] == "MOVV":
                 result = data[4:].split(', ')
                 print('MOVV ' + str(result[0]) + ', ' + str(result[1]))
-                stage.move_absolute_in_steps(int(result[0]), int(result[1]))
+                stage.move_absolute_in_steps(int(result[0]), int(result[1]))#TODO make some thread becouse movv 50000 will run very long
                 print('got ' + data[:4] + ' send data back to the client')
                 POS = data[:4]
                 POS = POS.encode()
@@ -117,7 +147,7 @@ while connection:
                 connection.sendall(POS)
 
         elif data[:3] == "MVR":
-            if data[:4] == "MVRR":
+            if data[:4] == "MVRR":#TODO make some thread becouse morr 50000 will run very long
                 result = data[4:].split(', ')
                 print(data[:4] + ' ' + str(result[0]) + ', ' + str(result[1]))
                 stage.move_relative_in_steps(int(result[0]), int(result[1]))
@@ -165,7 +195,7 @@ while connection:
             connection.close()
             result = stage.disconnect()
             if not result:
-                time.sleep(2)
+                time.sleep(1)
             connection = False
 
         elif data[:] == "LMOVE":
