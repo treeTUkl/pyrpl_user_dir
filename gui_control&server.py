@@ -18,7 +18,7 @@ def isfloat(value):
         return True
     except ValueError:
         return False
-class readQueue(threading.Thread):#todo make thread
+class readQueue(threading.Thread):
     def __init__(self, GUI):
         threading.Thread.__init__(self)
         timerstart=time.time()
@@ -46,6 +46,7 @@ class readQueue(threading.Thread):#todo make thread
                         elif clientstatus[0] == "MOVV":
                             GUI.print_list.addItem('Moving via MOVV')
                             GUI.print_list.scrollToBottom()
+                            time.sleep(0.5)
                             GUI.standa_moving = True
                             client.clientsendqueue.put(['STATE', ""])
                         elif clientstatus[0] == "LMOVE":
@@ -71,6 +72,7 @@ class readQueue(threading.Thread):#todo make thread
                             GUI.print_list.addItem('Moving via MVR')
                             GUI.print_list.scrollToBottom()
                             GUI.standa_moving_Check(True)
+                            time.sleep(0.5)
                         elif clientstatus[0]== "Mess":
                             GUI.Messung_Messpoint(clientstatus[1])
                             GUI.print_list.addItem('Messpoint Reached!')
@@ -79,6 +81,7 @@ class readQueue(threading.Thread):#todo make thread
                             GUI.print_list.addItem('Moving via MVRR')
                             GUI.print_list.scrollToBottom()
                             GUI.standa_moving_Check(True)
+                            time.sleep(0.5)
                             client.clientsendqueue.put(['STATE', ""])
                         elif clientstatus[0] == "STOPMOVE":
                             GUI.standa_moving_Check(False)
@@ -142,7 +145,7 @@ class readQueue(threading.Thread):#todo make thread
                         if GUI.standa_moving_Check():
                             now = time.time()
                             delta =now - timerstart
-                            if delta >0.5:
+                            if delta >0.1:
                                 client.clientsendqueue.put(['STATE', ""])
                                 timerstart=time.time()
 
@@ -154,6 +157,9 @@ class readQueue(threading.Thread):#todo make thread
                     string = str(windowstatus[1])
                     GUI.print_list.addItem(string)
                     GUI.print_list.scrollToBottom()
+            if GUI.Standa_Connected == False:
+                GUI.Standa_Connected_check(False)
+
             if GUI.readQueuebool== False:
                 break
             QApplication.processEvents()
@@ -235,9 +241,10 @@ class Window(QtWidgets.QMainWindow):
 
         if reply == QMessageBox.Yes:
             event.accept()
+            self.close_application()
         else:
             event.ignore()
-        self.close_application()
+
 
     def sort_list(self):
         if not self.run_messung:
@@ -826,17 +833,19 @@ class client(threading.Thread):
             except socket.error:
                 client.clientprintqueue.put(['printme', 'Error Occured.->closing socket'])
                 self.sock.close()
+                client.clientprintqueue.put(['cclose', ""])
                 break
         if not client.clientsendqueue.empty():
-            while not client.clientsendqueu.empty():
+            while not client.clientsendqueue.empty():
                 try:
-                    client.clientsendqueu.get(False)
+                    client.clientsendqueue.get(False)
                 except Empty:
                     continue
-                client.clientsendqueu.task_done()
+                client.clientsendqueue.task_done()
         client.clientprintqueue.put(['cclose', ""])
 
         self.sock.close()
+        self.GUI.Standa_Connected = False
         print("clientprintqueue died")
 
 
