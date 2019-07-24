@@ -203,3 +203,7 @@ asg0:
   waveform: dc
 pyrplconfig: {}
 scopes: {}
+networkanalyzer_states: {}
+pyrplconfig_states: {}
+spectrumanalyzer_states: {}
+curveviewer: {}

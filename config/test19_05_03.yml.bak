@@ -2,7 +2,7 @@ pyrpl:
   background_color: ''
   dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\x05\xB9\0\0\x03\xAE\
     \xFC\x01\0\0\0\x01\xFC\0\0\0\0\0\0\x05\xB9\0\0\0y\0\xFF\xFF\xFF\xFA\0\0\0\x01\x01\
-    \0\0\0\f\xFB\0\0\0&\0s\0c\0o\0p\0e\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x03\
+    \0\0\0\f\xFB\0\0\0&\0s\0c\0o\0p\0e\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x02\
     \0\0\0\xF0\0\0\0?\0\0\x05\xB9\0\0\x03\x99\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0\
     (\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\
     \xFF\xFB\0\0\0\"\0a\0s\0g\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\
@@ -203,3 +203,7 @@ asg0:
   waveform: dc
 pyrplconfig: {}
 scopes: {}
+networkanalyzer_states: {}
+pyrplconfig_states: {}
+spectrumanalyzer_states: {}
+curveviewer: {}

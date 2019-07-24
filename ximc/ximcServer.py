@@ -66,6 +66,7 @@ class readConnection(threading.Thread):  # todo make thread
                 #connection.settimeout(None)
                 data = data.decode('utf-8')  # might not needed if data ist already in string format
                 print('\nreceived "%s"' % data)
+
                 ximcStageQueue.put(data)
                 if data[:]=="close":
                     break
@@ -101,14 +102,14 @@ class readConnection(threading.Thread):  # todo make thread
         while run:
             if ximcStageQueue.empty() == False:
                 data = ximcStageQueue.get()
-                ximcStageQueue.task_done()
+
 
                 if data[:3] == "POS":
                     if data[:] == "POSS":
-                        POS = "POSS" + ", "
+                        POS = "!+" + "POSS" + ", "
                         stage.position_get()
                         POS = POS + str(stage.position["position_current_Steps"]) + ", " + str(
-                            stage.position["position_current_uSteps"])
+                            stage.position["position_current_uSteps"])+ "+!"
                         POS = POS.encode()
                         print('got ' + data[:4] + ' send data back to the client')
                         connection.sendall(POS)
@@ -117,7 +118,7 @@ class readConnection(threading.Thread):  # todo make thread
                         POS = stage.POS
                         print('pos in as: ' + str(POS))
                         print('sending data back to the client')
-                        POS = "POS" + ", " + str(POS)
+                        POS = "!+" +"POS" + ", " + str(POS) + "+!"
                         POS = POS.encode()
                         connection.sendall(POS)
                 elif data[:] == "STATE":
@@ -143,40 +144,43 @@ class readConnection(threading.Thread):  # todo make thread
                     """
                     print('got ' + data[:] + ' send data back to the client')
                     result = stage.Standa_Status()
-                    POS = str(data[:]) + ", "
+                    POS = "!+"+'STATE' + ", "
                     POS = POS + "MoveSts" + "-> " + str(result.MoveSts) + ", "
                     POS = POS + "CurSpeed" + "-> " + str(result.CurSpeed) + ", "
                     POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed) + ", "
                     POS = POS + "CurPosition" + "-> " + str(result.CurPosition) + ", "
-                    POS = POS + "uCurPosition" + "-> " + str(result.uCurPosition)
+                    POS = POS + "uCurPosition" + "-> " + str(result.uCurPosition) + "+!"
                     POS = POS.encode()
                     connection.sendall(POS)
-                elif data[:] == "Mess":  # TODO make some thread becouse movv 50000 will run very long
-                    new_position_in_as = float(data[3:])
+                elif data[:4] == "Mess":  # TODO make some thread becouse movv 50000 will run very long
+                    new_position_in_as = float(data[4:])
                     print('Mess' + str(new_position_in_as))
                     stage.move_absolute_in_as(new_position_in_as)
-                    while True:
-                        result = stage.Standa_Status()
-                        time.sleep(0.1)
-                        if result.MoveSts == 0:
-                            break
-                        POS = "STATE" + ", "
-                        POS = POS + "MoveSts" + "-> " + str(result.MoveSts) + ", "
-                        POS = POS + "CurSpeed" + "-> " + str(result.CurSpeed) + ", "
-                        POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed)
-                        POS = POS.encode()
-                        connection.sendall(POS)
-                        time.sleep(0.1)
-                        POS = stage.POS
-                        print('pos in as: ' + str(POS))
-                        print('sending data back to the client')
-                        POS = "POS" + ", " + str(POS)
-                        POS = POS.encode()
-                        connection.sendall(POS)
-                    POS = stage.POS
-                    print('pos in as: ' + str(POS))
-                    print('sending data back to the client')
-                    POS = "Mess" + ", " + str(POS)
+                    # while True:
+                    #     result = stage.Standa_Status()
+                    #     time.sleep(0.1)
+                    #     if result.MoveSts == 0:
+                    #         break
+                    #     POS ="!+"+ "STATE" + ", "
+                    #     POS = POS + "MoveSts" + "-> " + str(result.MoveSts) + ", "
+                    #     POS = POS + "CurSpeed" + "-> " + str(result.CurSpeed) + ", "
+                    #     POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed)+ ", "
+                    #     POS = POS + "CurPosition" + "-> " + str(result.CurPosition) + ", "
+                    #     POS = POS + "uCurPosition" + "-> " + str(result.uCurPosition) + "+!"
+                    #     POS = POS.encode()
+                    #     connection.sendall(POS)
+                    #     # time.sleep(0.1)
+                    #     # POS = stage.POS
+                    #     # print('pos in as: ' + str(POS))
+                    #     # print('sending data back to the client')
+                    #     # POS = "!+"+ "POS" + ", " + str(POS) + "+!"
+                    #     # POS = POS.encode()
+                    #     # connection.sendall(POS)
+                    # POS = stage.POS
+                    # print('pos in as: ' + str(POS))
+                    # print('sending data back to the client')
+                    # POS = "!+"+"Mess" + ", " + str(POS)+ "+!"
+                    POS = "!+" + "Mess" + "+!"
                     POS = POS.encode()
                     connection.sendall(POS)
 
@@ -187,7 +191,7 @@ class readConnection(threading.Thread):  # todo make thread
                         stage.move_absolute_in_steps(int(result[0]),
                                                      int(result[1]))  # TODO make some thread becouse movv 50000 will run very long
                         print('got ' + data[:4] + ' send data back to the client')
-                        POS = data[:4]
+                        POS = "!+"+data[:4]+ "+!"
                         POS = POS.encode()
                         connection.sendall(POS)
                     else:
@@ -195,7 +199,7 @@ class readConnection(threading.Thread):  # todo make thread
                         print('MOV' + str(new_position_in_as))
                         stage.move_absolute_in_as(new_position_in_as)
                         print('got ' + data[:3] + ' send data back to the client')
-                        POS = data[:3]
+                        POS = "!+"+ data[:3]+"+!"
                         POS = POS.encode()
                         connection.sendall(POS)
 
@@ -205,7 +209,7 @@ class readConnection(threading.Thread):  # todo make thread
                         print(data[:4] + ' ' + str(result[0]) + ', ' + str(result[1]))
                         stage.move_relative_in_steps(int(result[0]), int(result[1]))
                         print('got ' + data[:4] + ' send data back to the client')
-                        POS = data[:4]
+                        POS = "!+"+data[:4]+"+!"
                         POS = POS.encode()
                         connection.sendall(POS)
                     else:
@@ -213,7 +217,7 @@ class readConnection(threading.Thread):  # todo make thread
                         print('MVR: ' + str(new_position_in_as))
                         stage.move_relative_in_as(new_position_in_as)
                         print('got ' + data[:3] + ' send data back to the client')
-                        POS = data[:3]
+                        POS ="!+"+ data[:3]+"+!"
                         POS = POS.encode()
                         connection.sendall(POS)
 
@@ -221,7 +225,7 @@ class readConnection(threading.Thread):  # todo make thread
                     print('GOH')
                     stage.go_home()
                     print('got ' + data[:3] + ' send data back to the client')
-                    POS = data[:3]
+                    POS = "!+"+data[:3]+"+!"
                     POS = POS.encode()
                     connection.sendall(POS)
 
@@ -229,7 +233,7 @@ class readConnection(threading.Thread):  # todo make thread
                     print('DEH')
                     stage.set_zero_position()
                     print('got ' + data[:3] + ' send data back to the client')
-                    POS = data[:3]
+                    POS ="!+"+ data[:3]+ "+!"
                     POS = POS.encode()
                     connection.sendall(POS)
 
@@ -238,7 +242,7 @@ class readConnection(threading.Thread):  # todo make thread
                     stage.in_case_terra_sends_SDN()
                     POS = stage.POS
                     print('got ' + data[:3] + ' send data back to the client')
-                    POS = data[:3]
+                    POS = "!+"+data[:3]+ "+!"
                     POS = POS.encode()
                     connection.sendall(POS)
 
@@ -254,28 +258,28 @@ class readConnection(threading.Thread):  # todo make thread
 
                 elif data[:] == "LMOVE":
                     stage.move_left()
-                    POS = "LMOVE"
+                    POS = "!+"+"LMOVE" + "+!"
                     print('got ' + data[:] + ' send data back to the client')
                     POS = POS.encode()
                     connection.sendall(POS)
 
                 elif data[:] == "RMOVE":
                     stage.move_right()
-                    POS = "RMOVE"
+                    POS ="!+"+ "RMOVE"+ "+!"
                     print('got ' + data[:] + ' send data back to the client')
                     POS = POS.encode()
                     connection.sendall(POS)
 
                 elif data[:] == "STOPMOVE":
                     stage.stop_move()
-                    POS = "STOPMOVE"
+                    POS = "!+"+"STOPMOVE"+ "+!"
                     print('got ' + data[:] + ' send data back to the client')
                     POS = POS.encode()
                     connection.sendall(POS)
                 elif data[:] == "STOPFAST":
                     POS = stage.fast_stop()
                     print('got ' + data[:] + ' send data back to the client')
-                    POS = data[:] + POS
+                    POS ="!+"+ data[:] + POS+ "+!"
                     POS = POS.encode()
                     connection.sendall(POS)
                 #########################################################
@@ -292,7 +296,7 @@ class readConnection(threading.Thread):  # todo make thread
 
                     MSET = data[4:].split(', ')
                     result = stage.Standa_set_settings(int(MSET[1]), int(MSET[2]), int(MSET[3]), int(MSET[4]))
-                    POS = "MSET" + ", " + result
+                    POS ="!+"+ "MSET" + ", " + result+ "+!"
                     POS = POS.encode()
                     print('got ' + str(data[:]) + ' send data back to the client')
                     connection.sendall(POS)
@@ -306,14 +310,14 @@ class readConnection(threading.Thread):  # todo make thread
                     engine_settings.MicrostepMode = MicroMode
                     '"""
 
-                    POS = "MGET" + ", "
+                    POS ="!+"+ "MGET" + ", "
                     y_status = stage.Standa_get_motor_settings()
                     POS = POS + "Speed" + "-> " + str(y_status.Speed) + ", "
                     POS = POS + "Accel" + "-> " + str(y_status.Accel) + ", "
                     POS = POS + "Decel" + "-> " + str(y_status.Decel) + ", "
 
                     result = stage.Standa_get_engine_settings()
-                    POS = POS + "MicroStepMode" + "-> " + str(result.MicrostepMode)
+                    POS = POS + "MicroStepMode" + "-> " + str(result.MicrostepMode)+ "+!"
                     POS = POS.encode()
                     print(' sending data back to the client')
                     connection.sendall(POS)
@@ -326,7 +330,7 @@ class readConnection(threading.Thread):  # todo make thread
                     #    stage.disconnect()
                     #    break
                     data = 0
-
+                ximcStageQueue.task_done()
 
 if __name__ == "__main__":
 
