@@ -62,7 +62,7 @@ class readConnection(threading.Thread):  # todo make thread
                     break
                 # Receive the data in small chunks and retransmit it
                 #connection.settimeout(1)
-                data = connection.recv(100)  #
+                data = connection.recv(150)  #
                 #connection.settimeout(None)
                 data = data.decode('utf-8')  # might not needed if data ist already in string format
                 print('\nreceived "%s"' % data)
@@ -295,7 +295,7 @@ class readConnection(threading.Thread):  # todo make thread
                 elif data[:4] == "MSET":
 
                     MSET = data[4:].split(', ')
-                    result = stage.Standa_set_settings(int(MSET[1]), int(MSET[2]), int(MSET[3]), int(MSET[4]))
+                    result = stage.Standa_set_settings(int(MSET[0]), int(MSET[1]), int(MSET[2]), int(MSET[3]))
                     POS ="!+"+ "MSET" + ", " + result+ "+!"
                     POS = POS.encode()
                     print('got ' + str(data[:]) + ' send data back to the client')

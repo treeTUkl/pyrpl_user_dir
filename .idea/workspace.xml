@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/gui_control&amp;server.py" line="249" />
+    <bookmark url="file://$PROJECT_DIR$/gui_control&amp;server.py" line="252" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a57e9ed-faa2-45df-8ae7-5bf8446a8869" name="Default Changelist" comment="">
@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml.bak" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml.bak" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui_control&amp;server.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_control&amp;server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/standa_pyrpl_gui.ui" beforeDir="false" afterPath="$PROJECT_DIR$/standa_pyrpl_gui.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ximc/ximcServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/ximc/ximcServer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="169" column="57" lean-forward="true" selection-start-line="169" selection-start-column="57" selection-end-line="169" selection-end-column="57" />
+            <state relative-caret-position="160">
+              <caret line="267" column="17" selection-start-line="267" selection-start-column="8" selection-end-line="267" selection-end-column="17" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -35,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ximc/ximcServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="553">
-              <caret line="91" column="54" lean-forward="true" selection-start-line="91" selection-start-column="54" selection-end-line="91" selection-end-column="54" />
+            <state relative-caret-position="194">
+              <caret line="247" lean-forward="true" selection-start-line="247" selection-end-line="247" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -48,7 +47,7 @@
         <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="171">
-              <caret line="109" selection-start-line="109" selection-end-line="109" />
+              <caret line="212" selection-start-line="212" selection-end-line="212" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -79,13 +78,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>staus</find>
-      <find>statusHandler</find>
-      <find>Standa_Connected_</find>
-      <find>standa_move_relative</find>
-      <find>MOVV</find>
-      <find>check</find>
-      <find>ac_check</find>
       <find>STATE:</find>
       <find>printme</find>
       <find>.task_done()</find>
@@ -109,6 +101,13 @@
       <find>Messung_Messpoin</find>
       <find>messung_pos</find>
       <find>STATE</find>
+      <find>POSS</find>
+      <find>RMOVE</find>
+      <find>standa</find>
+      <find>POS</find>
+      <find>MSET</find>
+      <find>self.sort_list</find>
+      <find>sort_list</find>
     </findStrings>
     <replaceStrings>
       <replace>clientprintqueue</replace>
@@ -356,8 +355,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49819493" visible="true" weight="0.28068304" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49819493" visible="true" weight="0.28708646" />
       <window_info id="Structure" order="1" sideWeight="0.50180507" side_tool="true" weight="0.26840982" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -391,7 +391,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>875</line>
+          <line>879</line>
           <option name="timeStamp" value="178" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -401,13 +401,33 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>421</line>
+          <line>424</line>
           <option name="timeStamp" value="188" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>128</line>
+          <line>131</line>
           <option name="timeStamp" value="193" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
+          <line>834</line>
+          <option name="timeStamp" value="199" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
+          <line>109</line>
+          <option name="timeStamp" value="203" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
+          <line>849</line>
+          <option name="timeStamp" value="205" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
+          <line>125</line>
+          <option name="timeStamp" value="207" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -494,6 +514,21 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>clientstatus[0] == &quot;POS&quot;</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>clientstatus[0] == &quot;POS</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>clientstatus[0] == &quot;POS&quot;:</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>self.file</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -525,16 +560,6 @@
       </expression>
       <expression>
         <expression-string>standaclient</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>self.standaclient</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>self.standaclient==False</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -661,13 +686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_resolver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="202" selection-start-line="202" selection-end-line="202" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -696,16 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ximc/pyximc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1122">
-          <caret line="68" column="12" selection-start-line="68" selection-start-column="6" selection-end-line="68" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/hardware_modules/pid.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3910">
@@ -730,16 +738,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="109" selection-start-line="109" selection-end-line="109" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/pyrpl_widget.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -749,10 +747,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ximc/pyximc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="68" column="12" selection-start-line="68" selection-start-column="6" selection-end-line="68" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="212" selection-start-line="212" selection-end-line="212" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_resolver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="202" selection-start-line="202" selection-end-line="202" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ximc/ximcServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="91" column="54" lean-forward="true" selection-start-line="91" selection-start-column="54" selection-end-line="91" selection-end-column="54" />
+        <state relative-caret-position="194">
+          <caret line="247" lean-forward="true" selection-start-line="247" selection-end-line="247" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
@@ -761,8 +786,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="169" column="57" lean-forward="true" selection-start-line="169" selection-start-column="57" selection-end-line="169" selection-end-column="57" />
+        <state relative-caret-position="160">
+          <caret line="267" column="17" selection-start-line="267" selection-start-column="8" selection-end-line="267" selection-end-column="17" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>

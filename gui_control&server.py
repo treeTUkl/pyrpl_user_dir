@@ -103,6 +103,9 @@ class readQueue(threading.Thread):
                             uCurSpeed = states[2].split("-> ")
                             uCurSpeed = uCurSpeed[1]
                             CurPostiotion=states[3].split("-> ")
+                            if not isfloat(CurPostiotion[1]):
+                                #SOMETHING WENT WRONG
+                                pass
                             CurPostiotion= CurPostiotion[1]
                             uCurPosition= states[4].split("-> ")
                             uCurPosition = uCurPosition[1]
@@ -647,12 +650,13 @@ class Window(QtWidgets.QMainWindow):
     def standa_set_settings(self):
         if self.standa_check() & self.standa_live_control:
             self.standa_stop()
-            send = "MSET"
-            send = send + ", " + str(self.Motor_Speed_spinBox.value())
+            time.sleep(0.03)
+            send = str(self.Motor_Speed_spinBox.value())
             send = send + ", " + str(self.Acceleration_spinBox.value())
             send = send + ", " + str(self.Deceleration_spinBox.value())
             send = send + ", " + str(self.Microstep_mode_choos_spinBox.value())
             client.clientsendqueue.put(['MSET', send])
+            time.sleep(0.03)
             self.standa_get_settings()
        # self.readQueue()
 
@@ -782,7 +786,7 @@ class client(threading.Thread):
                     client.clientprintqueue = queue.Queue()
                     client.clientprintqueue.put(['printme', 'connected to server'])#ToDO befor that the queue should be empty
                     client.clientprintqueue.put(['Standa_Connected_check', True])
-                    client.clientsendqueue.put(["POSS", ""])
+                    client.clientsendqueue.put(["STATE", ""])
                     self.GUI.Standa_Connected = True
                     self.handleThread=threading.Thread(target=self.handleClientQueue).start()
                     self.recvThread=threading.Thread(target=self.recv).start()
@@ -817,7 +821,7 @@ class client(threading.Thread):
         while getattr(t, "do_run", True):
             try:
 
-                data = self.sock.recv(100)
+                data = self.sock.recv(150)
 
                 data = data.decode()
                 if not data:
