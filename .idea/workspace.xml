@@ -8,9 +8,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/pyrpl_user_dir.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pyrpl_user_dir.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml.bak" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml.bak" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui_control&amp;server.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_control&amp;server.py" afterDir="false" />
+=======
+>>>>>>> Stashed changes
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,13 +21,24 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="pyrpl_user_dir" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="202">
               <caret line="773" column="109" lean-forward="true" selection-start-line="773" selection-start-column="109" selection-end-line="773" selection-end-column="109" />
+=======
+            <state relative-caret-position="245">
+              <caret line="350" selection-start-line="350" selection-end-line="350" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+>>>>>>> Stashed changes
             </state>
           </provider>
         </entry>
@@ -283,16 +297,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
+<<<<<<< Updated upstream
     <frame x="1265" y="0" width="1296" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49819493" visible="true" weight="0.28696343" />
+=======
+    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837488" visible="true" weight="0.28708646" />
+>>>>>>> Stashed changes
       <window_info id="Structure" order="1" sideWeight="0.50180507" side_tool="true" weight="0.26840982" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info active="true" id="Favorites" order="2" sideWeight="0.5016251" side_tool="true" visible="true" weight="0.28708646" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
+<<<<<<< Updated upstream
       <window_info anchor="bottom" id="Run" order="2" weight="0.31497797" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39207047" />
+=======
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31527627" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39219934" />
+>>>>>>> Stashed changes
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
@@ -340,6 +365,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
+<<<<<<< Updated upstream
           <line>314</line>
           <option name="timeStamp" value="207" />
         </line-breakpoint>
@@ -347,6 +373,10 @@
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
           <line>107</line>
           <option name="timeStamp" value="210" />
+=======
+          <line>125</line>
+          <option name="timeStamp" value="207" />
+>>>>>>> Stashed changes
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -580,5 +610,45 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
+=======
+    <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="212" selection-start-line="212" selection-end-line="212" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_resolver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="202" selection-start-line="202" selection-end-line="202" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ximc/ximcServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="247" lean-forward="true" selection-start-line="247" selection-end-line="247" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="350" selection-start-line="350" selection-end-line="350" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+>>>>>>> Stashed changes
   </component>
 </project>
