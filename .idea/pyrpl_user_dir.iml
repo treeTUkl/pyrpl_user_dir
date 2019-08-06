@@ -3,7 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$USER_HOME$/GitKraken Repos/GitLab-pyrpl" />
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="pyrpl-env-Python 3.6" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.6 (pyrpl_user_dir) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/gui_control&amp;server.py" line="252" />
+    <bookmark url="file://$PROJECT_DIR$/gui_control&amp;server.py" line="488" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a57e9ed-faa2-45df-8ae7-5bf8446a8869" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pyrpl_user_dir.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pyrpl_user_dir.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/test19_05_03.yml.bak" beforeDir="false" afterPath="$PROJECT_DIR$/config/test19_05_03.yml.bak" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui_control&amp;server.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_control&amp;server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ximc/ximcServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/ximc/ximcServer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,11 +23,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="267" column="17" selection-start-line="267" selection-start-column="8" selection-end-line="267" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#40#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="202">
+              <caret line="773" column="109" lean-forward="true" selection-start-line="773" selection-start-column="109" selection-end-line="773" selection-end-column="109" />
             </state>
           </provider>
         </entry>
@@ -34,8 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ximc/ximcServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="247" lean-forward="true" selection-start-line="247" selection-end-line="247" />
+            <state relative-caret-position="3927">
+              <caret line="338" selection-start-line="338" selection-end-line="338" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -46,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="212" selection-start-line="212" selection-end-line="212" />
+            <state relative-caret-position="3468">
+              <caret line="205" selection-start-line="205" selection-end-line="205" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -134,107 +132,38 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1752" />
-    <option name="y" value="-18" />
-    <option name="width" value="1400" />
-    <option name="height" value="1000" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1265" />
+    <option name="width" value="1296" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
               <item name="pyrpl_user_dir" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
               <item name="pyrpl_user_dir" type="462c0819:PsiDirectoryNode" />
               <item name="ximc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="software_modules" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="software_modules" type="462c0819:PsiDirectoryNode" />
-              <item name="lockbox" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="software_modules" type="462c0819:PsiDirectoryNode" />
-              <item name="lockbox" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="widgets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrpl_user_dir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrpl_user_dir" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="GitLab-pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="pyrpl" type="462c0819:PsiDirectoryNode" />
-              <item name="widgets" type="462c0819:PsiDirectoryNode" />
-              <item name="module_widgets" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/ximc/ximcServer.py" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -248,7 +177,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Multirun.ximcServer &amp; Gui">
+  <component name="RunManager" selected="Python.gui_control&amp;server">
     <configuration name="ximcServer &amp; Gui" type="Multirun" factoryName="Multirun" separateTabs="true" startOneByOne="true" markFailedProcess="true" hideSuccessProcess="false" delayTime="0">
       <runConfiguration name="ximcServer" type="Python" />
       <runConfiguration name="gui_control&amp;server" type="Python" />
@@ -354,16 +283,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1265" y="0" width="1296" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49819493" visible="true" weight="0.28708646" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49819493" visible="true" weight="0.28696343" />
       <window_info id="Structure" order="1" sideWeight="0.50180507" side_tool="true" weight="0.26840982" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.31527627" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39219934" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31497797" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39207047" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
@@ -386,48 +315,38 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
-          <line>61</line>
+          <line>104</line>
           <option name="timeStamp" value="145" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>879</line>
-          <option name="timeStamp" value="178" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
-          <line>180</line>
+          <line>271</line>
           <option name="timeStamp" value="179" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>424</line>
+          <line>661</line>
           <option name="timeStamp" value="188" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>131</line>
+          <line>320</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>834</line>
-          <option name="timeStamp" value="199" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ximc/ximcServer.py</url>
-          <line>109</line>
+          <line>191</line>
           <option name="timeStamp" value="203" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>849</line>
-          <option name="timeStamp" value="205" />
+          <line>314</line>
+          <option name="timeStamp" value="207" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gui_control&amp;server.py</url>
-          <line>125</line>
-          <option name="timeStamp" value="207" />
+          <line>107</line>
+          <option name="timeStamp" value="210" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -566,84 +485,16 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/software_pid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/pyrpl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="304" column="23" lean-forward="true" selection-start-line="304" selection-start-column="23" selection-end-line="304" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/hardware_modules/scope.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1530">
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-157">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/pyqtgraph/graphicsItems/ViewBox/ViewBox.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5021">
-          <caret line="1207" selection-start-line="1207" selection-end-line="1207" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/numpy/linalg/linalg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="107" column="39" lean-forward="true" selection-start-line="107" selection-start-column="39" selection-end-line="107" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/spinbox.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5967">
-          <caret line="355" selection-start-line="355" selection-end-line="355" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/paramiko/channel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="831">
-          <caret line="1186" selection-start-line="1186" selection-end-line="1186" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/models/fabryperot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/pid_widget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/software_pid.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/pyrpl.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/hardware_modules/scope.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/__init__.py" />
+    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/pyqtgraph/graphicsItems/ViewBox/ViewBox.py" />
+    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/numpy/linalg/linalg.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/spinbox.py" />
+    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/site-packages/paramiko/channel.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/models/fabryperot.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/pid_widget.py" />
     <entry file="file://$PROJECT_DIR$/lockbox/AG_Lockbox.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -654,23 +505,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/lockbox_widget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3213">
-          <caret line="196" column="34" selection-start-line="196" selection-start-column="34" selection-end-line="196" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/output.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5032">
-          <caret line="307" column="45" selection-start-line="307" selection-start-column="45" selection-end-line="307" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/module_widgets/lockbox_widget.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/software_modules/lockbox/output.py" />
     <entry file="file://$PROJECT_DIR$/readque.py" />
     <entry file="file://$PROJECT_DIR$/standa_pyrpl_gui.ui">
       <provider selected="true" editor-type-id="text-editor">
@@ -679,13 +515,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../.PyCharmCE2018.3/system/python_stubs/-211562643/PyQt5/QtWidgets/QWidget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="95" column="8" selection-start-line="95" selection-start-column="8" selection-end-line="95" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../.PyCharmCE2018.3/system/python_stubs/-211562643/PyQt5/QtWidgets/QWidget.py" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -700,49 +530,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/threading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="863" selection-start-line="863" selection-end-line="863" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/enum.py">
+    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/threading.py" />
+    <entry file="file://C:/Program Files/Anaconda/envs/pyrpl-env-3.6/Lib/enum.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/hardware_modules/pid.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/attributes.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/modules.py" />
+    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/pyrpl_widget.py" />
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_resolver.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
-          <caret line="266" selection-start-line="266" selection-end-line="266" />
+          <caret line="202" selection-start-line="202" selection-end-line="202" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/hardware_modules/pid.py">
+    <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3910">
-          <caret line="235" column="59" selection-start-line="235" selection-start-column="59" selection-end-line="235" selection-end-column="59" />
+        <state relative-caret-position="202">
+          <caret line="773" column="109" lean-forward="true" selection-start-line="773" selection-start-column="109" selection-end-line="773" selection-end-column="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ximc/ximcServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3927">
+          <caret line="338" selection-start-line="338" selection-end-line="338" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/attributes.py">
+    <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9996">
-          <caret line="612" column="63" selection-start-line="612" selection-start-column="33" selection-end-line="612" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/modules.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7361">
-          <caret line="442" column="19" selection-start-line="442" selection-start-column="19" selection-end-line="442" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GitKraken Repos/GitLab-pyrpl/pyrpl/pyrpl/widgets/pyrpl_widget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="3468">
+          <caret line="205" selection-start-line="205" selection-end-line="205" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -753,43 +576,6 @@
           <caret line="68" column="12" selection-start-line="68" selection-start-column="6" selection-end-line="68" selection-end-column="12" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ximc/ximcStage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="212" selection-start-line="212" selection-end-line="212" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_resolver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="202" selection-start-line="202" selection-end-line="202" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ximc/ximcServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="247" lean-forward="true" selection-start-line="247" selection-end-line="247" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui_control&amp;server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="267" column="17" selection-start-line="267" selection-start-column="8" selection-end-line="267" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
           </folding>
         </state>
       </provider>

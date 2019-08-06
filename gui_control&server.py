@@ -770,6 +770,8 @@ class client(threading.Thread):
 
             except ConnectionRefusedError:
                 self.GUI.windowprintqueue.put(['printme', 'Connection Refused! Server might not ready'])
+                self.GUI.windowprintqueue.put(["printme", "Code to start on rp-f053d1:\n"
+                                                          "cd /root/ximc/ximc-2.9.8\npython3 ximcServer.py"])
                 self.GUI.standa_live_control = False
                 self.GUI.Standa_Connected_check(False)
                 self.GUI.standaclient = False

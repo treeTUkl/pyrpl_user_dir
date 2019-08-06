@@ -1,0 +1,5 @@
+Sweep Freuqnzcy 2 Hz
+Sweep Offset -2e-2 V in pyrpl
+Sweep Ampitude 0.6 V in pyrpl
+
+Rampe
