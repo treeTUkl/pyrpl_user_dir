@@ -1,9 +1,9 @@
 pyrpl:
   background_color: ''
-  dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\x05\xB9\0\0\x03\xAE\
-    \xFC\x01\0\0\0\x01\xFC\0\0\0\0\0\0\x05\xB9\0\0\0y\0\xFF\xFF\xFF\xFA\0\0\0\x01\x01\
+  dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\x05\0\0\0\x03\xC1\
+    \xFC\x01\0\0\0\x01\xFC\0\0\0\0\0\0\x05\0\0\0\0y\0\xFF\xFF\xFF\xFA\0\0\0\x01\x01\
     \0\0\0\f\xFB\0\0\0&\0s\0c\0o\0p\0e\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x03\
-    \0\0\0\xF0\0\0\0?\0\0\x05\xB9\0\0\x03\x99\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0\
+    \0\0\0\0\0\0\0\x16\0\0\x05\0\0\0\x03\x99\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0\
     (\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\
     \xFF\xFB\0\0\0\"\0a\0s\0g\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\
     \xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0 \0i\0q\0s\0 \0(\0t\0e\0s\0t\01\0\
@@ -20,8 +20,8 @@ pyrpl:
     \0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\00\0p\0y\0r\0p\0l\0c\0o\0\
     n\0f\0i\0g\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\
     \0\0]\0\xFF\xFF\xFF\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\0\
-    0\05\00\08\0)\x02\0\0\a\xE5\0\0\0\\\0\0\x06-\0\0\x03f\0\0\x05\xB9\0\0\0\0\0\0\0\
-    \x04\0\0\0\x04\0\0\0\b\0\0\0\b\xFC\0\0\0\0"
+    0\05\00\08\0)\x02\0\0\a\xE5\0\0\0\\\0\0\x06-\0\0\x03f\0\0\x05\0\0\0\0\0\0\0\0\x04\
+    \0\0\0\x04\0\0\0\b\0\0\0\b\xFC\0\0\0\0"
   gui: true
   loglevel: info
   modules:
@@ -32,10 +32,10 @@ pyrpl:
   - Lockbox
   name: test190508
   window_position:
-  - -1911
-  - 15
-  - 1465
-  - 983
+  - 1272
+  - -8
+  - 1280
+  - 1002
 redpitaya:
   autostart: true
   defaultport: 2222
@@ -56,27 +56,29 @@ redpitaya:
   user: root
 scope:
   curve_name: scope curve
-  duration: 1.073741824
+  duration: 2.147483648
   input1: in1
   input2: in2
   rolling_mode: true
   running_state: running_continuous
-  trigger_source: immediately
+  trigger_source: ch1_positive_edge
   average: false
   ch2_active: true
-  trace_average: 10
+  trace_average: 1
   xy_mode: false
   trigger_delay: 0.0
   hysteresis: 0.0
+  threshold: 0.5999755859375
+  ch1_active: true
 networkanalyzer:
   curve_name: networkanalyzer curve
 spectrumanalyzer:
   curve_name: spectrumanalyzer curve
 lockbox:
   sequence:
-  - duration: 0.2
+  - duration: 0.0
     function_call: ''
-    gain_factor: 873.0
+    gain_factor: 0.0872
     input: port1
     outputs:
       output1:
@@ -91,7 +93,7 @@ lockbox:
         lock_on: true
         offset: 0.0
         reset_offset: true
-    setpoint: 0.5
+    setpoint: 0.27
   outputs:
     output1:
       assisted_design: true
@@ -107,11 +109,11 @@ lockbox:
       p: 0.0
     piezo:
       additional_filter:
-      - 4.743187489051999
+      - 75.89113552886508
       - 0
       - 0
       - 0
-      analog_filter_cutoff: 0.05
+      analog_filter_cutoff: 2.0e-10
       assisted_design: false
       calibration_data:
         _analog_offset: 0.0
@@ -125,13 +127,13 @@ lockbox:
       desired_unity_gain_frequency: 0
       extra_module: None
       extra_module_state: None
-      i: -0.0001
+      i: -2.0e-08
       max_voltage: 0.8
       min_voltage: -0.8
       output_channel: out2
-      p: -0.002
-      sweep_amplitude: 0.1
-      sweep_frequency: 0.06660120010375976
+      p: -100.0
+      sweep_amplitude: 0.8
+      sweep_frequency: 3.0
       sweep_offset: 0.0
       sweep_waveform: ramp
       tf_curve: 0
@@ -152,47 +154,63 @@ lockbox:
       quadrature_factor: 0.0
     port1:
       calibration_data:
-        max: 0.8963623046875
-        mean: 0.522096797823906
-        min: 0.1524658203125
-        rms: 0.2528700139085707
+        max: 0.443359375
+        mean: 0.26722831279039383
+        min: 0.0859375
+        rms: 0.12252654062383603
       input_signal: in2
     port2:
       calibration_data:
-        max: 0.896728515625
-        mean: 0.5229537859559059
-        min: 0.152099609375
-        rms: 0.25203298047551786
+        max: 0.442626953125
+        mean: 0.26562749594449997
+        min: 0.0863037109375
+        rms: 0.12239155234398996
       input_signal: in2
   final_stage:
     duration: 0.0
     function_call: ''
-    gain_factor: 873.0
+    gain_factor: 0.0872
     input: port1
     outputs:
       piezo:
         lock_on: true
         offset: 0.0
         reset_offset: true
-    setpoint: 0.5
+    setpoint: 0.27
   wavelength: 6.33e-07
-  is_locked_threshold: 0.04
+  is_locked_threshold: 0.15
 scope_states:
   autosweep:
     average: true
     ch1_active: true
     ch2_active: true
     curve_name: scope curve
-    duration: 8.589934592
-    hysteresis: 0.00244140625
+    duration: 0.536870912
+    hysteresis: 0.0
     input1: in2
     input2: out2
     rolling_mode: false
     running_state: stopped
-    threshold: 0.0
+    threshold: 0.5999755859375
     trace_average: 1
     trigger_delay: 0.0
     trigger_source: asg1
+    xy_mode: false
+  acutoco_sweep:
+    average: false
+    ch1_active: true
+    ch2_active: true
+    curve_name: scope curve
+    duration: 1.073741824
+    hysteresis: 0.0
+    input1: in1
+    input2: lockbox.inputs.port1
+    rolling_mode: false
+    running_state: running_continuous
+    threshold: 0.800048828125
+    trace_average: 1
+    trigger_delay: 0.0
+    trigger_source: ch1_positive_edge
     xy_mode: false
 lockbox_states: {}
 inputs_states: {}
@@ -203,3 +221,16 @@ asg0:
   waveform: dc
 pyrplconfig: {}
 scopes: {}
+pid0:
+  i: 0.004632018480097623
+  input: out2
+  inputfilter:
+  - 0
+  - -1.1857967662444893
+  - 0
+  - 0
+  output_direct: 'off'
+  p: 0.001953125
+  setpoint: 0.27001953125
+pid1:
+  input: out2
