@@ -958,10 +958,10 @@
        </font>
       </property>
       <property name="minimum">
-       <double>-100000.000000000000000</double>
+       <double>-10000000.000000000000000</double>
       </property>
       <property name="maximum">
-       <double>100000.000000000000000</double>
+       <double>10000000.000000000000000</double>
       </property>
       <property name="value">
        <double>0.000000000000000</double>
@@ -982,10 +982,10 @@
        </font>
       </property>
       <property name="minimum">
-       <double>-100000.000000000000000</double>
+       <double>-10000000.000000000000000</double>
       </property>
       <property name="maximum">
-       <double>100000.000000000000000</double>
+       <double>10000000.000000000000000</double>
       </property>
       <property name="value">
        <double>10.000000000000000</double>

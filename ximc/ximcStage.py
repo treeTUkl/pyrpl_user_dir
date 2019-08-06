@@ -113,6 +113,7 @@ class StandaStage(Stage.Stage):
         pos = self.position["position_new_Steps"]
         upos = self.position["position_new_uSteps"]
         print('neue Position in Steps: ' + str(pos) + ', uSteps: ' + str(upos))
+        print('on the move to it\n')
         self.lib.command_move(self.device_id, pos, upos)
 
         # if self.statusHandler():

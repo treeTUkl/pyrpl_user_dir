@@ -28,9 +28,9 @@ class readConnection(threading.Thread):  # todo make thread
         # Bind the socket to the port
         server_address = (LOCALHOST, PORT)
         print('starting up on %s port %s' % server_address)
-        sock.bind(server_address)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sock.bind(server_address)
         """Calling listen() puts the socket into server mode, and accept() waits for an incoming connection."""
         # Listen for incoming connections
         sock.listen(1)
