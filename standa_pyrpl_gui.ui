@@ -43,7 +43,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;test&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Nullpunkt_controltab">
      <property name="autoFillBackground">
@@ -150,7 +150,7 @@
        </font>
       </property>
       <property name="inputMask">
-       <string>54545</string>
+       <string/>
       </property>
       <property name="text">
        <string>54545</string>
