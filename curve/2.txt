@@ -3,3 +3,11 @@ Sweep Offset -2e-2 V in pyrpl
 Sweep Ampitude 0.6 V in pyrpl
 
 Rampe
+
+
+HeNe
+max 0.478 
+min 0.06
+		delta 0.416
+		delta/2 0.208
+		logging at 0.214

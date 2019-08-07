@@ -163,17 +163,33 @@ class readQueue(threading.Thread):
                                 GUI.get_standa_settings_listWidget.clear()
                                 GUI.get_standa_settings_listWidget.addItem("Set Settings went wrong!")
 
+<<<<<<< HEAD
                     if GUI.standaclient.clientsendqueue.empty():
+=======
+
+                    if client.clientsendqueue.empty():
+                        now = time.time()
+>>>>>>> going_threads
                         if GUI.standa_moving_Check():
-                            now = time.time()
                             delta = now - timerstart
+<<<<<<< HEAD
                             if delta >1:
                                 if GUI.run_messung == True:
                                     GUI.standaclient.clientsendqueue.put(['POS', ""])
                                 else:
                                     GUI.standaclient.clientsendqueue.put(['STATE', ""])
+=======
+                            if delta > 5:
+                                client.clientsendqueue.put(['STATE', ""])
+>>>>>>> going_threads
                                 timerstart=time.time()
 
+                        else:
+                            if GUI.run_messung == True:
+                                delta = now - timerstart
+                                if delta > 5:
+                                    client.clientsendqueue.put(['POS', ""])
+                                    timerstart = time.time()
 
             if GUI.windowprintqueue.empty() == False:
                 windowstatus = GUI.windowprintqueue.get()
@@ -477,9 +493,10 @@ class Window(QtWidgets.QMainWindow):
     def stop_messung(self):
         self.run_messung = False
         self.progressBar.setValue(0)
+        client.clientsendqueue.put(['STOPMOVE', ''])
 
 
-        #self.messung(False)#TODO ? might needed?
+        self.messung(False)#TODO ? might needed?
 
     def add_to_list(self):
         if not self.run_messung:
