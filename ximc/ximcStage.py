@@ -208,10 +208,12 @@ class StandaStage(Stage.Stage):
     def move_left(self):
         print('\nmove_left aufgerufen!')
         self.lib.command_left(self.device_id)
+        time.sleep(.500)
 
     def move_right(self):
         print('\nmove_right aufgerufen!')
         self.lib.command_right(self.device_id)
+        time.sleep(.500)
 
     def stop_move(self):
         print('\nstop_move aufgerufen!')

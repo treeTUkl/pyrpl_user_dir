@@ -271,11 +271,13 @@ class readConnection(threading.Thread):  # todo make thread
                     connection.sendall(POS)
 
                 elif data[:] == "STOPMOVE":
+
                     stage.stop_move()
                     POS = "!+"+"STOPMOVE"+ "+!"
                     print('got ' + data[:] + ' send data back to the client')
                     POS = POS.encode()
                     connection.sendall(POS)
+
                 elif data[:] == "STOPFAST":
                     POS = stage.fast_stop()
                     print('got ' + data[:] + ' send data back to the client')

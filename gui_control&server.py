@@ -123,7 +123,7 @@ class readQueue(threading.Thread):
                                 if GUI.run_messung==True:
                                     GUI.standaclient.clientsendqueue.put(['POS', ""])
                             #GUI.print_list.addItem('STATE: ' + clientstatus[1])
-                            GUI.print_list.addItem('STATE: ')
+                            GUI.print_list.addItem('got STATE! ')
                             GUI.print_list.scrollToBottom()
                         elif clientstatus[0] == "POS":
                             if GUI.run_messung == True:
@@ -163,33 +163,22 @@ class readQueue(threading.Thread):
                                 GUI.get_standa_settings_listWidget.clear()
                                 GUI.get_standa_settings_listWidget.addItem("Set Settings went wrong!")
 
-<<<<<<< HEAD
                     if GUI.standaclient.clientsendqueue.empty():
-=======
+                        if GUI.standaclient.clientsendqueue.empty():
+                            now = time.time()
 
-                    if client.clientsendqueue.empty():
-                        now = time.time()
->>>>>>> going_threads
-                        if GUI.standa_moving_Check():
-                            delta = now - timerstart
-<<<<<<< HEAD
-                            if delta >1:
-                                if GUI.run_messung == True:
-                                    GUI.standaclient.clientsendqueue.put(['POS', ""])
-                                else:
-                                    GUI.standaclient.clientsendqueue.put(['STATE', ""])
-=======
-                            if delta > 5:
-                                client.clientsendqueue.put(['STATE', ""])
->>>>>>> going_threads
-                                timerstart=time.time()
-
-                        else:
-                            if GUI.run_messung == True:
+                            if GUI.standa_moving_Check():
                                 delta = now - timerstart
-                                if delta > 5:
-                                    client.clientsendqueue.put(['POS', ""])
-                                    timerstart = time.time()
+
+                                if delta > 0.2:
+                                    if GUI.run_messung == True:
+                                        GUI.standaclient.clientsendqueue.put(['POS', ""])
+                                        timerstart = time.time()
+                                    else:
+
+                                        GUI.windowprintqueue.put(['printme',"would have sendet state0"])
+                                        GUI.standaclient.clientsendqueue.put(['STATE', ""])
+                                        timerstart = time.time()
 
             if GUI.windowprintqueue.empty() == False:
                 windowstatus = GUI.windowprintqueue.get()
@@ -435,7 +424,7 @@ class Window(QtWidgets.QMainWindow):
                         if self.run_messung:
                             xitem = self.step_list.item(self.curstep).text()
                             self.windowprintqueue.put(['printme', 'Putting in First Step: '+ str(xitem)])
-                            GUI.standaclient.clientsendqueue.put(['Mess', str(xitem)])
+                            self.standaclient.clientsendqueue.put(['Mess', str(xitem)])
                             self.messung_pos=xitem
                             self.standa_moving_Check(True)
                     else:
@@ -475,7 +464,7 @@ class Window(QtWidgets.QMainWindow):
 
                             else:
                                 xitem = self.step_list.item(self.curstep).text()
-                                GUI.standaclient.clientsendqueue.put(['Mess', str(xitem)])  # TODO  bisher gibts kein send queue
+                                self.standaclient.clientsendqueue.put(['Mess', str(xitem)])  # TODO  bisher gibts kein send queue
                                 self.standa_moving_Check(True)
                                 self.messung_pos = xitem
 
@@ -493,9 +482,7 @@ class Window(QtWidgets.QMainWindow):
     def stop_messung(self):
         self.run_messung = False
         self.progressBar.setValue(0)
-        client.clientsendqueue.put(['STOPMOVE', ''])
-
-
+        self.standaclient.clientsendqueue.put(['STOPMOVE', ''])
         self.messung(False)#TODO ? might needed?
 
     def add_to_list(self):
