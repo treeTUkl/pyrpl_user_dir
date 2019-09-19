@@ -156,30 +156,7 @@ class readConnection(threading.Thread):  # todo make thread
                     new_position_in_as = float(data[4:])
                     print('Mess' + str(new_position_in_as))
                     stage.move_absolute_in_as(new_position_in_as)
-                    # while True:
-                    #     result = stage.Standa_Status()
-                    #     time.sleep(0.1)
-                    #     if result.MoveSts == 0:
-                    #         break
-                    #     POS ="!+"+ "STATE" + ", "
-                    #     POS = POS + "MoveSts" + "-> " + str(result.MoveSts) + ", "
-                    #     POS = POS + "CurSpeed" + "-> " + str(result.CurSpeed) + ", "
-                    #     POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed)+ ", "
-                    #     POS = POS + "CurPosition" + "-> " + str(result.CurPosition) + ", "
-                    #     POS = POS + "uCurPosition" + "-> " + str(result.uCurPosition) + "+!"
-                    #     POS = POS.encode()
-                    #     connection.sendall(POS)
-                    #     # time.sleep(0.1)
-                    #     # POS = stage.POS
-                    #     # print('pos in as: ' + str(POS))
-                    #     # print('sending data back to the client')
-                    #     # POS = "!+"+ "POS" + ", " + str(POS) + "+!"
-                    #     # POS = POS.encode()
-                    #     # connection.sendall(POS)
-                    # POS = stage.POS
-                    # print('pos in as: ' + str(POS))
-                    # print('sending data back to the client')
-                    # POS = "!+"+"Mess" + ", " + str(POS)+ "+!"
+
                     POS = "!+" + "Mess" + "+!"
                     POS = POS.encode()
                     connection.sendall(POS)

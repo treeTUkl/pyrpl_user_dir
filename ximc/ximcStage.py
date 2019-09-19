@@ -208,24 +208,24 @@ class StandaStage(Stage.Stage):
     def move_left(self):
         print('\nmove_left aufgerufen!')
         self.lib.command_left(self.device_id)
-        time.sleep(.500)
+        time.sleep(.100)
 
     def move_right(self):
         print('\nmove_right aufgerufen!')
         self.lib.command_right(self.device_id)
-        time.sleep(.500)
+        time.sleep(.100)
 
     def stop_move(self):
         print('\nstop_move aufgerufen!')
         self.lib.command_sstp(self.device_id)
-        time.sleep(.500)
+        time.sleep(.100)
 
     def fast_stop(self):
         print('\nfast_stop aufgerufen!')
         string = 'dont use me!!\n its hurting!'
         print(string)
         self.lib.command_stop(self.device_id)
-        time.sleep(.500)
+        time.sleep(.100)
         return string
 
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -268,7 +268,7 @@ class StandaStage(Stage.Stage):
             gohomeflag = True
 
         while True:
-            time.sleep(.500)
+
             statushand = self.Standa_Status()
             self.position["position_current_Steps"] = statushand.CurPosition
             self.position["position_current_uSteps"] = statushand.uCurPosition
