@@ -104,11 +104,11 @@ class client():
 
                 data = data[2:]
 
-                if data[:4] == "POSS":
-                    client.clientprintqueue.put(['POSS', data[6:]])
-                elif data[:3] == "POS":
-                    client.clientprintqueue.put(['POS', data[5:]])
-                elif data[:4] == "MOVV":
+                # if data[:4] == "POSS":
+                #     client.clientprintqueue.put(['POSS', data[6:]])
+                # elif data[:3] == "POS":
+                #     client.clientprintqueue.put(['POS', data[5:]])
+                if data[:4] == "MOVV":
                     client.clientprintqueue.put(['MOVV', ''])
                 elif data[:3] == "MOV":
                     client.clientprintqueue.put(['MOV', ''])
@@ -138,6 +138,16 @@ class client():
                 elif data[:4] == "Mess":
                     client.clientprintqueue.put(['Mess', ""])
                     #client.clientprintqueue.put(['Mess', data[6:]])
+                elif data[:] == "ClearList":
+                    while not client.clientsendqueue.empty():
+                        try:
+                            client.clientsendqueue.get(False)
+                        except Empty:
+                            continue
+                        client.clientsendqueue.task_done()
+                    if client.clientsendqueue.empty():
+                        client.clientprintqueue.put(['printme', 'Cleaned send quueue (Debugging Info)'])#TODO
+
                 else:
                     client.clientprintqueue.put(['printme', data])
 

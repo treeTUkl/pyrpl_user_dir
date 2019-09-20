@@ -102,26 +102,24 @@ class readConnection(threading.Thread):  # todo make thread
         while run:
             if ximcStageQueue.empty() == False:
                 data = ximcStageQueue.get()
-
-
-                if data[:3] == "POS":
-                    if data[:] == "POSS":
-                        POS = "!+" + "POSS" + ", "
-                        stage.position_get()
-                        POS = POS + str(stage.position["position_current_Steps"]) + ", " + str(
-                            stage.position["position_current_uSteps"])+ "+!"
-                        POS = POS.encode()
-                        print('got ' + data[:4] + ' send data back to the client')
-                        connection.sendall(POS)
-                    else:
-                        print('got ' + data[:3] + ' send data back to the client')
-                        POS = stage.POS
-                        print('pos in as: ' + str(POS))
-                        print('sending data back to the client')
-                        POS = "!+" +"POS" + ", " + str(POS) + "+!"
-                        POS = POS.encode()
-                        connection.sendall(POS)
-                elif data[:] == "STATE":
+                # if data[:3] == "POS":
+                #     if data[:] == "POSS":
+                #         POS = "!+" + "POSS" + ", "
+                #         stage.position_get()
+                #         POS = POS + str(stage.position["position_current_Steps"]) + ", " + str(
+                #             stage.position["position_current_uSteps"])+ "+!"
+                #         POS = POS.encode()
+                #         print('got ' + data[:4] + ' send data back to the client')
+                #         connection.sendall(POS)
+                #     else:
+                #         #print('got ' + data[:3] + ' send data back to the client')
+                #         POS = stage.POS
+                #         print('pos in as: ' + str(POS))
+                #         print('sending data back to the client')
+                #         POS = "!+" +"POS" + ", " + str(POS) + "+!"
+                #         POS = POS.encode()
+                #         connection.sendall(POS)
+                if data[:] == "STATE":
                     """
                     ("MoveSts", c_uint),
                     ("MvCmdSts", c_uint),
@@ -149,7 +147,9 @@ class readConnection(threading.Thread):  # todo make thread
                     POS = POS + "CurSpeed" + "-> " + str(result.CurSpeed) + ", "
                     POS = POS + "uCurSpeed" + "-> " + str(result.uCurSpeed) + ", "
                     POS = POS + "CurPosition" + "-> " + str(result.CurPosition) + ", "
-                    POS = POS + "uCurPosition" + "-> " + str(result.uCurPosition) + "+!"
+                    POS = POS + "uCurPosition" + "-> " + str(result.uCurPosition) + ", "
+                    result = stage.POS
+                    POS = POS + "asPosition" + "-> " + str(result) + "+!"
                     POS = POS.encode()
                     connection.sendall(POS)
                 elif data[:4] == "Mess":  # TODO make some thread becouse movv 50000 will run very long

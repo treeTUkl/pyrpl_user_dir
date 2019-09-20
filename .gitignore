@@ -2,3 +2,5 @@
 \.idea/
 
 ximc/__pycache__/
+
+__pycache__/

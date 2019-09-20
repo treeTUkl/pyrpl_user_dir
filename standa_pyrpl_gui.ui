@@ -24,7 +24,15 @@
   <property name="windowTitle">
    <string>AC_Control</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow{
+    background-color:      white;}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QWidget{
+    background-color:      white;}</string>
+   </property>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
@@ -43,7 +51,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;test&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Nullpunkt_controltab">
      <property name="autoFillBackground">
@@ -814,7 +822,7 @@
        </rect>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
      </widget>
      <zorder>StandaWidget</zorder>
@@ -1029,7 +1037,7 @@
      <widget class="QLabel" name="StartPoint">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>70</x>
         <y>50</y>
         <width>101</width>
         <height>21</height>
@@ -1050,7 +1058,7 @@
         <x>80</x>
         <y>100</y>
         <width>91</width>
-        <height>16</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
@@ -1374,6 +1382,59 @@
        <string>reverse List</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="nextStep_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>310</y>
+        <width>75</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Next Step</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="holdMessung_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>310</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Hold Messung</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="hide_messung_controls_widget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>300</y>
+        <width>281</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget{
+    background-color:      white;}</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -1431,7 +1492,7 @@ QRadioButton::indicator:checked {
 }
 
 QRadioButton::indicator:unchecked {
-    background-color:      white;
+    background-color:      grey;
     border:                 2px solid white;
 }</string>
     </property>
