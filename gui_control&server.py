@@ -6,6 +6,7 @@ import numpy
 import sys
 import time
 
+from multiprocessing import Process
 #from pyrpl import pyrpl
 #from pyrpl import sshshell
 import start_pyrpl
@@ -213,6 +214,7 @@ class readQueue(threading.Thread):
                                     timerstart = time.time()
                                 elif GUI.hold_messung == True:
                                     GUI.windowprintqueue.put(['printme', "Messung is paused"])
+                    time.sleep(0.01)
 
             if GUI.windowprintqueue.empty() == False:
                 while not GUI.windowprintqueue.empty():
@@ -225,7 +227,7 @@ class readQueue(threading.Thread):
                     GUI.windowprintqueue.task_done()
             if GUI.Standa_Connected == False:
                 GUI.Standa_Connected_check(False)
-
+            time.sleep(0.01)
             if GUI.readQueuebool== False:
                 break
             QApplication.processEvents()
@@ -785,8 +787,13 @@ class Window(QtWidgets.QMainWindow):
 
         self.windowprintqueue.put(['printme', 'Starting Pyrpl\nThis might take a while (up to 1min)'])
         QApplication.processEvents()
+       #pyrplThread= threading.Thread(target=start_pyrpl.pyrpl_p)
+       # pyrplProcess= Process(target=start_pyrpl.pyrpl_p)
         self.pyrpl_p = start_pyrpl.pyrpl_p()
         result = self.pyrpl_p.start()
+        #result=pyrplThread.run()
+        #result=pyrplProcess.run()
+
         self.pyrpl_Connected_check(result)
         if result== True:
             self.windowprintqueue.put(['printme', 'Pyrpl started !\n'])

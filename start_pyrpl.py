@@ -6,6 +6,7 @@ class pyrpl_p(object):
         self.pyrpl_Connected = False
         self.pyrpl_p = None
         self.pyrpl_voltage = 0
+        self.start()
 
     def start(self):
         try:

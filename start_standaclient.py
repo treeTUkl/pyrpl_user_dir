@@ -1,12 +1,14 @@
 import socket
 import queue
 import threading
+import time
 
 class client():
     #clientsendqueue = queue.Queue()
     #clientprintqueue = queue.Queue()
     def __init__(self, host, port, GUI):
-        threading.Thread.__init__(self)
+    #def __init__(self, host, port):
+        #threading.Thread.__init__(self)
         self.sock = 0
         self.HOST = host
         self.PORT = int(port)
@@ -150,6 +152,7 @@ class client():
 
                 else:
                     client.clientprintqueue.put(['printme', data])
+                time.sleep(0.01)
 
             except socket.error:
                 client.clientprintqueue.put(['printme', 'Error Occured.->closing socket'])
