@@ -141,7 +141,7 @@ class client():
                 elif data[:] == "ClearList":
                     while not client.clientsendqueue.empty():
                         try:
-                            client.clientsendqueue.get(False)
+                            client.clientsendqueue.get()
                         except Empty:
                             continue
                         client.clientsendqueue.task_done()

@@ -17,11 +17,11 @@ pyrpl:
     \xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\00\0c\0u\0r\0v\0e\0v\0i\0e\0w\0e\0\
     r\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\
     \xFF\xFF\xFB\0\0\00\0p\0y\0r\0p\0l\0c\0o\0n\0f\0i\0g\0 \0(\0t\0e\0s\0t\01\09\0\
-    0\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0\x16\0\xFF\xFF\xFF\xFB\0\0\0(\0l\0\
-    o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x03\0\0\0\xC7\0\0\01\0\
-    \0\x05\xF1\0\0\x03\xAC\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\0\
-    9\00\05\00\08\0)\x02\0\0\a\xE5\0\0\0\\\0\0\x06-\0\0\x03f\0\0\x05\xF1\0\0\0\0\0\
-    \0\0\x04\0\0\0\x04\0\0\0\b\0\0\0\b\xFC\0\0\0\0"
+    0\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\xFF\xFB\0\0\0(\0l\0\
+    o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x03\0\0\0q\0\0\0=\0\0\x05\
+    \xF1\0\0\x03\xAC\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0t\01\09\00\0\
+    5\00\08\0)\x02\0\0\a\xE5\0\0\0\\\0\0\x06-\0\0\x03f\0\0\x05\xF1\0\0\0\0\0\0\0\x04\
+    \0\0\0\x04\0\0\0\b\0\0\0\b\xFC\0\0\0\0"
   gui: true
   loglevel: info
   modules:
@@ -32,8 +32,8 @@ pyrpl:
   - Lockbox
   name: test190508
   window_position:
-  - -1905
-  - 0
+  - -1889
+  - 21
   - 1521
   - 1002
 redpitaya:
@@ -96,7 +96,7 @@ lockbox:
         lock_on: true
         offset: 0.25
         reset_offset: true
-    setpoint: 0.26
+    setpoint: 0.264
   outputs:
     output1:
       assisted_design: true
@@ -114,9 +114,9 @@ lockbox:
       additional_filter:
       - 18.972756741396708
       - 37.94553157665012
-      - 4857.616404670356
-      - 3108131.4996426
-      analog_filter_cutoff: 0.7175834887521967
+      - 2428.6599415484384
+      - 656885.0955548416
+      analog_filter_cutoff: 1.3265288463352614
       assisted_design: false
       calibration_data:
         _analog_offset: 0.0
@@ -125,16 +125,16 @@ lockbox:
         mean: 0.0
         min: 0.0
         rms: 0.0
-      d: 0.0013236155362281162
+      d: 0.0
       dc_gain: 873.0
-      desired_unity_gain_frequency: 0.00026024
+      desired_unity_gain_frequency: 0.0046
       extra_module: None
       extra_module_state: None
-      i: 0.00026024
+      i: 0.0046
       max_voltage: 0.8
       min_voltage: -0.8
       output_channel: out2
-      p: 0.0003626616332164086
+      p: 0.003467696923974328
       sweep_amplitude: 0.30577974319458
       sweep_frequency: 0.06830048561096191
       sweep_offset: 0.0
@@ -157,17 +157,17 @@ lockbox:
       quadrature_factor: 0.0
     port1:
       calibration_data:
-        max: 0.48779296875
-        mean: 0.2598622068762779
-        min: 0.031494140625
-        rms: 0.15543937460379847
+        max: 0.4495849609375
+        mean: 0.26962779462337494
+        min: 0.089111328125
+        rms: 0.12496902670969813
       input_signal: in2
     port2:
       calibration_data:
-        max: 0.488037109375
-        mean: 0.259522445499897
-        min: 0.0313720703125
-        rms: 0.1554952396741356
+        max: 0.4498291015625
+        mean: 0.2703084275126457
+        min: 0.0888671875
+        rms: 0.1249178952588018
       input_signal: in2
   final_stage:
     duration: 0.0
@@ -179,7 +179,7 @@ lockbox:
         lock_on: true
         offset: 0.25
         reset_offset: true
-    setpoint: 0.26
+    setpoint: 0.264
   wavelength: 6.33e-07
   is_locked_threshold: 0.08
 scope_states:
@@ -187,7 +187,7 @@ scope_states:
     average: true
     ch1_active: true
     ch2_active: true
-    curve_name: '190919_1135'
+    curve_name: scope curve
     duration: 8.589934592
     hysteresis: 0.0
     input1: in2

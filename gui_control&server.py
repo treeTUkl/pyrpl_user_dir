@@ -111,6 +111,7 @@ class readQueue(threading.Thread):
                             uCurPosition= states[4].split("-> ")
                             uCurPosition = uCurPosition[1]
                             asPosition = states[5].split("-> ")
+                            asPosition=asPosition[1]
                             while not isfloat(uCurPosition):
                                 uCurPosition=uCurPosition[:-1]
                             GUI.Pos_Number.display(CurPostiotion)
@@ -120,7 +121,7 @@ class readQueue(threading.Thread):
                                 if GUI.run_messung==True:
                                     if GUI.hold_messung == False: #TODO debugg this
                                             GUI.windowprintqueue.put(['printme', 'Still moving to Messpoint'])
-                                            GUI.windowprintqueue.put(['printme', 'Now at: ' + asPosition])
+                                            GUI.windowprintqueue.put(['printme', 'Now at: ' + str(asPosition)])
                                     elif GUI.hold_messung == True:
                                         GUI.windowprintqueue.put(['printme', "Messung is paused"])
                                         GUI.windowprintqueue.put(['printme', "But Standa is still moving to next Messpoint and will w8 there"])
@@ -192,7 +193,7 @@ class readQueue(threading.Thread):
                             delta = now - timerstart
                             if GUI.standa_live_control== True:
                                 w8time = 1
-                            if GUI.run_messung== True:
+                            elif GUI.run_messung== True:
                                 w8time = 3
                             else:
                                 w8time = 10
@@ -219,7 +220,7 @@ class readQueue(threading.Thread):
                     if windowstatus[0] == "printme":
                         string = str(windowstatus[1])
                         GUI.print_list.addItem(string)
-                        GUI.print_list.scrollToBottom()
+                        #GUI.print_list.scrollToBottom()
                         #GUI.windowprintqueue.task_done()
                     GUI.windowprintqueue.task_done()
             if GUI.Standa_Connected == False:
@@ -406,6 +407,7 @@ class Window(QtWidgets.QMainWindow):
             self.hold_messung= True
             self.holdMessung_pushButton.setText("continue")
             self.windowprintqueue.put(['printme', 'pausing Messung'])
+            self.standaclient.clientsendqueue.put(['STOPMOVE', ''])
         elif self.hold_messung== True:
             self.hold_messung=False
             self.holdMessung_pushButton.setText("Pause")
@@ -526,6 +528,7 @@ class Window(QtWidgets.QMainWindow):
                 self.run_messung=False
 
     def stop_messung(self):
+        self.hold_messung=False
         self.run_messung = False
         self.progressBar.setValue(0)
         if self.Standa_Connected==True:

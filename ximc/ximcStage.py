@@ -307,6 +307,7 @@ class StandaStage(Stage.Stage):
         print('pos in steps: ' + str(self.position["position_current_Steps"]) + ' uSteps: ' +
               str(self.position["position_current_uSteps"]))
         pos = self.position_current_in_as()
+        print('pos in as: ' + str(pos))
         return pos
 
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
