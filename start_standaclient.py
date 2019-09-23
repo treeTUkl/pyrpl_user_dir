@@ -4,15 +4,16 @@ import threading
 import time
 
 class client():
-    #clientsendqueue = queue.Queue()
-    #clientprintqueue = queue.Queue()
-    def __init__(self, host, port, GUI):
-    #def __init__(self, host, port):
+
+
+    #def __init__(self, host, port, GUI):
+        # \*----Mutliprozess------*/
+    def __init__(self, host, port):
         #threading.Thread.__init__(self)
         self.sock = 0
         self.HOST = host
         self.PORT = int(port)
-        self.GUI = GUI
+        #self.GUI = GUI
         self.stopconnect = False
         self.connect()
 
@@ -29,18 +30,18 @@ class client():
                 #client.clientsendqueue.put(["POSS", ""])
 
             except ConnectionRefusedError:
-                self.GUI.windowprintqueue.put(['printme', 'Connection Refused! Server might not ready'])
-                self.GUI.windowprintqueue.put(["printme", "Code to start on rp-f053d1:\n"
-                                                          "cd /root/ximc/ximc-2.9.8\npython3 ximcServer.py"])
-                self.GUI.standa_live_control = False
-                self.GUI.Standa_Connected_check(False)
-                self.GUI.standaclient = False
+              #  self.GUI.windowprintqueue.put(['printme', 'Connection Refused! Server might not ready'])
+              #  self.GUI.windowprintqueue.put(["printme", "Code to start on rp-f053d1:\n"
+              #                                            "cd /root/ximc/ximc-2.9.8\npython3 ximcServer.py"])
+               # self.GUI.standa_live_control = False
+               # self.GUI.Standa_Connected_check(False)
+                #self.GUI.standaclient = False
                 self.stopconnect =True
 
             except OSError:
-                self.GUI.windowprintqueue.put(['printme', 'Connection Refused! Server might not ready'])
+                #self.GUI.windowprintqueue.put(['printme', 'Connection Refused! Server might not ready'])
                 #self.QMessageBox.about(self, "Connect where to?", "Standa IP is seems invalid!")
-                self.GUI.windowprintqueue.put(['printme', 'stopping....'])
+                #self.GUI.windowprintqueue.put(['printme', 'stopping....'])
                 self.stopconnect = True
             finally:
                 if self.stopconnect == False:
@@ -49,7 +50,7 @@ class client():
                     client.clientprintqueue.put(['printme', 'connected to server'])#ToDO befor that the queue should be empty
                     client.clientprintqueue.put(['Standa_Connected_check', True])
                     client.clientsendqueue.put(["STATE", ""])
-                    self.GUI.Standa_Connected = True
+                    #self.GUI.Standa_Connected = True
                     self.handleThread=threading.Thread(target=self.handleClientQueue).start()
                     self.recvThread=threading.Thread(target=self.recv).start()
                 else:
@@ -169,7 +170,7 @@ class client():
         client.clientprintqueue.put(['cclose', ""])
 
         self.sock.close()
-        self.GUI.Standa_Connected = False
+        #self.GUI.Standa_Connected = False
         print("clientprintqueue died")
 
 
@@ -196,4 +197,5 @@ class client():
     def close(self):
         client.clientprintqueue.put(['printme', 'closing socket'])
         client.clientsendqueue.put(['close',""])
+        client.terminate()
         #self.send("close")

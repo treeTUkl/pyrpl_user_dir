@@ -5,8 +5,9 @@ import random
 import numpy
 import sys
 import time
+# \*----Mutliprozess------*/
+import multiprocessing as MP
 
-from multiprocessing import Process
 #from pyrpl import pyrpl
 #from pyrpl import sshshell
 import start_pyrpl
@@ -24,197 +25,210 @@ class readQueue(threading.Thread):
     def __init__(self, GUI):
         threading.Thread.__init__(self)
         timerstart=time.time()
+        counter = 0
         while GUI.readQueuebool:
             #if isinstance(GUI.standaclient,(Object)):
             if not GUI.standaclient is None:
-                if GUI.Standa_Connected==True:
+                # if GUI.Standa_Connected==True:
+                #
+                #     if GUI.standaclient.clientprintqueue.empty() == False:
+                #         clientstatus = GUI.standaclient.clientprintqueue.get()
+                #         if clientstatus[0] == "printme":
+                #             string = str(clientstatus[1])
+                #             GUI.windowprintqueue.put(['printme', string])
+                #
+                #         elif clientstatus[0] == "Standa_Connected_check":
+                #             mybool = bool(clientstatus[1])
+                #             GUI.Standa_Connected_check(mybool)
+                #         elif clientstatus[0] == "MOV":
+                #             GUI.windowprintqueue.put(['printme', 'Moving via MOV'])
+                #
+                #             GUI.standa_moving_Check(True)
+                #             #time.sleep(0.5)
+                #             #client.clientsendqueue.put(['STATE', ""])
+                #         elif clientstatus[0] == "MOVV":
+                #             GUI.windowprintqueue.put(['printme', 'Moving via MOVV'])
+                #
+                #             #time.sleep(0.5)
+                #             GUI.standa_moving = True
+                #             #client.clientsendqueue.put(['STATE', ""])
+                #         elif clientstatus[0] == "LMOVE":
+                #             GUI.windowprintqueue.put(['printme', 'Moving via LMOVE'])
+                #             GUI.standa_moving_Check(True)
+                #             #time.sleep(0.5)
+                #             #client.clientsendqueue.put(['STATE', ""])
+                #         elif clientstatus[0] == "RMOVE":
+                #             GUI.windowprintqueue.put(['printme', 'Moving via RMOVE'])
+                #
+                #             GUI.standa_moving_Check(True)
+                #             #time.sleep(0.5)
+                #             #client.clientsendqueue.put(['STATE', ""])
+                #         elif clientstatus[0] == "SDN":
+                #             GUI.windowprintqueue.put(['printme', 'Got SDN'])
+                #
+                #         elif clientstatus[0] == "DEH":
+                #             GUI.windowprintqueue.put(['printme', 'Got DEH'])
+                #             #GUI.standaclient.clientsendqueue.put(['POSS',""])
+                #             GUI.standaclient.clientsendqueue.put(['STATE',""])
+                #
+                #         elif clientstatus[0] == "MVR":
+                #             GUI.windowprintqueue.put(['printme', 'Moving via MVR'])
+                #
+                #             GUI.standa_moving_Check(True)
+                #             #time.sleep(0.5)
+                #         elif clientstatus[0]== "Mess":
+                #             GUI.standa_moving_Check(True)
+                #             GUI.windowprintqueue.put(['printme', 'Moving via AC Messung'])
+                #
+                #             # GUI.Messung_Messpoint(clientstatus[1])
+                #             # GUI.print_list.addItem('Messpoint Reached!')
+                #             # GUI.print_list.scrollToBottom()
+                #         elif clientstatus[0] == "MVRR":
+                #             GUI.windowprintqueue.put(['printme', 'Moving via MVRR'])
+                #
+                #             GUI.standa_moving_Check(True)
+                #             #time.sleep(0.5)
+                #             #client.clientsendqueue.put(['STATE', ""])
+                #         elif clientstatus[0] == "STOPMOVE":
+                #             #time.sleep(0.5)
+                #             #GUI.standa_moving_Check(False)
+                #             #client.clientsendqueue.put(['STATE', ""])
+                #             #QApplication.processEvents()
+                #             #GUI.print_list.addItem('STATE: ' + clientstatus[1])
+                #             GUI.windowprintqueue.put(['printme', 'Stopmove'])
+                #             #GUI.print_list.scrollToBottom()
+                #         elif clientstatus[0] == "STATE":
+                #             #GUI.windowprintqueue.put(['printme', 'got STATE! '])
+                #             states = clientstatus[1].split(", ")
+                #             MoveSts = states[0].split("-> ")
+                #             MoveSts = MoveSts[1]
+                #             CurSpeed = states[1].split("-> ")
+                #             CurSpeed = CurSpeed[1]
+                #             uCurSpeed = states[2].split("-> ")
+                #             uCurSpeed = uCurSpeed[1]
+                #             CurPostiotion=states[3].split("-> ")
+                #             if not isfloat(CurPostiotion[1]):
+                #                 #SOMETHING WENT WRONG
+                #                 pass
+                #             CurPostiotion= CurPostiotion[1]
+                #             uCurPosition= states[4].split("-> ")
+                #             uCurPosition = uCurPosition[1]
+                #             asPosition = states[5].split("-> ")
+                #             asPosition=asPosition[1]
+                #             while not isfloat(uCurPosition):
+                #                 uCurPosition=uCurPosition[:-1]
+                #             GUI.Pos_Number.display(CurPostiotion)
+                #             GUI.uPos_Number.display(uCurPosition)
+                #             if CurSpeed != "0" or uCurSpeed != "0" or MoveSts != "0":
+                #                 GUI.standa_moving_Check(True)
+                #                 if GUI.run_messung==True:
+                #                     if GUI.hold_messung == False: #TODO debugg this
+                #                             GUI.windowprintqueue.put(['printme', 'Still moving to Messpoint'])
+                #                             GUI.windowprintqueue.put(['printme', 'Now at: ' + str(asPosition)])
+                #                     elif GUI.hold_messung == True:
+                #                         GUI.windowprintqueue.put(['printme', "Messung is paused"])
+                #                         GUI.windowprintqueue.put(['printme', "But Standa is still moving to next Messpoint and will w8 there"])
+                #                     #GUI.windowprintqueue.put(['printme', "Pos: " + CurPostiotion + '\n'+'uPos: ' + uCurPosition])
+                #                     #TODO
+                #             else:
+                #                 GUI.standa_moving_Check(False)
+                #                 if GUI.run_messung==True:
+                #                     if GUI.messung_pos == asPosition:
+                #                         GUI.windowprintqueue.put(['printme', 'Messpoint Reached!'])
+                #                         GUI.Messung_Messpoint(asPosition)
+                #                     else:
+                #                         if GUI.standa_moving_Check() == False:
+                #                             GUI.windowprintqueue.put(['printme', 'Messpoint Missed! Trying again'])
+                #                             GUI.standaclient.clientsendqueue.put(['Mess', str(GUI.messung_pos)])
+                #                             GUI.standa_moving_Check(True)
+                #
+                #         #            GUI.windowprintqueue.put(['printme', "couse of State i check POS"])
+                #         #            GUI.standaclient.clientsendqueue.put(['POS', ""])
+                #             #GUI.print_list.addItem('STATE: ' + clientstatus[1])
+                #         # elif clientstatus[0] == "POS":
+                #         #     if GUI.run_messung == True:
+                #         #         if GUI.hold_messung ==False:
+                #         #             if GUI.messung_pos == clientstatus[1]:
+                #         #                 GUI.windowprintqueue.put(['printme', 'Messpoint Reached!'])
+                #         #                 GUI.Messung_Messpoint(clientstatus[1])
+                #         #             else:
+                #         #                 if GUI.standa_moving_Check()==False:#
+                #         #                     GUI.windowprintqueue.put(['printme', 'Messpoint Missed! Trying again'])
+                #         #                     GUI.standaclient.clientsendqueue.put(['Mess', str(GUI.messung_pos)])
+                #         #                     GUI.standa_moving_Check(True)
+                #         #                 GUI.windowprintqueue.put(['printme', 'Still moving to Messpoint'])
+                #         #                 GUI.windowprintqueue.put(['printme', 'Now at: ' + clientstatus[1]])
+                #         #         elif GUI.hold_messung == True:
+                #         #             pass
+                #         #     elif GUI.run_messung == False:
+                #         #         GUI.standa_moving_Check(False)
+                #         #         GUI.windowprintqueue.put(['printme', 'Messung stopped!'])
+                #         #
+                #         # elif clientstatus[0] == "POSS":
+                #         #     result = clientstatus[1].split(', ')
+                #         #     GUI.Pos_Number.display(result[0])
+                #         #     GUI.uPos_Number.display(result[1])
+                #         elif clientstatus[0] == "close":
+                #             GUI.windowprintqueue.put(['printme','this is odd\nserver sended "close" so... closing socket'])
+                #         elif clientstatus[0] == "received":
+                #             GUI.windowprintqueue.put(['received: ' + clientstatus[1]])
+                #         elif clientstatus[0] == "MGET":
+                #             result = clientstatus[1].split(", ")
+                #             GUI.get_standa_settings_listWidget.clear()
+                #             for each in result:
+                #                 GUI.get_standa_settings_listWidget.addItem(str(each) + "\n")
+                #             MicrosetpValue = result[3]
+                #             MicrosetpValue = MicrosetpValue[len(MicrosetpValue) - 1:len(MicrosetpValue)]
+                #             GUI.Microstep_mode_choos_spinBox.setValue(int(MicrosetpValue))
+                #             GUI.print_list.scrollToBottom()
+                #         elif clientstatus[0] == "MSET":
+                #             if clientstatus[1] == "Standa_set_settings worked":
+                #                 GUI.windowprintqueue.put(['printme', str(clientstatus[1])])
+                #                 GUI.standa_get_settings()
+                #             else:
+                #                 GUI.get_standa_settings_listWidget.clear()
+                #                 GUI.get_standa_settings_listWidget.addItem("Set Settings went wrong!")
 
-                    if GUI.standaclient.clientprintqueue.empty() == False:
-                        clientstatus = GUI.standaclient.clientprintqueue.get()
-                        if clientstatus[0] == "printme":
-                            string = str(clientstatus[1])
-                            GUI.windowprintqueue.put(['printme', string])
-
-                        elif clientstatus[0] == "Standa_Connected_check":
-                            mybool = bool(clientstatus[1])
-                            GUI.Standa_Connected_check(mybool)
-                        elif clientstatus[0] == "MOV":
-                            GUI.windowprintqueue.put(['printme', 'Moving via MOV'])
-
-                            GUI.standa_moving_Check(True)
-                            #time.sleep(0.5)
-                            #client.clientsendqueue.put(['STATE', ""])
-                        elif clientstatus[0] == "MOVV":
-                            GUI.windowprintqueue.put(['printme', 'Moving via MOVV'])
-
-                            #time.sleep(0.5)
-                            GUI.standa_moving = True
-                            #client.clientsendqueue.put(['STATE', ""])
-                        elif clientstatus[0] == "LMOVE":
-                            GUI.windowprintqueue.put(['printme', 'Moving via LMOVE'])
-                            GUI.standa_moving_Check(True)
-                            #time.sleep(0.5)
-                            #client.clientsendqueue.put(['STATE', ""])
-                        elif clientstatus[0] == "RMOVE":
-                            GUI.windowprintqueue.put(['printme', 'Moving via RMOVE'])
-
-                            GUI.standa_moving_Check(True)
-                            #time.sleep(0.5)
-                            #client.clientsendqueue.put(['STATE', ""])
-                        elif clientstatus[0] == "SDN":
-                            GUI.windowprintqueue.put(['printme', 'Got SDN'])
-
-                        elif clientstatus[0] == "DEH":
-                            GUI.windowprintqueue.put(['printme', 'Got DEH'])
-                            #GUI.standaclient.clientsendqueue.put(['POSS',""])
-                            GUI.standaclient.clientsendqueue.put(['STATE',""])
-
-                        elif clientstatus[0] == "MVR":
-                            GUI.windowprintqueue.put(['printme', 'Moving via MVR'])
-
-                            GUI.standa_moving_Check(True)
-                            #time.sleep(0.5)
-                        elif clientstatus[0]== "Mess":
-                            GUI.standa_moving_Check(True)
-                            GUI.windowprintqueue.put(['printme', 'Moving via AC Messung'])
-
-                            # GUI.Messung_Messpoint(clientstatus[1])
-                            # GUI.print_list.addItem('Messpoint Reached!')
-                            # GUI.print_list.scrollToBottom()
-                        elif clientstatus[0] == "MVRR":
-                            GUI.windowprintqueue.put(['printme', 'Moving via MVRR'])
-
-                            GUI.standa_moving_Check(True)
-                            #time.sleep(0.5)
-                            #client.clientsendqueue.put(['STATE', ""])
-                        elif clientstatus[0] == "STOPMOVE":
-                            #time.sleep(0.5)
-                            #GUI.standa_moving_Check(False)
-                            #client.clientsendqueue.put(['STATE', ""])
-                            #QApplication.processEvents()
-                            #GUI.print_list.addItem('STATE: ' + clientstatus[1])
-                            GUI.windowprintqueue.put(['printme', 'Stopmove'])
-                            #GUI.print_list.scrollToBottom()
-                        elif clientstatus[0] == "STATE":
-                            #GUI.windowprintqueue.put(['printme', 'got STATE! '])
-                            states = clientstatus[1].split(", ")
-                            MoveSts = states[0].split("-> ")
-                            MoveSts = MoveSts[1]
-                            CurSpeed = states[1].split("-> ")
-                            CurSpeed = CurSpeed[1]
-                            uCurSpeed = states[2].split("-> ")
-                            uCurSpeed = uCurSpeed[1]
-                            CurPostiotion=states[3].split("-> ")
-                            if not isfloat(CurPostiotion[1]):
-                                #SOMETHING WENT WRONG
-                                pass
-                            CurPostiotion= CurPostiotion[1]
-                            uCurPosition= states[4].split("-> ")
-                            uCurPosition = uCurPosition[1]
-                            asPosition = states[5].split("-> ")
-                            asPosition=asPosition[1]
-                            while not isfloat(uCurPosition):
-                                uCurPosition=uCurPosition[:-1]
-                            GUI.Pos_Number.display(CurPostiotion)
-                            GUI.uPos_Number.display(uCurPosition)
-                            if CurSpeed != "0" or uCurSpeed != "0" or MoveSts != "0":
-                                GUI.standa_moving_Check(True)
-                                if GUI.run_messung==True:
-                                    if GUI.hold_messung == False: #TODO debugg this
-                                            GUI.windowprintqueue.put(['printme', 'Still moving to Messpoint'])
-                                            GUI.windowprintqueue.put(['printme', 'Now at: ' + str(asPosition)])
-                                    elif GUI.hold_messung == True:
-                                        GUI.windowprintqueue.put(['printme', "Messung is paused"])
-                                        GUI.windowprintqueue.put(['printme', "But Standa is still moving to next Messpoint and will w8 there"])
-                                    #GUI.windowprintqueue.put(['printme', "Pos: " + CurPostiotion + '\n'+'uPos: ' + uCurPosition])
-                                    #TODO
-                            else:
-                                GUI.standa_moving_Check(False)
-                                if GUI.run_messung==True:
-                                    if GUI.messung_pos == asPosition:
-                                        GUI.windowprintqueue.put(['printme', 'Messpoint Reached!'])
-                                        GUI.Messung_Messpoint(asPosition)
-                                    else:
-                                        if GUI.standa_moving_Check() == False:
-                                            GUI.windowprintqueue.put(['printme', 'Messpoint Missed! Trying again'])
-                                            GUI.standaclient.clientsendqueue.put(['Mess', str(GUI.messung_pos)])
-                                            GUI.standa_moving_Check(True)
-
-                        #            GUI.windowprintqueue.put(['printme', "couse of State i check POS"])
-                        #            GUI.standaclient.clientsendqueue.put(['POS', ""])
-                            #GUI.print_list.addItem('STATE: ' + clientstatus[1])
-                        # elif clientstatus[0] == "POS":
-                        #     if GUI.run_messung == True:
-                        #         if GUI.hold_messung ==False:
-                        #             if GUI.messung_pos == clientstatus[1]:
-                        #                 GUI.windowprintqueue.put(['printme', 'Messpoint Reached!'])
-                        #                 GUI.Messung_Messpoint(clientstatus[1])
-                        #             else:
-                        #                 if GUI.standa_moving_Check()==False:#
-                        #                     GUI.windowprintqueue.put(['printme', 'Messpoint Missed! Trying again'])
-                        #                     GUI.standaclient.clientsendqueue.put(['Mess', str(GUI.messung_pos)])
-                        #                     GUI.standa_moving_Check(True)
-                        #                 GUI.windowprintqueue.put(['printme', 'Still moving to Messpoint'])
-                        #                 GUI.windowprintqueue.put(['printme', 'Now at: ' + clientstatus[1]])
-                        #         elif GUI.hold_messung == True:
-                        #             pass
-                        #     elif GUI.run_messung == False:
-                        #         GUI.standa_moving_Check(False)
-                        #         GUI.windowprintqueue.put(['printme', 'Messung stopped!'])
-                        #
-                        # elif clientstatus[0] == "POSS":
-                        #     result = clientstatus[1].split(', ')
-                        #     GUI.Pos_Number.display(result[0])
-                        #     GUI.uPos_Number.display(result[1])
-                        elif clientstatus[0] == "close":
-                            GUI.windowprintqueue.put(['printme','this is odd\nserver sended "close" so... closing socket'])
-                        elif clientstatus[0] == "received":
-                            GUI.windowprintqueue.put(['received: ' + clientstatus[1]])
-                        elif clientstatus[0] == "MGET":
-                            result = clientstatus[1].split(", ")
-                            GUI.get_standa_settings_listWidget.clear()
-                            for each in result:
-                                GUI.get_standa_settings_listWidget.addItem(str(each) + "\n")
-                            MicrosetpValue = result[3]
-                            MicrosetpValue = MicrosetpValue[len(MicrosetpValue) - 1:len(MicrosetpValue)]
-                            GUI.Microstep_mode_choos_spinBox.setValue(int(MicrosetpValue))
-                            GUI.print_list.scrollToBottom()
-                        elif clientstatus[0] == "MSET":
-                            if clientstatus[1] == "Standa_set_settings worked":
-                                GUI.windowprintqueue.put(['printme', str(clientstatus[1])])
-                                GUI.standa_get_settings()
-                            else:
-                                GUI.get_standa_settings_listWidget.clear()
-                                GUI.get_standa_settings_listWidget.addItem("Set Settings went wrong!")
-
-                    if GUI.standaclient.clientsendqueue.empty():
-                        if GUI.standaclient.clientsendqueue.empty():
-                            now = time.time()
-                            #if GUI.standa_moving_Check():
-                            delta = now - timerstart
-                            if GUI.standa_live_control== True:
-                                w8time = 1
-                            elif GUI.run_messung== True:
-                                w8time = 3
-                            else:
-                                w8time = 10
-                                # if GUI.run_messung == True:
-                                #     if delta > 3:
-                                #         if GUI.hold_messung== False:
-                                #             GUI.windowprintqueue.put(['printme', "checking pos"])
-                                #             GUI.standaclient.clientsendqueue.put(['POS', ""])
-                                #             timerstart = time.time()
-                                #         elif GUI.hold_messung == True:
-                                #             GUI.windowprintqueue.put(['printme', "Messung is paused"])
-                                # else:
-                            if delta > w8time:
-                                if GUI.hold_messung == False:
-                                    #GUI.windowprintqueue.put(['printme',"sendet state0"])
-                                    GUI.standaclient.clientsendqueue.put(['STATE', ""])
-                                    timerstart = time.time()
-                                elif GUI.hold_messung == True:
-                                    GUI.windowprintqueue.put(['printme', "Messung is paused"])
+                    # if GUI.standaclient.clientsendqueue.empty():
+                    #     if GUI.standaclient.clientsendqueue.empty():
+                    #         now = time.time()
+                    #         #if GUI.standa_moving_Check():
+                    #         delta = now - timerstart
+                    #         if GUI.standa_live_control== True:
+                    #             w8time = 1
+                    #         elif GUI.run_messung== True:
+                    #             w8time = 3
+                    #         else:
+                    #             w8time = 10
+                    #             # if GUI.run_messung == True:
+                    #             #     if delta > 3:
+                    #             #         if GUI.hold_messung== False:
+                    #             #             GUI.windowprintqueue.put(['printme', "checking pos"])
+                    #             #             GUI.standaclient.clientsendqueue.put(['POS', ""])
+                    #             #             timerstart = time.time()
+                    #             #         elif GUI.hold_messung == True:
+                    #             #             GUI.windowprintqueue.put(['printme', "Messung is paused"])
+                    #             # else:
+                    #         if delta > w8time:
+                    #             if GUI.hold_messung == False:
+                    #                 #GUI.windowprintqueue.put(['printme',"sendet state0"])
+                    #                 GUI.standaclient.clientsendqueue.put(['STATE', ""])
+                    #                 timerstart = time.time()
+                    #             elif GUI.hold_messung == True:
+                    #                 GUI.windowprintqueue.put(['printme', "Messung is paused"])
                     time.sleep(0.01)
+
+            if GUI.Standa_Connected is True:
+
+                if GUI.standaclient.is_alive():
+                    counter = counter + 1
+                    GUI.windowprintqueue.put(['printme', "standa still alive"+ str(counter)])
+
+                    time.sleep(2)
+                else:
+                    if counter > 0:
+                        GUI.windowprintqueue.put(['printme', "standa died"])
+                    counter=0
 
             if GUI.windowprintqueue.empty() == False:
                 while not GUI.windowprintqueue.empty():
@@ -592,9 +606,37 @@ class Window(QtWidgets.QMainWindow):
             else:
                 #while self.Standa_Connected== False:
                     self.windowprintqueue.put(['printme', "Connect to Standa_Server via:\n" + str(standa_ip) + ", " + str(standa_port)])
-                    self.standaclient = start_standaclient.client(standa_ip, standa_port, GUI=self)
+                    # \*----Mutliprozess------*/
+                    # MP.set_start_method('spawn')
+                    #
+                    #self.standaclient= MP.Process(target=start_standaclient.client, args=(standa_ip, standa_port), daemon=True)
+                    self.standaclient = MP.Process(target=start_standaclient.client, args=(standa_ip, standa_port))
+                    #TODO/ from multiprocessing import Process, Queue standa need to get the queeues form als args!
+
+                        # def f(q):
+                        #     q.put([42, None, 'hello'])
+                        #
+                        # if __name__ == '__main__':
+                        #     q = Queue()
+                        #     p = Process(target=f, args=(q,))
+                        #     p.start()
+                        #     print q.get()    # prints "[42, None, 'hello']"
+                        #     p.join()
+                    result = self.standaclient.start()
+                    time.sleep(2)
+                    result = self.standaclient.is_alive()
+                    if result is True:
+                        self.Standa_Connected= True
+                    # \*----Original------*/
+                    # self.standaclient = start_standaclient.client(standa_ip, standa_port, GUI=self)
                     if self.Standa_Connected== True:
-                        pass#break
+                        self.windowprintqueue.put(['printme', 'Connection worked!'])
+                        #now check wahts in standa!
+                        self.standaclient.is_alive()
+                        time.sleep(2)
+                        self.standaclient.is_alive()
+                        self.standaclient.is_alive()
+                        self.standaclient.is_alive()
                     else:
                         self.standa_live_control_stop()
                         self.standaclient = False
@@ -617,14 +659,18 @@ class Window(QtWidgets.QMainWindow):
 
     def Standa_Close_Connection_to_Server(self):
         self.windowprintqueue.put(['printme', 'Closing connection to Standa\n'])
-        if not self.standaclient == False:
-            self.standa_live_control_stop()
-            self.standaclient.close()
-            self.standaclient = False
-            #self.standa_live_control = False
-            self.Standa_Connected_check(False)
-        elif self.Standa_Connected == True:
-            self.Standa_Connected_check(True)
+        # \*----Mutliprozess------*/TODO
+        self.standaclient.terminate()
+        self.standaclient.join()
+        # if not self.standaclient == False:
+        #     self.standa_live_control_stop()
+        #     self.standaclient.close()
+        #     self.standaclient = False
+        #     #self.standa_live_control = False
+        #     self.Standa_Connected_check(False)
+        # elif self.Standa_Connected == True:
+        #     self.Standa_Connected_check(True)
+
 
     def standa_check(self):
         if self.Standa_Connected_check():
@@ -663,6 +709,7 @@ class Window(QtWidgets.QMainWindow):
             self.Pos_Number.display('NaN')
             self.uPos_Number.display('NaN')
             self.standa_live_control = False
+
 
     def standa_pos(self):
         if self.standa_check():
@@ -771,9 +818,11 @@ class Window(QtWidgets.QMainWindow):
         if self.pyrpl_Connected:
             self.windowprintqueue.put(['printme', 'close Pyrpl'])
             self.pyrpl_p.stop_pyrpl()
+
             self.pyrpl_p = None
             self.pyrpl_Connected_check(False)
             self.print_list.scrollToBottom()
+
 
     def pyrpl_input_choice(self):
         if self.pyrpl_input1.isChecked():
@@ -787,13 +836,22 @@ class Window(QtWidgets.QMainWindow):
 
         self.windowprintqueue.put(['printme', 'Starting Pyrpl\nThis might take a while (up to 1min)'])
         QApplication.processEvents()
+
+        # \*----Mutliprozess------*/
+        # MP.set_start_method('spawn')
+        #
+        # self.pyrpl_p= MP.Process(target=start_pyrpl.pyrpl_p, args=(), daemon=True)
+        # result = self.pyrpl_p.start()
+        #result = self.pyrpl_p.is_alive()
        #pyrplThread= threading.Thread(target=start_pyrpl.pyrpl_p)
        # pyrplProcess= Process(target=start_pyrpl.pyrpl_p)
+        #result = self.pyrpl_p.start()
+        # result=pyrplThread.run()
+        # result=pyrplProcess.run()
+
+        # \*----Original------*/
         self.pyrpl_p = start_pyrpl.pyrpl_p()
         result = self.pyrpl_p.start()
-        #result=pyrplThread.run()
-        #result=pyrplProcess.run()
-
         self.pyrpl_Connected_check(result)
         if result== True:
             self.windowprintqueue.put(['printme', 'Pyrpl started !\n'])

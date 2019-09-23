@@ -1,7 +1,7 @@
 from pyrpl import pyrpl
 import sys
 
-class pyrpl_p(object):
+class pyrpl_p():
     def __init__(self):
         self.pyrpl_Connected = False
         self.pyrpl_p = None
@@ -13,10 +13,14 @@ class pyrpl_p(object):
             if self.pyrpl_p is None:
                 self.pyrpl_p = pyrpl.Pyrpl(config='test19_05_03')
                 self.pyrpl_p.lockbox.classname = "AG_Lockbox"
+               # self.pyrpl_p.show_gui()
+
         except (RuntimeError, TypeError, NameError):
-            self.windowprintqueue.put(['printme', 'Something went wrong with pyrpl'])
-            self.pyrpl_p=None
+            pass
+            #self.windowprintqueue.put(['printme', 'Something went wrong with pyrpl'])
+            #self.pyrpl_p=None
         finally:
+            pass
             if not self.pyrpl_p is None:
                 self.pyrpl_Connected = True
             else:
