@@ -824,6 +824,22 @@
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>250</x>
+         <y>110</y>
+         <width>171</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Um Standa via Putty zu starten:
+cd /root/ximc/ximc-2.9.8
+python3 ximcServer.py
+</string>
+       </property>
+      </widget>
      </widget>
      <zorder>StandaWidget</zorder>
      <zorder>Standa_Connect_Button</zorder>
