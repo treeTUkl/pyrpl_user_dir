@@ -8,13 +8,15 @@ class client():
 
     #def __init__(self, host, port, GUI):
         # \*----Mutliprozess------*/
-    def __init__(self, host, port):
+    def __init__(self, host, port,clientsendqueue,clientprintqueue ):
         #threading.Thread.__init__(self)
         self.sock = 0
         self.HOST = host
         self.PORT = int(port)
         #self.GUI = GUI
         self.stopconnect = False
+        self.clientsendqueue=clientsendqueue
+        self.clientprintqueue=clientprintqueue
         self.connect()
 
     def connect(self):
@@ -25,14 +27,15 @@ class client():
 
             try:
                 self.sock.connect((self.HOST, self.PORT))
-                #client.clientprintqueue.put(['printme', 'connected to server'])#ToDO befor that the queue should be empty
-                #client.clientprintqueue.put(['Standa_Connected_check', True])
-                #client.clientsendqueue.put(["POSS", ""])
+                self.clientprintqueue.put(['printme', 'connected to server'])#ToDO befor that the queue should be empty
+                self.clientprintqueue.put(['Standa_Connected_check', True])
+                self.clientsendqueue.put(["POSS", ""])
 
             except ConnectionRefusedError:
-              #  self.GUI.windowprintqueue.put(['printme', 'Connection Refused! Server might not ready'])
-              #  self.GUI.windowprintqueue.put(["printme", "Code to start on rp-f053d1:\n"
-              #                                            "cd /root/ximc/ximc-2.9.8\npython3 ximcServer.py"])
+                self.clientprintqueue.put(['printme', 'Connection Refused! Server might not ready'])
+                self.clientprintqueue.put(["printme", "Code to start on rp-f053d1:\n"
+                                                           "cd /root/ximc/ximc-2.9.8\npython3 ximcServer.py"])
+                self.clientprintqueue.put(["Standa_Refused",""])
                # self.GUI.standa_live_control = False
                # self.GUI.Standa_Connected_check(False)
                 #self.GUI.standaclient = False
@@ -45,11 +48,9 @@ class client():
                 self.stopconnect = True
             finally:
                 if self.stopconnect == False:
-                    client.clientsendqueue = queue.Queue()
-                    client.clientprintqueue = queue.Queue()
-                    client.clientprintqueue.put(['printme', 'connected to server'])#ToDO befor that the queue should be empty
-                    client.clientprintqueue.put(['Standa_Connected_check', True])
-                    client.clientsendqueue.put(["STATE", ""])
+                    self.clientprintqueue.put(['printme', 'connected to server'])#ToDO befor that the queue should be empty
+                    self.clientprintqueue.put(['Standa_Connected_check', True])
+                    self.clientsendqueue.put(["STATE", ""])
                     #self.GUI.Standa_Connected = True
                     self.handleThread=threading.Thread(target=self.handleClientQueue).start()
                     self.recvThread=threading.Thread(target=self.recv).start()
@@ -60,9 +61,9 @@ class client():
     def handleClientQueue(self):#TODO when will i arrive here?
 
         while True:
-            if client.clientsendqueue.empty() == False:
+            if self.clientsendqueue.empty() == False:
 
-                clientsend = client.clientsendqueue.get()
+                clientsend = self.clientsendqueue.get()
 
                 string=str(clientsend[0]+clientsend[1])
                 if clientsend[0]=="cclose":
@@ -74,7 +75,7 @@ class client():
                     self.send(string)
                     string=""
                     #time.sleep(0.03)
-                client.clientsendqueue.task_done()
+                self.clientsendqueue.task_done()
         print("handleClientQueue died")
 
 
@@ -88,7 +89,7 @@ class client():
 
                 data = data.decode()
                 if not data:
-                    client.clientprintqueue.put(
+                    self.clientprintqueue.put(
                         ['printme', 'nothing received.\nseems to be an error on server\nnothing '
                                     'received.\nseems to be an error on server\nmight need to call'
                                     ' close socket here?'])
@@ -108,66 +109,66 @@ class client():
                 data = data[2:]
 
                 # if data[:4] == "POSS":
-                #     client.clientprintqueue.put(['POSS', data[6:]])
+                #     self.clientprintqueue.put(['POSS', data[6:]])
                 # elif data[:3] == "POS":
-                #     client.clientprintqueue.put(['POS', data[5:]])
+                #     self.clientprintqueue.put(['POS', data[5:]])
                 if data[:4] == "MOVV":
-                    client.clientprintqueue.put(['MOVV', ''])
+                    self.clientprintqueue.put(['MOVV', ''])
                 elif data[:3] == "MOV":
-                    client.clientprintqueue.put(['MOV', ''])
+                    self.clientprintqueue.put(['MOV', ''])
                 elif data[:5] == "STATE":
-                    client.clientprintqueue.put(['STATE', data[7:]])
+                    self.clientprintqueue.put(['STATE', data[7:]])
                 elif data[:4] == "MVRR":
-                    client.clientprintqueue.put(['MVRR', ''])
+                    self.clientprintqueue.put(['MVRR', ''])
                 elif data[:3] == "MVR":
-                    client.clientprintqueue.put(['MVR', ''])
+                    self.clientprintqueue.put(['MVR', ''])
                 elif data[:3] == "DEH":
-                    client.clientprintqueue.put(['DEH', ''])
+                    self.clientprintqueue.put(['DEH', ''])
                 elif data[:3] == "SDN":
-                    client.clientprintqueue.put(['SDN', ''])
+                    self.clientprintqueue.put(['SDN', ''])
                 elif data[:] == "close":
-                    client.clientprintqueue.put(['close', 'server client called close!'])
+                    self.clientprintqueue.put(['close', 'server client called close!'])
                     break
                 elif data[:] == "LMOVE":
-                    client.clientprintqueue.put(['LMOVE', ''])
+                    self.clientprintqueue.put(['LMOVE', ''])
                 elif data[:] == "RMOVE":
-                    client.clientprintqueue.put(['RMOVE', ''])
+                    self.clientprintqueue.put(['RMOVE', ''])
                 elif data == "STOPMOVE":
-                    client.clientprintqueue.put(['STOPMOVE', ''])
+                    self.clientprintqueue.put(['STOPMOVE', ''])
                 elif data[:4] == "MGET":
-                    client.clientprintqueue.put(['MGET', data[6:]])
+                    self.clientprintqueue.put(['MGET', data[6:]])
                 elif data[:4] == "MSET":
-                    client.clientprintqueue.put(['MSET', data[6:]])
+                    self.clientprintqueue.put(['MSET', data[6:]])
                 elif data[:4] == "Mess":
-                    client.clientprintqueue.put(['Mess', ""])
-                    #client.clientprintqueue.put(['Mess', data[6:]])
+                    self.clientprintqueue.put(['Mess', ""])
+                    #self.clientprintqueue.put(['Mess', data[6:]])
                 elif data[:] == "ClearList":
-                    while not client.clientsendqueue.empty():
+                    while not self.clientsendqueue.empty():
                         try:
-                            client.clientsendqueue.get()
+                            self.clientsendqueue.get()
                         except Empty:
                             continue
-                        client.clientsendqueue.task_done()
-                    if client.clientsendqueue.empty():
-                        client.clientprintqueue.put(['printme', 'Cleaned send quueue (Debugging Info)'])#TODO
+                        self.clientsendqueue.task_done()
+                    if self.clientsendqueue.empty():
+                        self.clientprintqueue.put(['printme', 'Cleaned send quueue (Debugging Info)'])#TODO
 
                 else:
-                    client.clientprintqueue.put(['printme', data])
+                    self.clientprintqueue.put(['printme', data])
                 time.sleep(0.01)
 
             except socket.error:
-                client.clientprintqueue.put(['printme', 'Error Occured.->closing socket'])
+                self.clientprintqueue.put(['printme', 'Error Occured.->closing socket'])
                 self.sock.close()
-                client.clientprintqueue.put(['cclose', ""])
+                self.clientprintqueue.put(['cclose', ""])
                 break
-        if not client.clientsendqueue.empty():
-            while not client.clientsendqueue.empty():
+        if not self.clientsendqueue.empty():
+            while not self.clientsendqueue.empty():
                 try:
-                    client.clientsendqueue.get(False)
+                    self.clientsendqueue.get(False)
                 except Empty:
                     continue
-                client.clientsendqueue.task_done()
-        client.clientprintqueue.put(['cclose', ""])
+                self.clientsendqueue.task_done()
+        self.clientprintqueue.put(['cclose', ""])
 
         self.sock.close()
         #self.GUI.Standa_Connected = False
@@ -176,13 +177,13 @@ class client():
 
     def send(self, message):
         if self.sock == 0 or self.sock._closed == True:
-            client.clientprintqueue.put(['printme', 'no socked, try connect first..'])
+            self.clientprintqueue.put(['printme', 'no socked, try connect first..'])
         else:
             # Send data
-            client.clientprintqueue.put(['printme', 'sending:' + message])
+            self.clientprintqueue.put(['printme', 'sending:' + message])
             try:
                 if message == "close":
-                    client.clientprintqueue.put(['printme', 'closing socket'])
+                    self.clientprintqueue.put(['printme', 'closing socket'])
                     message = message.encode()
                     self.sock.sendall(message)
                 else:
@@ -190,12 +191,12 @@ class client():
                     self.sock.sendall(message)  # TODO  add case for timeout from server??
 
             except (ConnectionAbortedError, EOFError, AttributeError):
-                client.clientprintqueue.put(
+                self.clientprintqueue.put(
                     ['printme', 'Sending Error: seems to be an error on server->closing socket'])
                 self.sock.close()
 
     def close(self):
-        client.clientprintqueue.put(['printme', 'closing socket'])
-        client.clientsendqueue.put(['close',""])
+        self.clientprintqueue.put(['printme', 'closing socket'])
+        self.clientsendqueue.put(['close',""])
         client.terminate()
         #self.send("close")
