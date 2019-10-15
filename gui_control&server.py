@@ -1,10 +1,11 @@
-from PyQt5 import QtWidgets, uic, QtCore
+from PyQt5 import QtWidgets, uic, QtGui
 from PyQt5.QtWidgets import *  # QAction, QApplication, QFileDialog, QMessageBox, QWidget,
 from PyQt5.QtCore import *
 import random
 import numpy
 import sys
 import time
+import datetime
 
 from multiprocessing import Process
 #from pyrpl import pyrpl
@@ -129,16 +130,25 @@ class readQueue(threading.Thread):
                                     #GUI.windowprintqueue.put(['printme', "Pos: " + CurPostiotion + '\n'+'uPos: ' + uCurPosition])
                                     #TODO
                             else:
-                                GUI.standa_moving_Check(False)
+                                result=GUI.standa_moving_Check(False)
+                                if result is False:
+                                    GUI.windowprintqueue.put(['printme', 'No more Movement!'])
+
+                                else:
+                                    time.sleep(0.01)
+                                    self.standa_moving = False
                                 if GUI.run_messung==True:
-                                    if GUI.messung_pos == asPosition:
+                                    if GUI.messung_pos == asPosition:#50000.0
+
                                         GUI.windowprintqueue.put(['printme', 'Messpoint Reached!'])
                                         GUI.Messung_Messpoint(asPosition)
                                     else:
-                                        if GUI.standa_moving_Check() == False:
-                                            GUI.windowprintqueue.put(['printme', 'Messpoint Missed! Trying again'])
-                                            GUI.standaclient.clientsendqueue.put(['Mess', str(GUI.messung_pos)])
-                                            GUI.standa_moving_Check(True)
+                                        if GUI.standa_moving_Check() is False:
+                                            if GUI.hold_messung is False:
+                                                GUI.windowprintqueue.put(['printme', 'Messpoint Missed! Trying again'])
+                                                GUI.windowprintqueue.put(['printme', 'Now at: ' + str(asPosition)])
+                                                GUI.standaclient.clientsendqueue.put(['Mess', str(GUI.messung_pos)])
+                                                GUI.standa_moving_Check(True)
 
                         #            GUI.windowprintqueue.put(['printme', "couse of State i check POS"])
                         #            GUI.standaclient.clientsendqueue.put(['POS', ""])
@@ -193,9 +203,9 @@ class readQueue(threading.Thread):
                             #if GUI.standa_moving_Check():
                             delta = now - timerstart
                             if GUI.standa_live_control== True:
-                                w8time = 1
-                            elif GUI.run_messung== True:
                                 w8time = 3
+                            elif GUI.run_messung== True:
+                                w8time = 8
                             else:
                                 w8time = 10
                                 # if GUI.run_messung == True:
@@ -211,10 +221,10 @@ class readQueue(threading.Thread):
                                 if GUI.hold_messung == False:
                                     #GUI.windowprintqueue.put(['printme',"sendet state0"])
                                     GUI.standaclient.clientsendqueue.put(['STATE', ""])
-                                    timerstart = time.time()
+
                                 elif GUI.hold_messung == True:
                                     GUI.windowprintqueue.put(['printme', "Messung is paused"])
-                    time.sleep(0.01)
+                                timerstart = time.time()
 
             if GUI.windowprintqueue.empty() == False:
                 while not GUI.windowprintqueue.empty():
@@ -222,12 +232,12 @@ class readQueue(threading.Thread):
                     if windowstatus[0] == "printme":
                         string = str(windowstatus[1])
                         GUI.print_list.addItem(string)
-                        #GUI.print_list.scrollToBottom()
-                        #GUI.windowprintqueue.task_done()
+                        GUI.print_list.scrollToBottom()
+
                     GUI.windowprintqueue.task_done()
             if GUI.Standa_Connected == False:
                 GUI.Standa_Connected_check(False)
-            time.sleep(0.01)
+
             if GUI.readQueuebool== False:
                 break
             QApplication.processEvents()
@@ -237,6 +247,8 @@ class Window(QtWidgets.QMainWindow):
     def _init_(self):
         super(Window, self).__init__()
         self.ui = uic.loadUi("standa_pyrpl_gui.ui", self)
+        self.setWindowTitle("PhasenStabi Control")
+        self.setWindowIcon(QtGui.QIcon('pulse.png'))
         self.ac_messung = False
         self.run_messung = False
         self.hold_messung = False
@@ -269,7 +281,6 @@ class Window(QtWidgets.QMainWindow):
 
         self.holdMessung_pushButton.clicked.connect(self.hold_Messung)#TODO
         self.nextStep_pushButton.clicked.connect(self.skip_Messpoint)#TODO
-
         self.Clear_list_Button.clicked.connect(self.clear_list)
         self.Load_list_Button.clicked.connect(self.ListFilePicker)
         self.Save_list_Button.clicked.connect(self.ListFileSaver)
@@ -357,7 +368,7 @@ class Window(QtWidgets.QMainWindow):
             if name == "":
                 return False
             else:
-                if not name[len(name) - 3:] == 'xml':
+                if not name[len(name) - 4:] == '.xml':
                     name = name + str('.xml')
                 self.filePath_Edit.setText(str(name))
                 return True
@@ -399,18 +410,21 @@ class Window(QtWidgets.QMainWindow):
             self.windowprintqueue.put(['printme', 'AC Messung Started'])
             self.run_messung = True
             self.hide_messung_controls_widget.hide()
+            self.completed=0
+            self.standa_live_control_stop()
+            time.sleep(0.1)
             self.messung(None)
     def skip_Messpoint(self):
         self.windowprintqueue.put(['printme', 'Messpoint skipped'])
         self.messung(True)
 
     def hold_Messung(self):
-        if self.hold_messung== False:
+        if self.hold_messung is False:
             self.hold_messung= True
             self.holdMessung_pushButton.setText("continue")
             self.windowprintqueue.put(['printme', 'pausing Messung'])
             self.standaclient.clientsendqueue.put(['STOPMOVE', ''])
-        elif self.hold_messung== True:
+        elif self.hold_messung is True:
             self.hold_messung=False
             self.holdMessung_pushButton.setText("Pause")
             self.windowprintqueue.put(['printme', 'continue Messung'])
@@ -418,7 +432,7 @@ class Window(QtWidgets.QMainWindow):
     def Messung_Messpoint(self, aspos):
         self.completed += self.complete
         self.progressBar.setValue(self.completed)
-        if self.run_messung==True:
+        if self.run_messung is True:
             if self.ac_messung:
                 input = self.pyrpl_input_choice()
                 self.pyrpl_voltage=0
@@ -434,37 +448,43 @@ class Window(QtWidgets.QMainWindow):
                     self.pyrpl_voltage=self.pyrpl_voltage + voltage
 
                 self.pyrpl_voltage=self.pyrpl_voltage/20#TODO WARUM /20 ?
-                print_voltage= "{:10.4f}".format(self.pyrpl_voltage)
+                print_voltage= "{:10.8f}".format(self.pyrpl_voltage)#TODO debugg its only 1 value!!!!
                 self.windowprintqueue.put(['printme', 'Pyrpl Voltage: '+ str(print_voltage)])
-                text = str(aspos) + str('\t') + str('\t') + str(self.pyrpl_voltage) + str('\n')
-                if self.file.closed == False:
+                text = str(aspos) + str('\t') + str('\t') + print_voltage + str('\t') + str('\t') + str(time.asctime()) + str('\n')
+                if self.file.closed is False:
                     self.file.write(text)
-            self.messung(True)
+            if self.Stabitest_checkBox.isChecked() is True:
+                self.messung(None)
+            else:
+                self.messung(True)
 
-    def messung(self, bool =None):
-        if self.run_messung==False:
-            bool=False
 
-        if bool == None:
+    def messung(self, state =None):
+        if self.run_messung is False:
+            state = False
+
+        if state is  None:
             name = self.filePath_Edit.text()
             if name == "":
                 QMessageBox.about(self, "Select Ac_File", "Ac_File is missing. Something went wrong please cancel manualy")
             else:
                 self.file = open(name, 'a')
-                text = 'Postition in as' + str('\t') + str('\t') + 'Voltage' + str('\n')
+                text = 'Postition in as' + str('\t') + str('\t') + 'Voltage' + str('\t') + str('\t') + 'Time' +str('\n')
                 self.file.write(text)
 
             self.ac_messung = self.ac_checkBox.isChecked()
             self.completed = 0
             self.complete = 1 / self.step_list.count() * 100
 
+
             #if not self.standaclient == False & self.Standa_Connected == True:
-            if self.Standa_Connected == True:
+            if self.Standa_Connected is True:
                 if self.pyrpl_p is not None:
                     if self.pyrpl_Connected_check():
                         self.curstep=0
                         if self.run_messung:
                             xitem = self.step_list.item(self.curstep).text()
+
                             self.windowprintqueue.put(['printme', 'Putting in First Step: '+ str(xitem)])
                             self.standaclient.clientsendqueue.put(['Mess', str(xitem)])
                             #time.sleep(0.2)
@@ -486,17 +506,17 @@ class Window(QtWidgets.QMainWindow):
                     ['printme', 'Connect to Standa first\nStanda_Connected is ' + str(self.Standa_Connected)])
                 self.run_messung = False
 
-        elif bool == False:
+        elif state is False:
             self.windowprintqueue.put(['printme', 'Messung Canceled'])
             self.progressBar.setValue(0)
-            text = str('\n') + 'Messung Canceled\n'
-            if self.file.closed == False:
+            text = str('\n') + 'Messung Canceled\n' +str(time.asctime())
+            if self.file.closed is False:
                 self.file.write(text)
                 self.file.close()
 
-        elif bool == True:
+        elif state is True:
             self.curstep=self.curstep+1
-            if self.Standa_Connected == True:
+            if self.Standa_Connected is True:
                 if self.pyrpl_p is not None:
                     if self.pyrpl_Connected_check():
                         if self.run_messung:
@@ -504,15 +524,16 @@ class Window(QtWidgets.QMainWindow):
                                 self.print_list.addItem(str('Messung Done'))
                                 self.print_list.scrollToBottom()
                                 self.progressBar.setValue(100)
-                                text = str('\n') + 'Messung finished\n'
+                                text = str('\n') + 'Messung finished\n' + str(time.asctime())
                                 self.standa_live_control = False
-                                if self.file.closed==False:
+                                if self.file.closed is False:
                                     self.file.write(text)
                                     self.file.close()
                                 self.run_messung = False
 
                             else:
                                 xitem = self.step_list.item(self.curstep).text()
+
                                 self.windowprintqueue.put(['printme', 'Putting in next Step: ' + str(xitem)])
                                 self.standaclient.clientsendqueue.put(['Mess', str(xitem)])
                                 self.standa_moving_Check(True)
@@ -530,16 +551,17 @@ class Window(QtWidgets.QMainWindow):
                 self.run_messung=False
 
     def stop_messung(self):
-        self.hold_messung=False
+        self.hold_messung = False
         self.run_messung = False
         self.progressBar.setValue(0)
-        if self.Standa_Connected==True:
+        if self.Standa_Connected is True:
             self.standaclient.clientsendqueue.put(['STOPMOVE', ''])
             self.standaclient.clientsendqueue.put(['ClearList', ''])
         self.hide_messung_controls_widget.show()
         self.messung(False)
+        self.messung_pos = False
 
-    def add_to_list(self):
+    def add_to_list(self):#TODO von 10 to 0 in schirtten hinzufügen nicht möglich!
         if not self.run_messung:
             start = self.Start_SpinBox.value()
             end = self.End_SpinBox.value()
@@ -547,10 +569,10 @@ class Window(QtWidgets.QMainWindow):
             if stepsize == 0.0:
                 pass
             else:
-                if end < start:
-                    x = start
-                    start = end
-                    end = x
+                #if end < start:
+                 #   x = start
+                  #  start = end
+                   # end = x
                 for x in numpy.arange(start, end + stepsize, stepsize):
                     value = str(x)
                     self.step_list.addItem(value)
@@ -566,7 +588,7 @@ class Window(QtWidgets.QMainWindow):
     def close_application(self):
         print("whooaaaa so custom!!!")
         self.Standa_Close_Connection_to_Server()
-        self.readQueuebool=False
+        self.readQueuebool = False
         QApplication.processEvents()
         sys.exit()
 
@@ -578,7 +600,7 @@ class Window(QtWidgets.QMainWindow):
     # pyrplclient.close()
     #   standaclient= client('127.127.127.2', 22222)#standa_server über ssh auf redpitaya
     def Standa_Connect_to_Server(self):
-        if self.standaclient == False:
+        if self.standaclient is False:
             standa_ip = self.standa_connection_ip.text()
             standa_port = self.standa_connection_port.text()
             if standa_ip == "":
@@ -593,7 +615,7 @@ class Window(QtWidgets.QMainWindow):
                 #while self.Standa_Connected== False:
                     self.windowprintqueue.put(['printme', "Connect to Standa_Server via:\n" + str(standa_ip) + ", " + str(standa_port)])
                     self.standaclient = start_standaclient.client(standa_ip, standa_port, GUI=self)
-                    if self.Standa_Connected== True:
+                    if self.Standa_Connected is True:
                         pass#break
                     else:
                         self.standa_live_control_stop()
@@ -601,34 +623,35 @@ class Window(QtWidgets.QMainWindow):
                         self.standa_live_control = False
                         self.Standa_Connected_check(False)
                         self.windowprintqueue.put(['printme', 'Connection failed!'])
+                        self.Standa_Close_Connection_to_Server()
 
-    def Standa_Connected_check(self, bool=None):
-        if bool is None:
+    def Standa_Connected_check(self, state=None):
+        if state is None:
             return self.Standa_Connected
-        elif bool is True:
+        elif state is True:
             self.Standa_Connected = True
             self.Standa_Connected_label.setAutoFillBackground(True)
             self.Standa_Connected_label.setStyleSheet("background-color:#10ff00;")
-        elif bool is False:
+        elif state is False:
             self.Standa_Connected = False
             self.Standa_Connected_label.setStyleSheet("background-color:#ff0000;")
             self.Standa_Connected_label.setAutoFillBackground(False)
             self.standa_live_control = False
 
     def Standa_Close_Connection_to_Server(self):
-        self.windowprintqueue.put(['printme', 'Closing connection to Standa\n'])
-        if not self.standaclient == False:
+        self.windowprintqueue.put(['printme', 'Closing Standa Socked & connection\n'])
+        if not self.standaclient is False:
             self.standa_live_control_stop()
             self.standaclient.close()
             self.standaclient = False
             #self.standa_live_control = False
             self.Standa_Connected_check(False)
-        elif self.Standa_Connected == True:
+        elif self.Standa_Connected is True:
             self.Standa_Connected_check(True)
 
     def standa_check(self):
         if self.Standa_Connected_check():
-            if not self.standaclient == False:
+            if not self.standaclient is False:
                 return True
             else:
                 return False
@@ -645,10 +668,11 @@ class Window(QtWidgets.QMainWindow):
             pass
 
     def standa_handling(self):#TODO this not needed? cause readQuee will handle
-        if self.standa_live_control == False:
-            self.standa_live_control_stop()
-        if self.StandaWidget.currentIndex() == 1:
-            self.standaclient.clientsendqueue.put(['STOPMOVE', ''])
+        # if self.standa_live_control == False:
+        #     self.standa_live_control_stop()
+        # if self.StandaWidget.currentIndex() == 1:
+        #     self.standaclient.clientsendqueue.put(['STOPMOVE', ''])
+        pass
 
     def standa_move_relative(self):
         if self.standa_check():
@@ -719,18 +743,18 @@ class Window(QtWidgets.QMainWindow):
             time.sleep(0.03)
             self.standa_get_settings()
 
-    def standa_moving_Check(self, bool=None):
-        if bool is None:
+    def standa_moving_Check(self, state=None):
+        if state is None:
             if self.standa_moving:
-                bool=True
+                state = True
             else:
-                bool =False
-        if bool is True:
+                state = False
+        if state is True:
             self.standa_moving_Check_radioButton.setAutoRepeat(True)
             self.standa_moving_Check_radioButton.setAutoFillBackground(True)
             self.standa_moving_Check_radioButton.setStyleSheet("QRadioButton::indicator {background-color:#32CC99;border: 2px solid white;}")
             self.standa_moving = True
-        elif bool is False:
+        elif state is False:
             self.standa_moving = False
             self.standa_moving_Check_radioButton.setAutoRepeat(False)
             self.standa_moving_Check_radioButton.setAutoFillBackground(True)
@@ -754,14 +778,14 @@ class Window(QtWidgets.QMainWindow):
             self.windowprintqueue.put(['printme', 'pyrpl Voltage2: ' + str(self.pyrpl_voltage)])
             self.Volt2.display(self.pyrpl_voltage)
 
-    def pyrpl_Connected_check(self, bool=None):
-        if bool is None:
+    def pyrpl_Connected_check(self, state=None):
+        if state is None:
             return self.pyrpl_Connected
-        elif bool is True:
+        elif state is True:
             self.pyrpl_Connected = True
             self.Pyrpl_Started_label.setAutoFillBackground(True)
             self.Pyrpl_Started_label.setStyleSheet("background-color:#10ff00;")
-        elif bool is False:
+        elif state is False:
             self.pyrpl_Connected = False
             self.Pyrpl_Started_label.setStyleSheet("background-color:#ff0000;")
             self.Pyrpl_Started_label.setAutoFillBackground(False)
@@ -795,7 +819,7 @@ class Window(QtWidgets.QMainWindow):
         #result=pyrplProcess.run()
 
         self.pyrpl_Connected_check(result)
-        if result== True:
+        if result is True:
             self.windowprintqueue.put(['printme', 'Pyrpl started !\n'])
         else:
             self.windowprintqueue.put(['printme', 'Something went wrong with pyrpl'])

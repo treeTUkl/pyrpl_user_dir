@@ -62,8 +62,9 @@ class StandaStage(Stage.Stage):
                 return False
             else:
                 """rufe hier ximcStage_functionCalls get engine settings auf"""
-                self.Standa_get_engine_settings()
                 print('Verbundenes Gerät' + str(self.device_id))
+                self.Standa_get_engine_settings()
+
                 return True
 
     def disconnect(self):
@@ -236,12 +237,19 @@ class StandaStage(Stage.Stage):
                 (self.StepsPerRev * 3 / 2) * self.MicrostepValue()) * 10 ** +18  # Umrechungsfaktor in uSteps/as
 
     def position_current_in_as(self):
-        if self.position["position_new_uSteps"] >= self.MicrostepValue():
-            self.position["position_new_Steps"] += 1
-            self.position["position_new_uSteps"] -= self.MicrostepValue()
+        if self.position["position_current_Steps"] >= self.MicrostepValue():
+            self.position["position_current_Steps"] += 1
+            self.position["position_current_uSteps"] -= self.MicrostepValue()
             print('position korrigiert:')
-            print('position_new Steps' + repr(self.position["position_new_Steps"]) + ',position_new uSteps' + repr(
-                self.position["position_new_uSteps"]))
+            print('position_current_Steps' + repr(self.position["position_current_Steps"]) + ',position_current_uSteps' + repr(
+                self.position["position_current_uSteps"]))
+        if self.position["position_current_uSteps"] < 0:
+            self.position["position_current_Steps"] = self.position["position_current_Steps"] - 1
+            self.position["position_current_uSteps"] = float(
+                self.position["position_current_uSteps"]) + self.MicrostepValue()
+            print('position korrigiert:')
+            print('position_current_Steps' + repr(self.position["position_current_Steps"]) + ',position_current_uSteps' + repr(
+                self.position["position_current_uSteps"]))
         return self.roundTraditional(
             (self.position["position_current_Steps"] * self.MicrostepValue() +
              self.position["position_current_uSteps"]) * self.Umrechnungsfaktor() * self.TerraFaktor, 0)
@@ -443,8 +451,23 @@ class StandaStage(Stage.Stage):
             print("Status.CurPosition : " + repr(x_status.CurPosition))
             print("Status.uCurPosition: " + repr(x_status.uCurPosition))
             print("Status.Flags: " + repr(hex(x_status.Flags)))
+            print("Status.EncSts: " + repr(hex(x_status.EncSts)))
+            print("Status.EncPosition: " + repr(hex(x_status.EncPosition)))
         else:
             print('something went wrong!')
+        if x_status.uCurPosition < 0:
+            print('uSteps negativ. Corrigiere')
+            x_status.CurPosition = x_status.CurPosition - 1
+            x_status.uCurPosition = int(x_status.uCurPosition) + int(self.MicrostepValue())
+            print("Status.CurPosition : " + repr(x_status.CurPosition))
+            print("Status.uCurPosition: " + repr(x_status.uCurPosition))
+        if x_status.uCurPosition >= self.MicrostepValue():
+            print('uSteps zu groß. Corrigiere')
+            x_status.CurPosition = x_status.CurPosition + 1
+            x_status.uCurPosition = int(x_status.uCurPosition) - int(self.MicrostepValue())
+            print("Status.CurPosition : " + repr(x_status.CurPosition))
+            print("Status.uCurPosition: " + repr(x_status.uCurPosition))
+
 
         # status_dict = self.obj_to_dict(x_status)
         return x_status
@@ -537,6 +560,78 @@ class StandaStage(Stage.Stage):
         else:
             return "Standa_set_settings failed"
 
+    def encoder_info(self):
+        encoder_information = encoder_information_t()
+        result_encoder = self.lib.get_encoder_information(self.device_id, byref(encoder_information))
+        if result_encoder is True:
+            for key in dir(encoder_information):
+                print(key, '->', getattr(encoder_information, key))
+        else:
+            print("encoder_information is False")
+        return encoder_information
+    def encoder_set(self):
+        encoder_information = encoder_settings_t()
+        result_encoder = self.lib.get_encoder_settings(self.device_id, byref(encoder_information))
+        if result_encoder is True:
+            for key in dir(encoder_information):
+                print(key, '->', getattr(encoder_information, key))
+        else:
+            print("encoder_set is False")
+        return encoder_information
+
+
+    def feedback_info(self):
+        feedback_settings = feedback_settings_t()
+        result_feedback = self.lib.get_feedback_settings(self.device_id, byref(feedback_settings))
+        if result_feedback is True:
+            for key in dir(feedback_settings):
+                print(key, '->', getattr(feedback_settings, key))
+        else:
+            print("feedback_info is False")
+        return feedback_settings
+    def gear_info(self):
+        gear_information = gear_information_t()
+        result_feedback = self.lib.get_gear_information(self.device_id, byref(gear_information))
+        if result_feedback is True:
+            for key in dir(gear_information):
+                print(key, '->', getattr(gear_information, key))
+        else:
+            print("gear_info is False")
+        return gear_information
+    def gear_settings(self):
+        gear_setting = gear_settings_t()
+        result_feedback = self.lib.get_gear_settings(self.device_id, byref(gear_setting))
+        if result_feedback is True:
+            for key in dir(gear_setting):
+                print(key, '->', getattr(gear_setting, key))
+        else:
+            print("gear_setting is False")
+        return gear_setting
+
+    def ctp_info(self):
+        """• #deﬁne CTP ENABLED 0x01
+            Position control is enabled, if ﬂag set.
+            • #deﬁne CTP BASE 0x02
+            Position control is based on revolution sensor, if this ﬂag is set; otherwise it is based on encoder.
+            • #deﬁne CTP ALARM ON ERROR 0x04
+            Set ALARM on mismatch, if ﬂag set.
+            • #deﬁne REV SENS INV 0x08
+            Sensor is active when it 0 and invert makes active level 1.
+            • #deﬁne CTP ERROR CORRECTION 0x10
+            Correct errors which appear when slippage if the ﬂag is set."""
+
+        ctp_information = ctp_settings_t()
+        result_feedback = self.lib.get_ctp_settings(self.device_id, byref(ctp_information))
+        if result_feedback is True:
+            print("ctp_information is True")
+            for key in dir(ctp_information):
+
+                print(key, '->', getattr(ctp_information, key))
+        else:
+            print("ctp_information is False")
+        return ctp_information
+
+
     # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     # control gui stuff
 
@@ -548,8 +643,13 @@ if __name__ == "__main__":
     stage.position_get()
     stage.Standa_get_position()
     stage.set_zero_position()
-    stage.move_absolute_in_as(
-        153600)  # TODO: Umrechnungen alle Richtig? vonwegen Terra und Gui to server_tcp to ximcStage
+    stage.Standa_Status()
+    stage.encoder_info()
+    stage.feedback_info()
+    stage.gear_info()
+    stage.gear_settings()
+    stage.ctp_info()
+    stage.encoder_set()
     # stage.Umrechnungsfaktor()
     # stage.set_zero_position()
     # stage.Standa_get_position()
