@@ -39,7 +39,7 @@ class StandaStage(Stage.Stage):
         self.configuration = {}
         self.load_configurution()
         self.position_zero = 0
-        self.TerraFaktor = 1
+        self.TerraFaktor = 5
         self.MicrostepMode = 9
         self.StepsPerRev = 1
         self.Laser = 633 * 10 ** -9  # should be 633*10^-9
@@ -104,8 +104,8 @@ class StandaStage(Stage.Stage):
         self.position["position_current_Steps"] = positionHandler.Position
         self.position["position_current_uSteps"] = positionHandler.uPosition
 
-    def set_zero_position(self):
-        self.lib.command_zero(self.device_id)  # "does this work?"
+    #def set_zero_position(self):
+    #    self.lib.command_zero(self.device_id)  # "does this work?"
 
     def move_absolute_in_as(self, new_position_in_as):
         print('\nMove Ab in as aufgerufen!')
@@ -117,10 +117,12 @@ class StandaStage(Stage.Stage):
         print('on the move to it\n')
         self.lib.command_move(self.device_id, pos, upos)
 
-        # if self.statusHandler():
-        #     print('Move Ab in as has arrived!')
-        # else:
-        #     print('Move Ab in as something went wrong!')
+        if self.statusHandler():
+            print('Move Ab in as has arrived!')
+            return True
+        else:
+            print('Move Ab in as something went wrong!')
+            return False
 
     def move_absolute_in_steps(self, new_position_fullSteps,
                                new_position_uSteps):  # TODO: falls uSteps größer als 256, dann wird fahrergebnis negativ gewertet....
@@ -147,6 +149,12 @@ class StandaStage(Stage.Stage):
         self.position_as_to_steps(Shift_in_as)
         print('position_new enthält jetzt die Shift Werte!')
         self.lib.command_movr(self.device_id, self.position["position_new_Steps"], self.position["position_new_uSteps"])
+        if self.statusHandler():
+            print('Move Relative in as has arrived!')
+            return True
+        else:
+            print('Move Relative in as something went wrong!')
+            return False
 
 
     def move_relative_in_steps(self, new_position_fullSteps, new_position_uSteps):
@@ -167,6 +175,17 @@ class StandaStage(Stage.Stage):
         result = self.lib.command_home(self.device_id)
         if result == Result.Ok:
             print('go_home result ok')
+            return True
+        else:
+            result = self.lib.command_move(self.device_id, self.position["position_new_Steps"],
+                                           self.position["position_new_uSteps"])
+            if self.statusHandler():
+                print('go_home has arrived!')
+                return True
+            else:
+                print('go_home something went wrong!')
+                return False
+
         # if self.statusHandler():
         #     print('go_home has arrived!')
         #     return True

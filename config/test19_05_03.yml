@@ -1,9 +1,9 @@
 pyrpl:
   background_color: ''
-  dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\x05\xF1\0\0\x03\xC1\
+  dock_positions: "\0\0\0\xFF\0\0\0\0\xFD\0\0\0\x01\0\0\0\x02\0\0\x05\xF1\0\0\x03\x13\
     \xFC\x01\0\0\0\x01\xFC\0\0\0\0\0\0\x05\xF1\0\0\0y\0\xFF\xFF\xFF\xFC\x02\0\0\0\x02\
     \xFB\0\0\0&\0s\0c\0o\0p\0e\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\x01\0\0\0\
-    \x15\0\0\x01\xE8\0\0\0P\0\xFF\xFF\xFF\xFC\0\0\x02\x01\0\0\x01\xD5\0\0\0e\x01\0\
+    \x15\0\0\x01\x8F\0\0\0P\0\xFF\xFF\xFF\xFC\0\0\x01\xA8\0\0\x01\x80\0\0\0e\x01\0\
     \0\x14\xFA\0\0\0\0\x01\0\0\0\v\xFB\0\0\0(\0l\0o\0c\0k\0b\0o\0x\0 \0(\0t\0e\0s\0\
     t\01\09\00\05\00\08\0)\x01\0\0\0\0\xFF\xFF\xFF\xFF\0\0\0]\0\xFF\xFF\xFF\xFB\0\0\
     \0\"\0a\0s\0g\0s\0 \0(\0t\0e\0s\0t\01\09\00\05\00\08\0)\0\0\0\0\0\xFF\xFF\xFF\xFF\
@@ -33,10 +33,10 @@ pyrpl:
   - Lockbox
   name: test190508
   window_position:
-  - 1503
-  - 125
+  - 70
+  - 0
   - 1521
-  - 1002
+  - 828
 redpitaya:
   autostart: true
   defaultport: 2222

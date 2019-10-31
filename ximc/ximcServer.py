@@ -3,7 +3,7 @@ import ximcStage
 import time
 import queue
 import threading
-# import sys
+import re
 
 
 #class client(threading.Thread):
@@ -12,9 +12,9 @@ class readConnection(threading.Thread):  # todo make thread
         threading.Thread.__init__(self)
         # from  xxxxx import PIStage.py
         LOCALHOST = ""
-        # PORT = 2161
+        PORT = 2161 #tera port
 
-        PORT = 54545
+        #PORT = 54545 #gui port
         # LOCALHOST = 'localhost'
 
         # Initialize stage:
@@ -62,10 +62,17 @@ class readConnection(threading.Thread):  # todo make thread
                     break
                 # Receive the data in small chunks and retransmit it
                 #connection.settimeout(1)
-                data = connection.recv(150)  #
+                data = connection.recv(4)  #
+                data = data.decode()
                 #connection.settimeout(None)
-                data = data.decode('utf-8')  # might not needed if data ist already in string format
-                print('\nreceived "%s"' % data)
+                #data = data.decode('ASCII')  # might not needed if data ist already in string format
+                #print("\ndata in decode ACSII is: " + data.decode('ASCII'))
+                #print("\ndata in non ascii is: "+ str(re.sub(r'[^\x32-\x7F]',r' ', data)))
+                #data = data.decode('utf-8')  # might not needed if data ist already in string format
+                #data= re.sub(r'[^\x32-\x7F]',r'', data)
+                #data= str(data)
+                print('\nreceived "%s"' %data)
+                print("\n\n")
 
                 ximcStageQueue.put(data)
                 if data[:]=="close":
@@ -102,24 +109,30 @@ class readConnection(threading.Thread):  # todo make thread
         while run:
             if ximcStageQueue.empty() == False:
                 data = ximcStageQueue.get()
-                # if data[:3] == "POS":
-                #     if data[:] == "POSS":
-                #         POS = "!+" + "POSS" + ", "
-                #         stage.position_get()
-                #         POS = POS + str(stage.position["position_current_Steps"]) + ", " + str(
-                #             stage.position["position_current_uSteps"])+ "+!"
-                #         POS = POS.encode()
-                #         print('got ' + data[:4] + ' send data back to the client')
-                #         connection.sendall(POS)
-                #     else:
-                #         #print('got ' + data[:3] + ' send data back to the client')
-                #         POS = stage.POS
-                #         print('pos in as: ' + str(POS))
-                #         print('sending data back to the client')
-                #         POS = "!+" +"POS" + ", " + str(POS) + "+!"
-                #         POS = POS.encode()
-                #         connection.sendall(POS)
-                if data[:] == "STATE":
+                print(data)
+                if data[:3] == "POS":
+                    if data[:4] == "POSS":
+                        print("here is POSS")
+                        POS = "!+" + "POSS" + ", "
+                        stage.position_get()
+                        POS = POS + str(stage.position["position_current_Steps"]) + ", " + str(
+                            stage.position["position_current_uSteps"])+ "+!"
+                        POS = POS.encode()
+                        print('got ' + data[:4] + ' send data back to the client')
+                        connection.sendall(POS)
+                    else:
+                        #print('got ' + data[:3] + ' send data back to the client')
+                        POS = stage.POS
+                        print('pos in as: ' + str(POS))
+                        print('sending data back to the client')
+                        #POS = "!+" +"POS" + ", " + str(POS) + "+!"
+                        POS= "POS" +str(POS)
+                        #POS=[ord(c) for c in POS]
+                        #POS = POS.encode(encoding='ASCII')
+                        #connection.sendall(bytes(POS,'UTF-8'))
+                        #print(b'%s' %POS)
+                        connection.sendall(POS)
+                elif data[:] == "STATE":
                     """
                     ("MoveSts", c_uint),
                     ("MvCmdSts", c_uint),
@@ -172,13 +185,22 @@ class readConnection(threading.Thread):  # todo make thread
                         POS = POS.encode()
                         connection.sendall(POS)
                     else:
-                        new_position_in_as = float(data[3:])
-                        print('MOV' + str(new_position_in_as))
-                        stage.move_absolute_in_as(new_position_in_as)
-                        print('got ' + data[:3] + ' send data back to the client')
-                        POS = "!+"+ data[:3]+"+!"
-                        POS = POS.encode()
-                        connection.sendall(POS)
+                        result is False
+                        while result is False:
+                            new_position_in_as = float(data[3:])
+                            print('MOV' + str(new_position_in_as))
+                            print('got ' + data[:3] + ' send data back to the client')
+                            result=stage.move_absolute_in_as(new_position_in_as)
+                            #POS = "!+"+ data[:3]+"+!"
+                            if result is True:
+                                POS= "MOV" + data[3:]
+                                POS = POS.encode()
+                                connection.sendall(POS)
+                            else:
+                                print("MOV went wrong Server is trying again")
+
+                            POS = POS.encode()
+                            connection.sendall(POS)
 
                 elif data[:3] == "MVR":
                     if data[:4] == "MVRR":  # TODO make some thread becouse morr 50000 will run very long
@@ -190,36 +212,48 @@ class readConnection(threading.Thread):  # todo make thread
                         POS = POS.encode()
                         connection.sendall(POS)
                     else:
-                        new_position_in_as = float(data[3:])
-                        print('MVR: ' + str(new_position_in_as))
-                        stage.move_relative_in_as(new_position_in_as)
-                        print('got ' + data[:3] + ' send data back to the client')
-                        POS ="!+"+ data[:3]+"+!"
-                        POS = POS.encode()
-                        connection.sendall(POS)
+                        result is False
+                        while result is False:
+                            new_position_in_as = float(data[3:])
+                            print('MVR: ' + str(new_position_in_as))
+                            result=stage.move_relative_in_as(new_position_in_as)
+                            #print('got ' + data[:3] + ' send data back to the client')
+                            #POS ="!+"+ data[:3]+"+!"
+                            if result is True:
+                                POS = "MVR" + data[3:]
+                                POS = POS.encode()
+                                connection.sendall(POS)
+                            else:
+                                print("MVR went wrong Server is trying again")
+
 
                 elif data[:3] == "GOH":
+
                     print('GOH')
-                    stage.go_home()
-                    print('got ' + data[:3] + ' send data back to the client')
-                    POS = "!+"+data[:3]+"+!"
-                    POS = POS.encode()
-                    connection.sendall(POS)
+                    result is False
+                    while result is False:
+                        result=stage.go_home()
+                        print('got ' + data[:3] + ' send data back to the client')
+                        if result is True:
+                            POS = "GOH" + "00"
+                            POS = POS.encode()
+                            connection.sendall(POS)
+                        else:
+                            print("GOH went wrong Server is trying again")
 
                 elif data[:3] == "DEH":
                     print('DEH')
                     stage.set_zero_position()
                     print('got ' + data[:3] + ' send data back to the client')
-                    POS ="!+"+ data[:3]+ "+!"
+                    POS ="DEH"
                     POS = POS.encode()
                     connection.sendall(POS)
 
                 elif data[:3] == "SDN":
                     print('SDN')
                     stage.in_case_terra_sends_SDN()
-                    POS = stage.POS
-                    print('got ' + data[:3] + ' send data back to the client')
-                    POS = "!+"+data[:3]+ "+!"
+
+                    POS = "SDN"
                     POS = POS.encode()
                     connection.sendall(POS)
 
@@ -309,6 +343,7 @@ class readConnection(threading.Thread):  # todo make thread
                     #    stage.disconnect()
                     #    break
                     data = 0
+                print("task done")
                 ximcStageQueue.task_done()
 
 if __name__ == "__main__":
