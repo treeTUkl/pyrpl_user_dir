@@ -23,13 +23,15 @@ class pyrpl_p(object):
                 self.pyrpl_Connected = False
 
             return self.pyrpl_Connected
+
     def stop_pyrpl(self):
         # TODO OSError: Socket is closed dont know how to handle
         if self.pyrpl_Connected:
             try:
                 self.pyrpl_p._clear()
-            except OSError as error:
+            except Exception as error:
                 for each in error:
+                    print('Stop_prypl error catched "%s' % data)
                     pass
                 #self.print_list.addItem(str(error))
                 #QMessageBox.about(self, "closing error",
@@ -37,14 +39,23 @@ class pyrpl_p(object):
             finally:
                 self.pyrpl_Connected = False
                 #sys.exit()
+                self.pyrpl_p = None
 
     def get_voltage(self, channel):
-        if channel == "a1":
-            return self.pyrpl_p.rp.scope.voltage_in1
-        elif channel == "a2":
-            return self.pyrpl_p.rp.scope.voltage_in2
-        else:
-            return 0
+        try:
+            if channel == "a1":
+                voltage= self.pyrpl_p.rp.scope.voltage_in1
+                return float(voltage)
+            elif channel == "a2":
+                voltage =self.pyrpl_p.rp.scope.voltage_in2
+                return float(voltage)
+            else:
+                return 0
+        except Exception as error:
+                #for each in error:
+                print('get_voltage error catched "%s' % data)
+
+                return False
 
 
 if __name__ == "__main__":

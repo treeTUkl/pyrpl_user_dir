@@ -1,4 +1,15 @@
-pyrpl: {}
-redpitaya: {}
+pyrpl:
+  name: nice_19_07_09
+  gui: true
+  loglevel: info
+  background_color: ''
+  modules:
+  - NetworkAnalyzer
+  - SpectrumAnalyzer
+  - CurveViewer
+  - PyrplConfig
+  - Lockbox
+redpitaya:
+  hostname: ''
 lockbox: {}
 pyrplconfig: {}

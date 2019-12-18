@@ -825,7 +825,7 @@ class Window(QtWidgets.QMainWindow):
             self.windowprintqueue.put(['printme', 'Something went wrong with pyrpl'])
 
 def run():
-    app = QApplication(sys.argv)
+    app = QApplicaimtion(sys.argv)
     GUI = Window()
     GUI._init_()
     sys.exit(app.exec_())
